@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Team Dashboard{% endblock %}
+
+{% block content %}
+<h5 class="moderator_base mb-3 text-secondary border-bottom pb-2 d-flex align-items-center" style="">
+    <i class="fas fa-home fa-lg me-2"></i>Team Home
+</h5>
+
+    <div class="main_div container mt-2">
+        <div class="card shadow-lg">
+            <div class="card-body">
+                
+                   <!--h-->
+                {% if user.profile.is_team_member %}
+                    <div class="d-flex justify-content-center mb-3">
+                            <a href="{% url 'view_tasks' %}" class="btn btn-secondary" style="width: 400px; margin-right: 10px;">
+                                Task Overview
+                            </a>
+                    </div>
+                {% endif %}
+
+
+                {% if user.profile.is_team_member %}
+                    <div class="d-flex justify-content-center mb-3">
+                            <a href="{% url 'show_all_universities_team' %}" class="btn btn-secondary" style="width: 400px; margin-right: 10px;">
+                                All Universities
+                            </a>
+                    </div>
+                {% endif %}
+
+
+                {% if user.profile.is_team_member %}
+                    <div class="d-flex justify-content-center mb-3">
+                            <a href="{% url 'show_common_courses_team' %}" class="btn btn-secondary" style="width: 400px; margin-right: 10px;">
+                                Common Courses
+                            </a>
+                    </div>
+                {% endif %}
+
+
+                <div class="mt-4">
+                    {% include 'team_secondary_nav.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+<style>
+
+    .moderator_base {
+        margin-left: 140px; margin-right: 150px; margin-top: -15px;
+    }
+
+    @media (max-width: 480px) {
+        .moderator_base {
+            margin-left: 10px;
+        }
+
+        .main_div {
+            margin-left: 0px;
+        }
+    }
+
+
+    body {
+        background-color: #f7f9fc; /* Light background color for contrast */
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: #fff; /* Card background color */
+    }
+
+    .card-body {
+        padding: 2rem; /* Increase padding for a spacious look */
+    }
+
+    #welcome_moderator_panel h3 {
+        font-size: 1.75rem; /* Increase font size for title */
+        font-weight: 700; /* Bold font weight for title */
+        color: #333; /* Darker color for title text */
+    }
+
+    #welcome_moderator_panel p {
+        font-size: 1rem; /* Consistent font size for subtitle */
+    }
+
+    hr {
+        border: 0;
+        height: 1px;
+        background-color: #ddd; /* Light gray color for the divider */
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+   
+</style>
+
+{% endblock %}

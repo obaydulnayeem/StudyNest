@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+{% load semester_year_filters %}
+
+{% block title %}Home{% endblock %}
+
+<!-- Include Font Awesome from CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-....." crossorigin="anonymous" />
+
+{% block content %}
+
+<div class="container mt-0">
+    <!-- Search Bar -->
+    <div class="search_outer row justify-content-center mt-3">
+        <form method="get" class="mb-4 mt-3 search-form" action="{% url 'search_results' %}">
+            <div class="form-group position-relative">
+                <input type="text" name="q" id="search" class="form-control search-input"
+                    data-placeholder="Search by course, university, department, faculty, institute, discipline, school, course code, email, name, center, etc..."
+                    value="{{ query|default_if_none:'' }}">
+                <span class="fas fa-search search-icon"></span>
+            </div>
+        </form>
+    </div>
+
+    <!-- Search Results -->
+    {% if query %}
+        {% include "home/search_results.html" %}
+    {% else %}
+
+    <!-- Welcome Description -->
+        <div class="row">
+            <div class="col-12 text-center">
+                {% comment %} <div class="spinner-grow text-secondary" role="status"></div> {% endcomment %}
+                <h2 class="noto-serif-bengali" style="margin-top: -20px; color: black; font-weight: bold;">বিশ্ববিদ্যালয় শিক্ষার্থীদের জন্য পূর্ণাঙ্গ একাডেমিক স্টাডি & স্কিল ডেভেলপমেন্ট প্লাটফর্ম!</h2>
+                
+                <p class="lead" style="margin-bottom: -13px;">Your Study Companion for an Organized, Analytical & Hassle-free Learning</p>
+                <hr>
+                <p style="font-family: alinur; color: black; margin-top: -15px; font-size: 18px;">বাংলাদেশের সকল বিশ্ববিদ্যালয়ের সকল ডিপার্টমেন্ট/ডিসিপ্লিন/ফ্যাকাল্টি/ইনস্টিটিউট এক প্লাটফর্মে!</p> 
+                <p style="font-family: alinur; color: black; margin-top: -15px; font-size: 18px;">পরীক্ষার আগের রাতে সিলেবাস, কোর্স কারিকুলাম, বিগত বছরের প্রশ্ন, বই, নোট, লেকচার স্লাইড, টিউটোরিয়াল খোঁজাখুঁজি নিয়ে আর নেই টেনশন!</p>
+                {{edu_}}
+
+                <style>
+                    @font-face {
+                        font-family: 'alinur';
+                        src:
+                             url("{% static 'fonts/alinur/unicode/alinur.ttf' %}");
+                        font-weight: 0;
+                        font-style: ;
+                    } 
+                </style>
+            </div>
+        </div>
+
+        {% include 'home/quick_buttons_home.html' %}
+        <hr class="divider">
+        {% include 'home/runner.html' %}
+        {% include 'home/counter.html' %}
+        <hr>
+
+        {% include 'home/description.html' %}
+        {% include 'home/feedbacks_section.html' %}
+        <hr>
+        <br>
+        {% include 'home/faq.html' %}
+
+        {% include 'home/quick_buttons_home.html' %}
+
+    {% endif %}
+</div>
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/home/faq.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/home/footer.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/home/others.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/home/runner.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/home/video_container.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/home/font.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/home/search.css' %}">
+    
+
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-0">
+    {% comment %} <div class="text-center mb-2">
+        <a class="btn btn-secondary btn-sm" href="{% url 'show_course_team' course.id %}">Back to Course Details</a>
+        <a class="btn btn-secondary btn-sm" href="{% url 'show_department_team' course.department.id %}">Back to Department</a>
+        <a class="btn btn-secondary btn-sm" href="{% url 'show_university_team' course.university.id %}">Back to University</a>
+    </div> {% endcomment %}
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-secondary text-white">
+                    <h3 class="mb-0">Edit Common Course - {{ course.title }}</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success me-2">Save Changes</button>
+                            <a href="{% url 'show_common_courses_team' %}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                        {{ form.as_p }}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

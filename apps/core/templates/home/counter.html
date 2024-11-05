@@ -1,0 +1,106 @@
+<div class="counter_card" style="text-align: center;">
+    <div class="counter_info">
+        <h1>{{ total_resources }}</h1>
+        <h4>Resources</h4>
+    </div>
+
+    <div class="counter_info">
+        <h1>{{ total_universities }}</h1>
+        <h4>Universities</h4>
+    </div>
+
+    <div class="counter_info">
+        <h1>{{ total_faculties }}</h1>
+        <h4>Faculties</h4>
+    </div>
+
+    <div class="counter_info">
+        <h1>{{ total_institutes }}</h1>
+        <h4>Institutes</h4>
+    </div>
+
+    <div class="counter_info">
+        <h1>{{ total_schools }}</h1>
+        <h4>Schools</h4>
+    </div>
+
+    <div class="counter_info">
+        <h1>{{ total_centers }}</h1>
+        <h4>Centers</h4>
+    </div>
+
+    <div class="counter_info">
+        <h1>{{ total_departments }}</>
+        <h4>Departments</h4>
+    </div>
+
+    <div class="counter_info">
+        <h1>{{ total_disciplines }}</h1>
+        <h4>Disciplines</h4>
+    </div>
+
+    <div class="counter_info">
+        <h1>{{ total_courses }}</h1>
+        <h4>Courses</h4>
+    </div>
+
+    {% comment %} <div class="counter_info">
+        <h4>Total Students</h4>
+        <p>{{ context.total_students }}</p>
+    </div> {% endcomment %}
+
+    <div class="counter_info">
+        <h1>{{ total_questions }}</h1>
+        <h4>Questions</h4>
+    </div>
+    <div class="counter_info">
+        <h1>{{ total_books }}</h1>
+        <h4>Books</h4>
+    </div>
+    <div class="counter_info">
+        <h1>{{ total_slides }}</h1>
+        <h4>Lecture Slides</h4>
+    </div>
+    <div class="counter_info">
+        <h1>{{ total_notes }}</h1>
+        <h4>Notes</h4>
+    </div>
+</div>
+
+
+<style>
+.counter_card {
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.counter_info {
+    flex: 0 0 20%; /* Default width for larger screens */
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 10px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.counter_info h1 {
+    margin: 0;
+    font-size: 2em;
+    color: #333;
+}
+
+.counter_info h4 {
+    margin: 0;
+    font-size: 1em;
+    color: #666;
+}
+
+@media (max-width: 480px) {
+    .counter_info {
+        flex: 0 0 30%; /* Adjust width to allow 3 items per row */
+    }
+}
+</style>

@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="this_outer container" style="">
+    <div class="row">
+    
+        <div class="">
+            <div class="card-header bg-secondary text-white text-center">
+              <h3>Add University Information</h3>
+            </div>
+            <p class="text-muted text-center mx-5" style="font-size: 12px;">[আপনার বিশ্ববিদ্যালয়ের সাথে কোনো ফিল্ড/অপশনের অমিল থাকলে বা কোনো তথ্য খুঁজে না পেলে অথবা অন্য কোনো সমস্যা হলে আমাদেরকে মেসেজ দিন। যেসব অপশন আপনার জন্য প্রযোজ্য নয় সেগুলো ফাঁকা রাখুন।]</p>
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="post" id="edu-university-form2" enctype="multipart/form-data">
+                        {% csrf_token %}
+                           <!-- Form Fields -->
+
+                      <p class="text-muted text-center" style="font-size: 13px; font-weight: bold;">[শুধুমাত্র আপনার জন্য প্রযোজ্য অপশনগুলি পূর্ণ করুন; বাকীগুলো ফাঁকা রাখুন]</p>
+                      
+
+                      {% if university.has_faculty %}
+                        <div class="double_fields form-group mb-3">
+                              <div class="form-group mb-3">
+                                  <label for="{{ form.faculty.id_for_label }}">Faculty:</label>
+                                  {{ form.faculty }}
+                                  <p class="text-muted">
+                              </div>
+
+                              <div class="form-group mb-3">
+                                <label for="{{ form.blank_faculty.id_for_label }}">Faculty: <span class="text-muted" style="font-size: 11px">[শুধুমাত্র উপরের অপশনে খুঁজে না পেলে নিচে লিখুন; নয়তো অবশ্যই ফাঁকা রাখুন]</span></label>
+                                {{ form.blank_faculty }}
+                                <p class="text-muted">
+                              </div>
+                        </div>
+                      {% endif %}
+
+                    
+                      {% if university.has_institute %}
+                        <div class="double_fields form-group mb-3">
+                              <div class="form-group mb-3">
+                                <label for="{{ form.institute.id_for_label }}">Institute: </label>
+                                {{ form.institute }}
+                                <p class="text-muted">
+                              </div>
+
+                              <div class="form-group mb-3">
+                                <label for="{{ form.blank_institute.id_for_label }}">Institute: <span class="text-muted" style="font-size: 11px">[শুধুমাত্র উপরের অপশনে খুঁজে না পেলে নিচে লিখুন; নয়তো অবশ্যই ফাঁকা রাখুন]</span></label>
+                                {{ form.blank_institute }}
+                                <p class="text-muted">
+                              </div>
+                        </div>
+                      {% endif %}
+
+
+                    {% if university.has_school %}
+                        <div class="double_fields form-group mb-3">
+                              <div class="form-group mb-3">
+                                <label for="{{ form.school.id_for_label }}">School:</label>
+                                {{ form.school }}
+                                <p class="text-muted">
+                              </div>
+
+                              <div class="form-group mb-3">
+                                <label for="{{ form.blank_school.id_for_label }}">School: <span class="text-muted" style="font-size: 11px">[শুধুমাত্র উপরের অপশনে খুঁজে না পেলে নিচে লিখুন; নয়তো অবশ্যই ফাঁকা রাখুন]</span></label>
+                                {{ form.blank_school }}
+                                <p class="text-muted">
+                              </div>
+                        </div>
+                    {% endif %}
+
+                    {% if university.has_center %}
+                        <div class="double_fields form-group mb-3">
+                              <div class="form-group mb-3">
+                                <label for="{{ form.center.id_for_label }}">Center:</label>
+                                {{ form.center }}
+                                <p class="text-muted">
+                              </div>
+
+                              <div class="form-group mb-3">
+                                <label for="{{ form.blank_center.id_for_label }}">Center: <span class="text-muted" style="font-size: 11px">[শুধুমাত্র উপরের অপশনে খুঁজে না পেলে নিচে লিখুন; নয়তো অবশ্যই ফাঁকা রাখুন]</span></label>
+                                {{ form.blank_center }}
+                                <p class="text-muted">
+                              </div>
+                        </div>
+                    {% endif %}
+                      
+                    {% if university.has_department %}
+                      <div class="double_fields form-group mb-3">
+                            <div class="form-group mb-3">
+                              <label for="{{ form.department.id_for_label }}">Department:</label>
+                              {{ form.department }}
+                              <p class="text-muted">
+                            </div>
+
+                            <div class="form-group mb-3">
+                              <label for="{{ form.blank_department.id_for_label }}">Department: <span class="text-muted" style="font-size: 11px">[শুধুমাত্র উপরের অপশনে খুঁজে না পেলে নিচে লিখুন; নয়তো অবশ্যই ফাঁকা রাখুন]</span></label>
+                              {{ form.blank_department }}
+                              <p class="text-muted">
+                            </div>
+                      </div>
+                    {% endif %}
+
+                    {% if university.has_discipline %}
+                      <div class="double_fields form-group mb-3">
+                            <div class="form-group mb-3">
+                              <label for="{{ form.discipline.id_for_label }}">Discipline: </label>
+                              {{ form.discipline }}
+                              <p class="text-muted">
+                            </div>
+
+                            <div class="form-group mb-3">
+                              <label for="{{ form.blank_discipline.id_for_label }}">Discipline: <span class="text-muted" style="font-size: 11px">[শুধুমাত্র উপরের অপশনে খুঁজে না পেলে নিচে লিখুন; নয়তো অবশ্যই ফাঁকা রাখুন]</span></label>
+                              {{ form.blank_discipline }}
+                              <p class="text-muted">
+                            </div>
+                      </div>
+                    {% endif %}
+
+                        <a href="{% url 'add_edu_university_step1' %}" class="btn btn-secondary">Back</a>
+                        <button type="submit" class="btn btn-secondary">Save & Next</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'profile/my_profile/my_profile_secondary_nav.html' %}
+
+
+<style>
+  .this_outer {
+    margin-top: 10px; 
+    width: 65%;
+}
+
+.double_fields {
+  padding: 10px; margin-bottom: -20px; border-radius: 10px; background-color: #dce0e3
+}
+
+@media (max-width: 480px) {
+    .this_outer {
+        margin-top: 50px;
+        width: 100%;
+    }
+}
+</style>
+
+{% endblock %}

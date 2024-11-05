@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% comment %} d {% endcomment %}
+
+{% block title %}Access Denied{% endblock %}
+
+{% block content %}
+<div class="access-denied-container">
+    <h1>দুঃখিত!</h1>
+    {% comment %} <p>You do not have permission to access this page. You must verify yourself through the moderator of your department.</p> {% endcomment %}
+    <p>আপনি এই ডিপার্টমেন্টের শিক্ষার্থী বা শিক্ষক না হওয়ায় কোনো রিসোর্স ব্যবহার করতে পারবে না। অনুগ্রহ করে আপনার নিজ ডিপার্টমেন্ট এর যেকোনো রিসোর্স ব্যবহার করুন। </p>
+    
+    {% comment %} <form method="post" action="{% url 'sent_verification_req' %}" style="margin-bottom: 20px;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary mt-3">Request for Verification</button>
+    </form> {% endcomment %}
+
+    {% include 'home/my_resources.html' %}
+
+
+    <button class="btn btn-secondary mt-2"><a href="{% url 'home' %}" class="btn-link">Go to Home</a></button>
+</div>
+
+<style>
+    .access-denied-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: 60vh;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .access-denied-container h1 {
+        font-size: 2.5rem;
+        color: #d9534f;
+        margin-bottom: 20px;
+    }
+
+    .access-denied-container p {
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 30px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    .btn-link {
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn-link:hover {
+        color: white;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}

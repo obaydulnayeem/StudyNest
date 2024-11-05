@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-1">
+
+    <div class="text-center mb-2">
+        <a class="btn btn-secondary btn-sm" href="{% url 'show_department_team' course.department.id %}">Back to Department</a>
+        <a class="btn btn-secondary btn-sm" href="{% url 'show_university_team' course.university.id %}">Back to University</a>
+    </div>
+
+    <h2>Course Details: {{ course.title }}</h2>
+
+    <div class="text-right mb-2">
+        <a class="btn btn-primary btn-sm" href="{% url 'edit_course' course.id %}">Edit Course</a>
+    </div>
+
+    <table class="table table-bordered">
+        <tbody>
+            {% if course.common_courses %}
+            <tr>
+                <th>Common Courses</th>
+                <td>
+                    <ul>
+                        {% for common_course in course.common_courses.all %}
+                        <li>{{ common_course.title }}</li>
+                        {% endfor %}
+                    </ul>
+                    <!-- Add the Edit button -->
+                    <a href="{% url 'edit_common_courses' course.id %}" class="btn btn-primary mt-2 btn-sm">Edit Common Courses</a>
+                </td>
+            </tr>
+            {% endif %}
+
+            <tr>
+                <th>Course Code</th>
+                <td>{{ course.code }}</td>
+            </tr>
+            <tr>
+                <th>Credit</th>
+                <td>{{ course.credit }}</td>
+            </tr>
+            <tr>
+                <th>Hour</th>
+                <td>{{ course.hour }}</td>
+            </tr>
+            <tr>
+                <th>Marks</th>
+                <td>{{ course.marks }}</td>
+            </tr>
+            {% if course.university %}
+            <tr>
+                <th>University</th>
+                <td>{{ course.university.name }}</td>
+            </tr>
+            {% endif %}
+            {% if course.faculty %}
+            <tr>
+                <th>Faculty</th>
+                <td>{{ course.faculty.name }}</td>
+            </tr>
+            {% endif %}
+            {% if course.institute %}
+            <tr>
+                <th>Institute</th>
+                <td>{{ course.institute.name }}</td>
+            </tr>
+            {% endif %}
+            {% if course.school %}
+            <tr>
+                <th>School</th>
+                <td>{{ course.school.name }}</td>
+            </tr>
+            {% endif %}
+            {% if course.center %}
+            <tr>
+                <th>Center</th>
+                <td>{{ course.center.name }}</td>
+            </tr>
+            {% endif %}
+            {% if course.department %}
+            <tr>
+                <th>Department</th>
+                <td>{{ course.department.name }}</td>
+            </tr>
+            {% endif %}
+            {% if course.discipline %}
+            <tr>
+                <th>Discipline</th>
+                <td>{{ course.discipline.name }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <th>Semester</th>
+                <td>{{ course.semester }}</td>
+            </tr>
+            <tr>
+                <th>Syllabus</th>
+                <td>{{ course.syllabus }}</td>
+            </tr>
+            <tr>
+                <th>References</th>
+                <td>{{ course.references }}</td>
+            </tr>
+            <tr>
+                <th>Prerequisite</th>
+                <td>{{ course.prerequisite }}</td>
+            </tr>
+            <tr>
+                <th>Motivation</th>
+                <td>{{ course.motivation }}</td>
+            </tr>
+            <tr>
+                <th>Objectives</th>
+                <td>{{ course.objectives }}</td>
+            </tr>
+            <tr>
+                <th>Outcomes</th>
+                <td>{{ course.outcomes }}</td>
+            </tr>
+            <tr>
+                <th>Created At</th>
+                <td>{{ course.created_at }}</td>
+            </tr>
+            <tr>
+                <th>Last Updated</th>
+                <td>{{ course.last_updated }}</td>
+            </tr>
+           
+          
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-4">
+    {% include 'team_secondary_nav.html' %}
+</div>
+{% endblock %}

@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load semester_year_filters %}
+
+{% block title %}Course Page{% endblock %}
+
+{% block content %}
+
+<div class="view_course">
+    <div class="view_course_header text-center mb-3 pt-1 pb-1">
+        <h4>{{ course.title }} [{{ course.code }}]</h4>
+        <hr style="margin-top: -5px">
+        <p style="margin-top: -15px;">
+            {% if course.department.system == 'Year' %}
+                <a href="{% url 'my_resources_s' course.department.id course.semester|semester_converter %}">{{ course.semester }} Year</a>,
+            {% else %}
+                <a href="{% url 'my_resources_s' course.department.id course.semester|semester_converter %}">{{ course.semester }} Semester</a>,
+            {% endif %}
+
+            <a href="{% url 'my_department_s' department.university.id department.id %}" style="color: inherit; cursor: pointer; text-decoration: underline;">
+                {{ department.name }}
+            </a>,
+            <a href="{% url 'university_info' department.university.id %}" style="color: inherit;  cursor: pointer;  text-decoration: underline;">
+                {{ department.university.name }}
+            </a>
+        </p>
+        <p style="margin-top: -15px; font-weight: bold;">Total Resources: {{total_resourses_course}}</p>
+    </div>
+
+    <div class="mx-5">
+        <p><strong>Syllabus:</strong> 
+            {% if course.syllabus %}
+                <span id="short-syllabus">
+                    {{ course.syllabus|linebreaks|truncatechars:200 }}{% if course.syllabus|length > 200 %}... <a href="javascript:void(0);" id="see-more" style="color: black; text-decoration: underline; cursor: pointer; font-weight: bold;">See full syllabus</a>{% endif %}
+                </span>
+                <span id="full-syllabus" style="display: none;">
+                    {{ course.syllabus|linebreaks }} <a href="javascript:void(0);" id="see-less" style="color: black; text-decoration: underline; cursor: pointer; font-weight: bold;">See less</a>
+                </span>
+            {% else %}
+                [We're working to add the syllabus for '{{ course.title }}' as soon as possible.]
+        </p>
+    </div>
+
+    <br>
+
+    {% if not user.profile.edu_university %}
+        <div class="text-center">
+            <p style="font-weight: ; " class="text-muted"> {{department.name}}, {{university.name}} এর একজন শিক্ষার্থী হিসেবে Onebyzero Edu -তে যুক্ত হতে নিচের বাটনে ক্লিক করুনঃ
+            <a href="{% url 'view_edu_university_my_profile' %}" class="btn btn-secondary mx-5 mt-3 mb-2" style="text-align: center;"><i class="fas fa-hand-point-right me-2"></i> Be a Student of the {{ department.name }}</a>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="course_resources col-md-8 container" style="">
+            <div class="course_materials row">
+                <div class="col-md-3 d-flex">
+                    <div class="card flex-fill">
+                        <div class="card-body">
+                            <h5 class="card-title">Questions ({{question_count}})</h5>
+                            <p class="card-text">Explore a collection of previous year exam questions.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{% url 'view_questions' course.id %}" class="btn btn-secondary btn-block view-btn">View</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 d-flex">
+                    <div class="card flex-fill">
+                        <div class="card-body">
+                            <h5 class="card-title">Books ({{book_count}})</h5>
+                            <p class="card-text">Explore a collection of books of different authors.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{% url 'view_books' course.id %}" class="btn btn-secondary btn-block view-btn">View</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 d-flex">
+                    <div class="card flex-fill">
+                        <div class="card-body">
+                            <h5 class="card-title">Lecture Slides ({{lecture_count}})</h5>
+                            <p class="card-text">Explore a collection of lectures slides prepared by different teachers.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{% url 'view_lectures' course.id %}" class="btn btn-secondary btn-block view-btn">View</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 d-flex">
+                    <div class="card flex-fill">
+                        <div class="card-body">
+                            <h5 class="card-title">Notes ({{note_count}})</h5>
+                            <p class="card-text">Explore a collection of notes prepared by different students.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{% url 'view_notes' course.id %}" class="btn btn-secondary btn-block view-btn">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="moderator_section" style="">
+                {% include 'moderator_section.html' %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="{% static 'css/view_resources.css' %}">
+
+<style>
+    a {
+        color: white;
+    }
+
+    .view_course_header {
+        background-color: #4e5052; 
+        color: white; 
+        margin-top: -50px; 
+        margin-left: 140px; 
+        width: 70%; 
+        text-align: center;
+    }
+
+    .course_materials .card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .course_materials .card-body {
+        flex: 1 1 auto;
+    }
+
+    .course_materials .card-footer {
+        flex-shrink: 0;
+    }
+
+    .course_resources {
+        margin-top: -10px; margin-left: 70px;
+    }
+
+    .moderator_section {
+        margin-top: -40px; margin-right: 90px; margin-left: -20px; width: 90%;
+    }
+
+
+    @media (max-width: 480px) {
+        .view_course_header {
+            margin-left: 9px;
+            margin-top: 12px;
+            width: 95%;
+        }
+
+        .moderator_section {
+            margin-left: 15px;
+            margin-top: 20px;
+        }
+
+        .course_resources {
+            margin-left: 0px;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var seeMoreLink = document.getElementById("see-more");
+        var seeLessLink = document.getElementById("see-less");
+        var shortSyllabus = document.getElementById("short-syllabus");
+        var fullSyllabus = document.getElementById("full-syllabus");
+
+        if (seeMoreLink) {
+            seeMoreLink.addEventListener("click", function() {
+                shortSyllabus.style.display = "none";
+                fullSyllabus.style.display = "inline";
+            });
+        }
+
+        if (seeLessLink) {
+            seeLessLink.addEventListener("click", function() {
+                shortSyllabus.style.display = "inline";
+                fullSyllabus.style.display = "none";
+            });
+        }
+    });
+</script>
+
+{% endblock %}

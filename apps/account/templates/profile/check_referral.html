@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Check Referral{% endblock %}
+
+{% block content %}
+<div class="container mt-1">
+    <div class="text-center">
+        <h5>Welcome to Onebyzero Edu!</h5>
+    </div>
+
+        {% if messages %}
+            <div class="mt-4">
+                <ul class="list-unstyled">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>
+                            {{ message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+    <div class="card mt-4 p-4 shadow-sm">
+
+        {% if not user.profile.referred_by_code %}
+            <h6 class="text-center">Please Enter Your Referral Link</h6>
+            <p class="text-center">
+                আপনাকে কেউ রেফার করে থাকলে অনুগ্রহ করে 
+                রেফারাল লিংকটি নিচের ফর্মে বসান।
+            </p>
+
+            <form method="post" class="mt-4">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="text-center">
+                    <button type="submit" class="btn btn-secondary btn-sm">Submit</button>
+                </div>
+            </form>
+
+            <div class="text-center mt-3">
+                <p class="text-center">
+                    অথবা, কেউ রেফার না করলে আপনার প্রোফাইলে চলে যান।
+                </p>
+                
+                <a href="{% url 'view_edu_university_my_profile' %}" class="btn btn-secondary btn-sm">Or, Go to Your Profile</a>
+            </div>
+    
+
+        {% else %}
+            {% if user.profile.referred_by_code %}
+                <div class="text-center">
+                <a href="{% url 'view_edu_university_my_profile' %}" class="btn btn-secondary btn-lg">Go to Add Your Personal Information</a>
+                </div>
+            {% else %}
+                <div class="text-center">
+                <a href="{% url 'check referral' %}" class="btn btn-secondary btn-lg">Add Referral Link Again</a>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

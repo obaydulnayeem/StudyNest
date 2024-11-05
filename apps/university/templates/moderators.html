@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Departmental Moderators</h2>
+    <ul class="list-group">
+        {% for moderator in departmental_moderators %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="mb-1">{{ moderator.user.get_full_name }}</h5>
+                    <p class="mb-0 text-muted">Email: {{ moderator.user.email }}</p>
+                </div>
+                {% if moderator.user.profile_image %}
+                    <img src="{{ moderator.user.profile_image.url }}" alt="Profile Image" class="img-thumbnail rounded-circle" style="width: 50px; height: 50px;">
+                {% else %}
+                    <i class="fas fa-user-circle fa-2x"></i>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

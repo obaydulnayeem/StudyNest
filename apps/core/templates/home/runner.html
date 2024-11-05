@@ -1,0 +1,69 @@
+<div class="runner_outer scrolling-text-container">
+    <p>
+        <span class="scrolling-text">
+            <span>
+                <span class="profile-image">
+                    {% if question_uploader_for_profile_info.profile_image %}
+                    <img src="{{ MEDIA_URL }}{{ question_uploader_for_profile_info.profile_image.url }}" alt="Profile Image" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+                    {% else %}
+                        <i class="fas fa-user-circle"></i>
+                    {% endif %}
+                </span>
+                
+                <span style="margin-right: 15px;">
+                    <a href="{% url 'view_profile_overview' question_uploader_for_profile_info.id %}">
+                        {{ uploader_latest_question }}
+                    </a> uploaded a question {{ formatted_time_latest_question }}!
+                </span>
+            </span>
+
+            <span>
+                <span class="profile-image">
+                    {% if book_uploader_for_profile_info.profile_image %}
+                    <img src="{{ MEDIA_URL }}{{ book_uploader_for_profile_info.profile_image.url }}" alt="Profile Image" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+                    {% else %}
+                        <i class="fas fa-user-circle"></i>
+                    {% endif %}
+                </span>
+                
+                <span style="margin-right: 15px;">
+                    <a href="{% url 'view_profile_overview' book_uploader_for_profile_info.id %}">
+                        {{ uploader_latest_book }}
+                    </a> uploaded a book {{ formatted_time_latest_book }}!
+                </span>
+            </span>
+
+            <span>
+                <span class="profile-image">
+                    {% if note_uploader_for_profile_info.profile_image %}
+                    <img src="{{ MEDIA_URL }}{{ note_uploader_for_profile_info.profile_image.url }}" alt="Profile Image" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+                    {% else %}
+                        <i class="fas fa-user-circle"></i>
+                    {% endif %}
+                </span>
+                
+                <span style="margin-right: 15px;">
+                    <a href="{% url 'view_profile_overview' note_uploader_for_profile_info.id %}">
+                        {{ uploader_latest_note }}
+                    </a> uploaded a note {{ formatted_time_latest_note }}!
+                </span>
+            </span>
+
+            <span>
+                <span class="profile-image">
+                    {% if lecture_uploader_for_profile_info.profile_image %}
+                    <img src="{{ MEDIA_URL }}{{ lecture_uploader_for_profile_info.profile_image.url }}" alt="Profile Image" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+                    {% else %}
+                        <i class="fas fa-user-circle"></i>
+                    {% endif %}
+                </span>
+                
+                <span style="margin-right: 15px;">
+                    <a href="{% url 'view_profile_overview' lecture_uploader_for_profile_info.id %}">
+                        {{ uploader_latest_lecture }}
+                    </a> uploaded a lecture slide {{ formatted_time_latest_lecture }}!
+                </span>
+            </span>
+        </span>
+    </p>
+</div>

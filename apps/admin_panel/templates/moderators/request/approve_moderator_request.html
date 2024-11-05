@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Approve Moderator Request</h2>
+  <p>Do you want to approve {{ moderator_request.profile.fullname }} to become a {{ moderator_request.requested_moderator_type }}?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Approve</button>
+  </form>
+{% endblock %}

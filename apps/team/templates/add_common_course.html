@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-0">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-secondary text-white">
+                    <h3 class="mb-0">Add Common Course</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success">Save Course</button>
+                            <a href="{% url 'show_common_courses_team' %}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                        
+                        {{ form.as_p }}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

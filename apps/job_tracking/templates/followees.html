@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Followees List{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-center">Followees List ({{total_followees}})</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+           {% include 'secondary_nav_job_tracking.html' %}
+
+           <a href="{% url 'add_followee' %}" class="btn btn-dark btn-sm mr-2 mb-2">
+               <i class="fas fa-plus"></i> Add New Followee
+           </a>
+
+            {% if followees %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Designation</th>
+                            <th>LinkedIn</th>
+                            <th>GitHub</th>
+                            <th>Facebook</th>
+                            <th>Action</th> <!-- New column for actions -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for followee in followees %}
+                            <tr>
+                                <td>{{ followee.name }}</td>
+                                <td>{{ followee.designation }}</td>
+                                <td>
+                                    {% if followee.linkedin %}
+                                        <a href="{{ followee.linkedin }}" target="_blank" class="btn btn-secondary btn-sm">LinkedIn</a>
+                                    {% else %}
+                                        <span class="text-muted">No Link</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% if followee.github %}
+                                        <a href="{{ followee.github }}" target="_blank" class="btn btn-secondary btn-sm">GitHub</a>
+                                    {% else %}
+                                        <span class="text-muted">No Link</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% if followee.facebook %}
+                                        <a href="{{ followee.facebook }}" target="_blank" class="btn btn-secondary btn-sm">Facebook</a>
+                                    {% else %}
+                                        <span class="text-muted">No Link</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'edit_followee' followee.id %}" class="btn btn-primary btn-sm">Edit</a>
+                                    <button onclick="confirmDelete('{{ followee.id }}');" class="btn btn-danger btn-sm">Delete</button>
+                                    
+                                    <!-- Hidden form for delete request -->
+                                    <form id="delete-form-{{ followee.id }}" method="POST" action="{% url 'delete_followee' followee.id %}" style="display:none;">
+                                        {% csrf_token %}
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-center">No followees found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for confirming the delete action -->
+<script>
+    function confirmDelete(followeeId) {
+        const confirmed = confirm('Are you sure you want to delete this followee? This action cannot be undone.');
+        if (confirmed) {
+            document.getElementById(`delete-form-${followeeId}`).submit();
+        }
+    }
+</script>
+{% endblock %}

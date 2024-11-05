@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}University Settings{% endblock %}
+
+{% block content %}
+
+<h5 class="mb-3 text-secondary border-bottom pb-2 d-flex align-items-center" style="margin-left: 140px; margin-right: 150px; margin-top: -15px;">
+    <i class="fas fa-cog fa-lg"></i>&nbsp;Settings
+</h5>
+
+<div class="mx-3">
+    {% for message in messages %}
+    <div class="output_message alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" style="">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+</div>
+
+
+<div class="container mt-5">
+    <h2>{{ user.profile.edu_university.university.name }} - Settings</h2>
+
+    <!-- Display university information -->
+
+    <!-- Edit University Button -->
+    <div class="text-end">
+        <a href="{% url 'edit_university_mod' user.profile.edu_university.university.id %}" class="btn btn-secondary">
+            Edit University Information
+        </a>
+    </div>
+
+    <div class="card my-4">
+        <div class="card-header">
+            <h4>University Information</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Name:</strong> {{ university.name }}</p>
+            <p><strong>Former Name:</strong> {{ university.former_name }}</p>
+            <p><strong>Acronym:</strong> {{ university.acronym }}</p>
+            <p><strong>Type:</strong> {{ university.university_type }}</p>
+            <p><strong>Established:</strong> {{ university.established }}</p>
+            <p><strong>History:</strong> {{ university.history }}</p>
+            <p><strong>Division:</strong> {{ university.location_division }}</p>
+            <p><strong>District:</strong> {{ university.location_district }}</p>
+            <p><strong>Permanent Campus Location:</strong> {{ university.location_permanent_campus }}</p>
+            <p><strong>Campus Area (sq km):</strong> {{ university.campus_area }}</p>
+            <p><strong>Motto:</strong> {{ university.motto }}</p>
+            <p><strong>Number of Regular Students:</strong> {{ university.num_regular_students }}</p>
+            <p><strong>Number of Academic Staff:</strong> {{ university.num_academic_staff }}</p>
+            <p><strong>Number of Residence Halls:</strong> {{ university.num_residence_hall }}</p>
+            <p><strong>Website:</strong> <a href="{{ university.website }}">{{ university.website }}</a></p>
+            <p><strong>Colors:</strong> {{ university.colors }}</p>
+            <p><strong>Has Faculty:</strong> {{ university.has_faculty|yesno:"Yes,No" }}</p>
+            <p><strong>Has Institute:</strong> {{ university.has_institute|yesno:"Yes,No" }}</p>
+            <p><strong>Has School:</strong> {{ university.has_school|yesno:"Yes,No" }}</p>
+            <p><strong>Has Center:</strong> {{ university.has_center|yesno:"Yes,No" }}</p>
+            <p><strong>Has Department:</strong> {{ university.has_department|yesno:"Yes,No" }}</p>
+            <p><strong>Has Discipline:</strong> {{ university.has_discipline|yesno:"Yes,No" }}</p>
+        </div>
+    </div>
+
+    
+</div>
+
+{% include '../moderator_secondary_nav.html' %}
+
+{% endblock %}

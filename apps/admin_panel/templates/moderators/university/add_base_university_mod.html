@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h5 class="mb-3 text-secondary border-bottom pb-2 d-flex align-items-center" style="margin-left: 140px; margin-right: 150px; margin-top: -15px;">
+        <i class="fas fa-plus fa-lg"></i>&nbsp;Add/Show
+    </h5>
+
+    <h5 class="text-center text-muted">{{university.name}}</h5>
+   
+    {% for message in messages %}
+        <div class="output_message alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" style="">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
+    <div style="">
+        {% if university.has_faculty %}
+            <div class="d-flex justify-content-center mb-3">
+                    <a href="{% url 'add_faculty_mod' university.id %}" class="btn btn-secondary" style="width: 200px; margin-right: 10px;">
+                        <i class="fas fa-plus"></i> Add Faculty
+                    </a>
+                
+                <a href="{% url 'show_faculties_mod' university.id %}" class="btn btn-secondary" style="width: 200px;">
+                    <i class="fas fa-eye"></i> Show Faculties ({{ total_faculties }})
+                </a>
+            </div>
+        {% endif %}
+        
+        {% if university.has_institute %}
+            <div class="d-flex justify-content-center mb-3">
+                <a href="{% url 'add_institute_mod' university.id %}" class="btn btn-secondary" style="width: 200px; margin-right: 10px;">
+                    <i class="fas fa-plus"></i> Add Institute
+                </a>
+
+                <a href="{% url 'show_institutes_mod' university.id %}" class="btn btn-secondary" style="width: 200px;">
+                    <i class="fas fa-eye"></i> Show Institutes ({{ total_institutes }})
+                </a>
+            </div>
+        {% endif %}
+    
+        {% if university.has_school %}
+            <div class="d-flex justify-content-center mb-3">
+                <a href="{% url 'add_school_mod' university.id %}" class="btn btn-secondary" style="width: 200px; margin-right: 10px;">
+                    <i class="fas fa-plus"></i> Add School
+                </a>
+
+                <a href="{% url 'show_schools_mod' university.id %}" class="btn btn-secondary" style="width: 200px;">
+                    <i class="fas fa-eye"></i> Show Schools ({{ total_schools }})
+                </a>
+            </div>
+        {% endif %}
+    
+        {% if university.has_center %}
+            <div class="d-flex justify-content-center mb-3">
+                <a href="{% url 'add_center_mod' university.id %}" class="btn btn-secondary" style="width: 200px; margin-right: 10px;">
+                    <i class="fas fa-plus"></i> Add Center
+                </a>
+
+                <a href="{% url 'show_centers_mod' university.id %}" class="btn btn-secondary" style="width: 200px;">
+                    <i class="fas fa-eye"></i> Show Centers ({{ total_centers }})
+                </a>
+            </div>
+        {% endif %}
+    
+        {% if university.has_department %}
+            <div class="d-flex justify-content-center mb-3">
+                <a href="{% url 'add_department_mod' university.id %}" class="btn btn-secondary" style="width: 200px; margin-right: 10px;">
+                    <i class="fas fa-plus"></i> Add Department
+                </a>
+
+                <a href="{% url 'show_departments_mod' university.id %}" class="btn btn-secondary" style="width: 200px;">
+                    <i class="fas fa-eye"></i> Show Departments ({{ total_departments }})
+                </a>
+            </div>
+        {% endif %}
+    
+        {% if university.has_discipline %}
+            <div class="d-flex justify-content-center mb-3">
+                <a href="{% url 'add_discipline_mod' university.id %}" class="btn btn-secondary" style="width: 200px; margin-right: 10px;">
+                    <i class="fas fa-plus"></i> Add Discipline ({{ total_disciplines }})
+                </a>
+
+                <a href="{% url 'show_disciplines_mod' university.id %}" class="btn btn-secondary" style="width: 200px;">
+                    <i class="fas fa-eye"></i> Show Disciplines ({{ total_disciplines }})
+                </a>
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="mt-3" style="text-align: center;">
+        <span class="text-muted">[অতিরিক্ত বাটন বাদ দিতে অথবা নতুন বাটন যুক্ত করতে উপরের Settings আইকনে ক্লিক করুন।]</span>
+    </div>
+</div>
+
+
+{% include '../moderator_secondary_nav.html' %}
+
+{% endblock %}

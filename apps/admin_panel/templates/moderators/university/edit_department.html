@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-2">
+    <h3 class="mb-4 text-center">Edit Department: {{ department.name }}</h3>
+
+    {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="form-group p-2">
+                            <label for="{{ form.name.id_for_label }}">Department Name:</label>
+                            {{ form.name }}
+                            {% if form.name.errors %}
+                                <div class="text-danger">{{ form.name.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        {% if department.faculty %}
+                            <div class="form-group p-2">
+                                <label for="{{ form.faculty.id_for_label }}">Faculty:</label>
+                                {{ form.faculty }}
+                                {% if form.faculty.errors %}
+                                    <div class="text-danger">{{ form.faculty.errors }}</div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                        {% if department.institute %}
+                            <div class="form-group p-2">
+                                <label for="{{ form.institute.id_for_label }}">Institute:</label>
+                                {{ form.institute }}
+                                {% if form.institute.errors %}
+                                    <div class="text-danger">{{ form.institute.errors }}</div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                        {% if department.school %}
+                            <div class="form-group p-2">
+                                <label for="{{ form.school.id_for_label }}">School:</label>
+                                {{ form.school }}
+                                {% if form.school.errors %}
+                                    <div class="text-danger">{{ form.school.errors }}</div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                        <button type="submit" class="btn btn-primary">Update Department</button>
+                        <a href="{% url 'department_list' department.university.id %}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

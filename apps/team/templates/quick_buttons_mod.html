@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Quick Buttons - Team{% endblock %}
+
+{% block content %}
+<h5 class="mb-3 text-secondary border-bottom pb-2 d-flex align-items-center" style="margin-left: 140px; margin-right: 150px; margin-top: -60px;">
+    <i class="fas fa-file-alt fa-lg me-2"></i>Quick Buttons
+</h5>
+
+            <!--h-->
+        {% if user.profile.moderator_type %}
+            <div class="d-flex justify-content-center mb-3">
+                    <a href="{% url 'course_details' %}" class="btn btn-secondary" style="width: 400px; margin-right: 10px;">
+                        Course Details
+                    </a>
+            </div>
+        {% endif %}
+
+    {% include 'team_secondary_nav.html' %}
+
+    <style>
+  
+    </style>
+
+{% endblock %}

@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Course Details{% endblock %}
+
+{% block content %}
+<h5 class="mb-3 text-secondary border-bottom pb-2 d-flex align-items-center" style="margin-left: 140px; margin-right: 150px; margin-top: -15px;">
+    <i class="fas fa-file-alt fa-lg me-2"></i>Course Details
+</h5>
+
+    <div class="mt-3" style="text-align: center;">
+        <span class="text-muted">[আপনার ডিপার্টমেন্টের কোনো কিছু পরিবর্তন করতে (যেমনঃ সেমিস্টার/ইয়ার সিস্টেম, কোর্স কারিকুলাম, ডিপার্টমেন্ট সম্পর্কিত তথ্য ইত্যাদি) <a href="{% url 'department_info_moderator' user.profile.edu_university.department.id %}">Department Settings</a> এ ক্লিক করুন।]</span>
+    </div>
+
+    <div class="moderator_header_section text-center mb-4">
+        <h3 class="moderator_header_title mb-1">Course Details</h3>
+        <p class="moderator_header_subtitle text-muted mb-1">{{ ctxp_profile_edu_department_name }}, {{ctxp_profile_edu_university_name}}</p>
+        <p class="moderator_header_subtitle text-muted mb-1"><strong>[Departmental Moderator Panel]</strong></p>
+    </div>
+
+    <div class="table-container">
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">{{department.system}}s</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if 1 <= total_semester_or_year %}
+                        <tr>
+                            <td>1st {{department.system}}</td>
+                            <td><a href="{% url 'view_courses_s' ctxp_profile_edu_university_id ctxp_profile_edu_department_id 1 %}" class="btn btn-secondary btn-sm">View / Edit</a></td>
+                        </tr>
+                    {% endif %}
+
+                    {% if 2 <= total_semester_or_year %}
+                        <tr>
+                            <td>2nd {{department.system}}</td>
+                            <td><a href="{% url 'view_courses_s' ctxp_profile_edu_university_id ctxp_profile_edu_department_id 2 %}" class="btn btn-secondary btn-sm">View / Edit</a></td>
+                        </tr>
+                    {% endif %}
+
+                    {% if 3 <= total_semester_or_year %}
+                        <tr>
+                            <td>3rd {{department.system}}</td>
+                            <td><a href="{% url 'view_courses_s' ctxp_profile_edu_university_id ctxp_profile_edu_department_id 3 %}" class="btn btn-secondary btn-sm">View / Edit</a></td>
+                        </tr>
+                    {% endif %}
+
+                    {% if 4 <= total_semester_or_year %}
+                        <tr>
+                            <td>4th {{department.system}}</td>
+                            <td><a href="{% url 'view_courses_s' ctxp_profile_edu_university_id ctxp_profile_edu_department_id 4 %}" class="btn btn-secondary btn-sm">View / Edit</a></td>
+                        </tr>
+                    {% endif %}
+
+                    {% if 5 <= total_semester_or_year %}
+                        <tr>
+                            <td>5th {{department.system}}</td>
+                            <td><a href="{% url 'view_courses_s' ctxp_profile_edu_university_id ctxp_profile_edu_department_id 5 %}" class="btn btn-secondary btn-sm">View / Edit</a></td>
+                        </tr>
+                    {% endif %}
+
+                    {% if 6 <= total_semester_or_year %}
+                        <tr>
+                            <td>6th {{department.system}}</td>
+                            <td><a href="{% url 'view_courses_s' ctxp_profile_edu_university_id ctxp_profile_edu_department_id 6 %}" class="btn btn-secondary btn-sm">View / Edit</a></td>
+                        </tr>
+                    {% endif %}
+
+                    {% if 7 <= total_semester_or_year %}
+                        <tr>
+                            <td>7th {{department.system}}</td>
+                            <td><a href="{% url 'view_courses_s' ctxp_profile_edu_university_id ctxp_profile_edu_department_id 7 %}" class="btn btn-secondary btn-sm">View / Edit</a></td>
+                        </tr>
+                    {% endif %}
+
+                    {% if 8 <= total_semester_or_year %}
+                        <tr>
+                            <td>8th {{department.system}}</td>
+                            <td><a href="{% url 'view_courses_s' ctxp_profile_edu_university_id ctxp_profile_edu_department_id 8 %}" class="btn btn-secondary btn-sm">View / Edit</a></td>
+                        </tr>
+                    {% endif %}
+
+                    {% if 9 <= total_semester_or_year %}
+                        <tr>
+                            <td>9th {{department.system}}</td>
+                            <td><a href="{% url 'view_courses_s' ctxp_profile_edu_university_id ctxp_profile_edu_department_id 9 %}" class="btn btn-secondary btn-sm">View / Edit</a></td>
+                        </tr>
+                    {% endif %}
+
+                    {% if 10 <= total_semester_or_year %}
+                        <tr>
+                            <td>10th {{department.system}}</td>
+                            <td><a href="{% url 'view_courses_s' ctxp_profile_edu_university_id ctxp_profile_edu_department_id 10 %}" class="btn btn-secondary btn-sm">View / Edit</a></td>
+                        </tr>
+                    {% endif %}
+
+                    {% if 11 <= total_semester_or_year %}
+                        <tr>
+                            <td>11th {{department.system}}</td>
+                            <td><a href="{% url 'view_courses_s' ctxp_profile_edu_university_id ctxp_profile_edu_department_id 11 %}" class="btn btn-secondary btn-sm">View / Edit</a></td>
+                        </tr>
+                    {% endif %}
+
+                    {% if 12 <= total_semester_or_year %}
+                        <tr>
+                            <td>12th {{department.system}}</td>
+                            <td><a href="{% url 'view_courses_s' ctxp_profile_edu_university_id ctxp_profile_edu_department_id 12 %}" class="btn btn-secondary btn-sm">View / Edit</a></td>
+                        </tr>
+                    {% endif %}                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% include '../moderator_secondary_nav.html' %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/moderator/moderator_header.css' %}">
+
+    <style>
+    /* Centering the table container */
+    .table-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        margin-left: 170px;
+    }
+
+    /* Styles for the table */
+    .table {
+        width: 80%;
+        border-collapse: collapse; /* Removes spacing between borders */
+    }
+
+    .table th,
+    .table td {
+        padding: 12px;
+        text-align: center;
+        border: 1px solid #ddd; /* Light border for rows */
+    }
+
+    .table thead {
+        background-color: #343a40; /* Dark background for headers */
+        color: white; /* White text color */
+    }
+
+    .table tbody tr:hover {
+        background-color: #f1f1f1; /* Light background on hover */
+    }
+
+    /* Button styles */
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 4px;
+        text-decoration: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+        color: white;
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 4px;
+        text-decoration: none;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+    </style>
+
+{% endblock %}

@@ -1,0 +1,154 @@
+TESTING:
+    - By page
+    - By user type (student / visitor)
+    -
+
+REMAININGS BY PAGE:
+    - header:
+        - 
+    - home:
+        - runner: minimize the starting time
+        - auto refresh in each 60 sec
+
+        - feedback:
+            - common:
+                - 
+            - display:
+                - 
+            - add:
+
+        - FAQ
+            - add & modify (done)
+
+        - chat:
+            -
+
+    - my university:
+
+    - my department:
+        - below header: counters & history, establishment and others
+
+    - view_course:
+        - 
+
+    - view resources (ques/all):
+
+    - add q/b/l/n:
+
+    - notification:
+
+    - profile:
+        - add background of icons (sub nav) during active
+        - last updated profile
+        - my profile:
+
+            - View Overview
+            
+            - View Edu university
+            
+            - Edit Overview:
+
+            - Edit personal info
+
+            - Edit edu university
+
+            - Others:
+                in anywhere, in view profile link, redirect that if the profile to my_profile is logged in profile. (forgot)
+
+        - view profile:
+            - contribution summ:
+
+            - detailed cont:
+
+    - leaderboard: 
+        - add recent uploads.....all
+
+    - moderator
+        - for all:
+            - add all notifications for all the moderations
+
+        - departmental moderator
+
+        - batch moderator
+
+        - from central moderator:
+
+    - Coins
+        - keep track coin adding types (like: Referral: which users used rf feature)
+    
+    - footer
+        - 
+
+    - data entry:
+        - 
+
+    - Search:
+        - search results -> add tick, moderator icon at the top of the profile images
+                -> wrong dept & uni (ex: safa)
+
+
+
+
+    
+    BUGS:
+
+    RESPONSIVE:
+
+    FEATURES:
+        - LATER: alphabetic order choices
+        - open files around site. without download.
+
+    Writings:
+        - homepage (what, why, how, FAQ)
+        - notifications & message texts
+
+    SECURITY:
+
+
+    DECISIONS:
+        -
+
+    OTHERS:
+
+Others:
+    - write all the notifications & messages [1st done, 2nd done, ]
+
+    - checking & security check
+        -
+
+    - add 404 error page from cpanel
+
+    - fix bengali font
+
+    - REFERAL:
+    - text: photocopy dokan theke question bank tk diye kena lagbena
+    - protect all the views by individual access
+    - change the photo of erfan
+    - analyze about Bengali font
+    - check referral: add logo
+    - kew moderator req pathale take, superior mod & central mod k notification pathate hobe
+    - about us page
+    - after login bar bar check referal ashe
+    - modaretor / user kawkei kono kichur delete access deya jabe na
+    - new addedu: not possible ot edit uni
+    - add question: dept, uni, ... show hoiteche na
+    - add q/others: multiple pages hole pdf bananor link
+    - Be a student of ..... (ekhane disc, inst add korte hobe)
+    - change github pass
+    - data entry: update has_faculty, has_....... for the completed varsitites
+    - update: Sorry! No Resources Available Yet! textss for discipline, school, institute, and others
+    - update moderator section for disciplne, institue and others
+    - add acronym for department / otheers and add that in the search result
+    
+
+
+
+
+
+
+
+
+
+LATER:
+    - add a faculty page
+    - filter without clicking apply

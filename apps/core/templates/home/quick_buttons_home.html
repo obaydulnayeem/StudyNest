@@ -1,0 +1,106 @@
+{% load semester_year_filters %}
+<div class="button-container" style="text-align: center;">
+
+    <!-- My Semester -->
+    {% comment %} {% if not user.is_authenticated %} {% endcomment %}
+        {% comment %} <a href="{% url 'login' %}" class="btn btn-secondary btn-lg" style="font-size: 12px;">My Semester/Year</a> {% endcomment %}
+    {% comment %} {% elif not ctxp_profile_edu_university %} {% endcomment %}
+        {% comment %} <a href="{% url 'view_edu_university_my_profile' %}" class="btn btn-secondary btn-lg">My Semester/Year</a> {% endcomment %}
+    {% if ctxp_profile_edu_university and profile_semester %}
+        {% if ctxp_profile_edu_university.department and profile_semester %}
+            <a href="{% url 'my_resources_s' ctxp_profile_edu_department_id profile_semester|semester_converter %}" class="btn btn-secondary btn-lg">My {{ ctxp_profile_edu_university.department.system }}</a>
+        {% elif ctxp_profile_edu_university.discipline and profile_semester %}
+            <a href="{% url 'my_resources_s' ctxp_profile_edu_discipline_id profile_semester|semester_converter %}" class="btn btn-secondary btn-lg">My {{ ctxp_profile_edu_university.discipline.system }}</a>
+        {% elif ctxp_profile_edu_university.institute and profile_semester %}
+            <a href="{% url 'my_resources_s' ctxp_profile_edu_institute_id profile_semester|semester_converter %}" class="btn btn-secondary btn-lg">My {{ ctxp_profile_edu_university.institute.system }}</a>
+        {% endif %}
+    {% endif %}
+
+
+    <!-- My Department -->
+    {% if ctxp_profile_edu_university.department %}
+        {% if not user.is_authenticated %}
+            {% comment %} <a href="{% url 'login' %}" class="btn btn-secondary btn-lg">My Department</a> {% endcomment %}
+        {% else %}
+            {% if not ctxp_profile_edu_university.department %}
+                {% comment %} <a href="{% url 'view_edu_university_my_profile' %}" class="btn btn-secondary btn-lg">My Department</a> {% endcomment %}
+            {% elif ctxp_profile_edu_university.department %}
+                <a href="{% url 'show_department' ctxp_profile_edu_department_id %}" class="btn btn-secondary btn-lg">My Department</a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
+
+
+    <!-- My Discipline -->
+    {% if ctxp_profile_edu_university.discipline %}
+        {% if not user.is_authenticated %}
+            {% comment %} <a href="{% url 'login' %}" class="btn btn-secondary btn-lg">My Department</a> {% endcomment %}
+        {% else %}
+            {% if not ctxp_profile_edu_university.discipline %}
+                {% comment %} <a href="{% url 'view_edu_university_my_profile' %}" class="btn btn-secondary btn-lg">My Department</a> {% endcomment %}
+            {% elif ctxp_profile_edu_university.discipline %}
+                <a href="{% url 'show_discipline' ctxp_profile_edu_discipline_id %}" class="btn btn-secondary btn-lg">My Discipline</a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
+
+    <!-- My Institute -->
+    {% if ctxp_profile_edu_university.institute %}
+        {% if not user.is_authenticated %}
+            {% comment %} <a href="{% url 'login' %}" class="btn btn-secondary btn-lg">My Department</a> {% endcomment %}
+        {% else %}
+            {% if not ctxp_profile_edu_university.institute %}
+                {% comment %} <a href="{% url 'view_edu_university_my_profile' %}" class="btn btn-secondary btn-lg">My Department</a> {% endcomment %}
+            {% elif ctxp_profile_edu_university.institute %}
+                <a href="{% url 'show_institute' ctxp_profile_edu_institute_id %}" class="btn btn-secondary btn-lg">My Institute</a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
+    <!-- My University -->
+    {% if not user.is_authenticated %}
+        {% comment %} <a href="{% url 'login' %}" class="btn btn-secondary btn-lg">My University</a> {% endcomment %}
+    {% else %}
+        {% if not ctxp_profile_edu_university.university %}
+            {% comment %} <a href="{% url 'view_edu_university_my_profile' %}" class="btn btn-secondary btn-lg">My University</a> {% endcomment %}
+        {% elif ctxp_profile_edu_university.university %}
+            <a href="{% url 'show_university' ctxp_profile_edu_university_id %}" class="btn btn-secondary btn-lg">My University</a>
+        {% endif %}
+    {% endif %}
+
+    <!-- All Universities -->
+    {% if not ctxp_profile_edu_university %}
+        <a href="{% url 'show_all_universities' %}" class="btn btn-secondary btn-lg">Find Your University</a>
+    {% else %}
+        <a href="{% url 'show_all_universities' %}" class="btn btn-secondary btn-lg">All Universities</a>
+    {% endif %}
+</div>
+
+<style>
+    .button-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
+        gap: 10px; /* Adds spacing between buttons */
+    }
+    
+    .button-container a {
+        width: 190px;
+        height: 50px;
+        text-align: center;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+    }
+
+    @media (max-width: 480px) {
+        .button-container a {
+            width: 110px;
+            height: 60px;
+            font-size: 14px;
+        }
+    }
+</style>

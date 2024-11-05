@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Quick Buttons - Moderator{% endblock %}
+
+{% block content %}
+<h5 class="mb-3 text-secondary border-bottom pb-2 d-flex align-items-center" style="margin-left: 140px; margin-right: 150px; margin-top: -60px;">
+    <i class="fas fa-file-alt fa-lg me-2"></i>Quick Buttons
+</h5>
+
+            <!--Deparmental Mod-->
+        {% if user.profile.moderator_type == 'Departmental Moderator' %}
+            <div class="d-flex justify-content-center mb-3">
+                    <a href="{% url 'course_details' %}" class="btn btn-secondary" style="width: 400px; margin-right: 10px;">
+                        Course Details
+                    </a>
+            </div>
+        {% endif %}
+
+            <!--Departmental Mod-->
+        {% if user.profile.moderator_type == 'Departmental Moderator' %}
+            <div class="d-flex justify-content-center mb-3">
+                <a href="{% url 'department_info_moderator' user.profile.edu_university.department.id %}" class="btn btn-secondary" style="width: 400px; margin-right: 10px;">
+                    Department Settings
+                </a>
+            </div>
+        {% endif %}
+
+        {% comment %} {% if user.profile.moderator_type == 'Departmental Moderator' %}
+            <div class="d-flex justify-content-center mb-3">
+                <a href="#" class="btn btn-secondary" style="width: 400px; margin-right: 10px;">
+                    Course Settings
+                </a>
+            </div>
+        {% endif %} {% endcomment %}
+
+            <!--Department, University & Central Mod-->
+        {% if user.profile.moderator_type == 'Departmental Moderator' or user.profile.moderator_type == 'University Moderator' or user.profile.moderator_type == 'Central Moderator' %}
+            <div class="d-flex justify-content-center mb-3">
+                <a href="{% url 'approved_moderator_list' %}" class="btn btn-secondary" style="width: 400px; margin-right: 10px;">
+                    Approved Moderator List
+                </a>
+            </div>
+        {% endif %}
+
+
+            <!--University Mod-->
+        {% if user.profile.moderator_type == 'University Moderator' %}
+            <div class="d-flex justify-content-center mb-3">
+                <a href="{% url 'add_base_university_mod' %}" class="btn btn-secondary" style="width: 400px; margin-right: 10px;">
+                    Add/Show
+                </a>
+            </div>
+        {% endif %}
+            
+
+            <!--University Mod-->
+        {% if user.profile.moderator_type == 'University Moderator' %}
+            <div class="d-flex justify-content-center mb-3">
+                <a href="{% url 'settings_university_mod' user.profile.edu_university.university.id %}" class="btn btn-secondary" style="width: 400px; margin-right: 10px;">
+                    University Settings
+                </a>
+            </div>
+        {% endif %}
+            
+
+            <!--Central Mod-->
+        {% if user.profile.moderator_type == 'Central Moderator' %}
+            <div class="d-flex justify-content-center mb-3">
+                <a href="{% url 'others_central_mod' %}" class="btn btn-secondary" style="width: 400px; margin-right: 10px;">
+                    Others
+                </a>
+            </div>
+        {% endif %}
+
+    {% include 'moderators/moderator_secondary_nav.html' %}
+
+    <style>
+  
+    </style>
+
+{% endblock %}

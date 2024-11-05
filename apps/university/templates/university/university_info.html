@@ -1,0 +1,366 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load duration_filters %}
+
+{% block title %}{{ university.name }}{% endblock %}
+
+{% block content %}
+
+<div class="university_info">
+    <div class="university_info_header text-center mb-3 pt-1 pb-1">
+        {% if university.logo %}
+        <div class="university_logo">
+            <img src="{{ university.logo.url }}" alt="Logo" style="width: 70px; height: 70px; border-radius: 5px; border: 1px solid #ccc; background-color: white;">
+            <p style="color: white; margin: 5px 0 0 0;">Estd: {{ university.established }}</p>
+        </div>
+        {% endif %}
+        <div style="flex: 1;">
+            <h2 style="text-align: center; margin: 0; color: white;">{{ university.name }} 
+                {% if university.acronym %}
+                    [{{ university.acronym }}]
+                {% endif %}
+            </h2>
+            {% if university.motto %}
+            <p style="text-align: center; margin: 0; color: white;">({{ university.motto }})</p>
+            {% endif %}
+            {% if university.former_name %}
+            <p style="text-align: center; margin: 0; color: white;">Former Name: {{ university.former_name }}</p>
+            {% endif %}
+            <p style="text-align: center; margin: 0; color: white;">
+                [A <a href="{% url 'university_list' %}?type={{ university.university_type.id }}" style="color: white; text-decoration: underline;">{{ university.university_type }}</a> University in Bangladeshi <a href="{% url 'university_list' %}" style="color: white; text-decoration: underline;">Universities</a>]
+            </p>
+            <p style="text-align: center; margin: 0; color: white;">{{ university.location_district }} District, {{ university.location_division }} Division | Campus: {{ university.location_permanent_campus }}</p>
+        </div>
+    </div>
+
+    <div class="university_info_body">
+        <!-- Summary Table -->
+        <div class="table-wrapper mt-3 mx-5">
+            <div class="table-responsive">
+                <table class="table_summary table table-bordered table-striped table-hover">
+                    <thead class="bg-secondary text-light">
+                        <tr>
+                            <th>Campus Area</th>
+                            <th>Regular Students</th>
+                            <th>Academic Staff</th>
+                            <th>Residential Halls</th>
+                            <th>Faculties</th>
+                            <th>Departments</th>
+                            <th>Resources</th>
+                            <th>Website</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                {% if university.campus_area %}
+                                {{ university.campus_area }} acres
+                                {% else %}
+                                <span class="text-muted" style="font-style: italic; font-size: 13px;">[working on it...]</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="text-center">
+                                {% if university.num_regular_students %}
+                                    {{ university.num_regular_students }}
+                                {% else %}
+                                    <span class="text-muted" style="font-style: italic; font-size: 13px;">[working on it...]</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="text-center">
+                                {% if university.num_academic_staff %}
+                                    {{ university.num_academic_staff }}
+                                {% else %}
+                                    <span class="text-muted" style="font-style: italic; font-size: 13px;">[working on it...]</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="text-center">
+                                {% if university.num_residence_hall %}
+                                    {{ university.num_residence_hall }}
+                                {% else %}
+                                    <span class="text-muted" style="font-style: italic; font-size: 13px;">[working on it...]</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="text-center">
+                                {% if total_faculties == 0 %}
+                                <span class="text-muted" style="font-style: italic; font-size: 13px;">[working on it...]</span>
+                                {% else %}
+                                {{ total_faculties }}
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                {% if total_departments == 0 %}
+                                <span class="text-muted" style="font-style: italic; font-size: 13px;">[working on it...]</span>
+                                {% else %}
+                                {{ total_departments }}
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                {% if total_resources == 0 %}
+                                <span class="text-muted" style="font-style: italic; font-size: 13px;">[working on it...]</span>
+                                {% else %}
+                                {{ total_resources }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if university.website %}
+                                <a href="{{ university.website }}" target="_blank" class="text-decoration-none">{{ university.website }}</a>
+                                {% else %}
+                                <span class="text-muted" style="font-style: italic; font-size: 13px;">[working on it...]</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+       <!-- HISTORY -->
+        {% if university.history %}
+            <div class="history-section text-center px-5">
+                <p style="text-align: justify; line-height: 1.6; background-color: #e6e6e6; padding: 15px; border-radius: 5px;">
+                    {{ university.history }}
+                </p>
+            </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-md-9">
+                <!-- No Resources Available Yet-->
+             {% if total_resources == 0 %}
+                <div class="alert alert-warning mt-4 mx-5">
+                    <h5 class="alert-heading">Sorry! No Resources Available Yet!</h5>
+                    <p>দুঃখিত! আমাদের ওয়েবসাইটে {{ university.name }}-এর জন্য এখন পর্যন্ত কোনো ফ্যাকাল্টি / ডিপার্টমেন্ট / ইনস্টিটিউশন / স্কুল যুক্ত করা সম্ভব হয়নি। তাই এই ইউনিভার্সিটির জন্য আপনি আপাতত কোনো রিসোর্স খুঁজে পাচ্ছেন না। তবে আমাদের কাজ চলমান। অতি শীঘ্রই সবকিছু ব্যবহার করতে পারবেন।</p>
+
+                    <p>এই মুহুর্তে আপনি চাইলে উদাহরণ হিসেবে <a href="{% url 'university_info' bu.id %}">University of Barishal</a> এর <a href="{% url 'my_department_s' bu.id cse_bu.id %}">Computer Science and Engineering</a> ডিপার্টমেন্ট-টা ঘুরে আসতে পারেন। সেখানে শিক্ষার্থীরা এখন পর্যন্ত <strong>{{questions_cse_bu}}টি</strong> Question, <strong>{{books_cse_bu}}টি</strong> Book, <strong>{{notes_cse_bu}}টি</strong> Note ও <strong>{{lectures_cse_bu}}টি</strong> Lecture Slide সহ মোট <strong>{{total_cse_bu}}টি</strong> এডুকেশনাল রিসোর্স আপলোড দিয়েছেন এবং নিজেরা প্রতিনিয়ত ব্যবহার করছেন।</p>
+                </div>
+             {% endif %}
+
+             {% if not user.profile.edu_university %}
+                <div class="text-center">
+                    <p style="font-weight: ;" class="text-muted" style="margin-bottom: -20px;">{{university.name}} এর একজন শিক্ষার্থী হিসেবে Onebyzero Edu -তে যুক্ত হতে নিচের বাটনে ক্লিক করুনঃ</p>
+                    <a href="{% url 'view_edu_university_my_profile' %}" class="btn btn-secondary mx-5 mt-0 mb-2" style="text-align: center;"><i class="fas fa-hand-point-right me-2"></i> Be a Student of {{ university.name }}</a>
+                </div>
+             {% endif %}
+
+                <!-- FILTER -->
+                <form method="get" class="mx-5 mt-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="faculty" style="font-weight: bold;">Filter departments by faculty:</label>
+                                <select name="faculty" id="faculty" class="form-control" onchange="this.form.submit()">
+                                    <option value="">All Faculties</option>
+                                    {% for faculty in faculties %}
+                                    <option value="{{ faculty.id }}" {% if selected_faculty == faculty.id %}selected{% endif %}>{{ faculty.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="search" style="font-weight: bold;">Search by department name:</label>
+                                <div class="input-group">
+                                    <input type="text" name="search" id="search" class="form-control" placeholder="Enter department name" value="{{ search_query }}">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="submit">
+                                            <i class="fas fa-search"></i> <!-- FontAwesome search icon -->
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Detailed Table -->
+                <div class="table-wrapper mt-3 mx-5">
+                    <div class="table-responsive">
+                        <table id="sortable-table" class="table table-striped table-hover">
+                            <thead class="bg-secondary text-light">
+                                <tr>
+                                    <th>Departments</th>
+                                    <th>Established</th>
+                                    {% comment %} <th>Students</th> {% endcomment %}
+                                    {% comment %} <th>Uploaded Resources</th> {% endcomment %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for d in department_with_all_info %}
+                                <tr data-id="{{ d.id }}">
+                                    <td><a href="{% url 'my_department_s' university.id d.id %}" class="text-decoration-none">{{ d.name }}</a></td>
+                                    <td class="text-center"><span class="text-muted" style="font-style: italic; font-size: 13px;">[working on it...]</span></td>
+                                    {% comment %} <td>*</td> {% endcomment %}
+                                    {% comment %} <td class="text-center">*</td> {% endcomment %}
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5">No departments added yet for this university. We are working on it...</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <!-- University Moderator Info -->
+                <div class="university_moderator_info alert alert-success mt-2" style="">
+                    <p style="font-weight: bold;">University Moderator:</p>
+                    <p style="font-style: italic; font-size: 13px; margin-top: -10px;">{{university.name}}</p>
+                    {% if university_moderator %}
+                        {% for m in university_moderator %}
+                            <p>
+                                {% if m.profile_image %}
+                                    <img src="{{ m.profile_image.url }}" alt="Profile Picture" style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;">
+                                {% else %}
+                                    <i class="fas fa-user-circle" style="font-size: 24px;"></i>
+                                {% endif %}
+                                <a href="{% url 'view_profile_overview' m.id %}">{{m.fullname}}</a>
+                            </p>
+                            <p style="font-style: italic; font-size: 11px; margin-top: -10px;">{{m.moderator_info.approved_final_at}} to Present <strong> [{{m.duration_university_moderator|humanize_duration}}] </strong></p>
+                        {% endfor %}
+                    {% else %}
+                        <p>{{university.name}} এর জন্য ইউনিভার্সিটি মডারেটর সিলেকশনের কাজ চলছে।</p>
+                        {% if user.profile.edu_universit.university == university %}
+                          <p>আপনি মডারেটর হতে চাইলে নিচের বাটনে ক্লিক করুন।</p>
+                          <div class="d-flex justify-content-center">
+                              <a href="{% url 'request_for_moderator' %}">
+                                  <button class="btn btn-success btn-sm">Become Batch Moderator</button>
+                              </a>
+                          </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                
+
+                <!-- Become University Moderator -->
+                {% if not university_moderator and ctxp_profile_edu_university.university == university and user.profile.moderator_type == None %}
+                    <div class="need_university_moderator alert alert-success mt-4 mx-">
+                        <p>প্রিয় {{user.profile.fullname}}, আপনার ইউনিভার্সিটির জন্য একজন মডারেটর প্রয়োজন। আপনি {{university.name}} এর University Moderator হতে চাইলে নিচের বাটনে ক্লিক করুন।</p>
+                        <a href="{% url 'request_for_moderator' %}"><button class="btn btn-success btn-sm">Become University Moderator of {{university.name}}</button></a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% comment %} <link rel="stylesheet" href="{% static 'css/university/university_info.css' %}"> {% endcomment %}
+<style>
+    .university_info_header {
+        background-color: #4e5052;
+        color: white;
+        margin-top: -50px;
+        margin-left: 200px;
+        width: 70%;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .university_logo {
+        text-align: center; 
+        margin-left: 15px;
+    }
+    
+    .university_moderator_info {
+        margin-left: -50px; width: 100%;
+    }
+
+    .need_university_moderator {
+        margin-left: -50px;
+        width: 100%;
+    }
+
+    @media (max-width: 480px) {
+        .university_info {
+            margin-left: -40px;
+            background-color: ;
+        }
+    
+        .university_info_header {
+            margin-top: 3px;
+            margin-left: 48px;
+            width: 86%;
+        }
+
+        .university_moderator_info {
+            margin-left: 55px;
+            margin-right: 0px;
+            width: 75%;
+        }
+
+        .need_university_moderator {
+            width: 75%;
+            margin-left: 55px;
+            margin-right: 0px;
+        }
+
+        .university_info_body {
+            margin-left: 0px;
+            margin-right: -37px;
+        }
+
+        .table_summary {
+            margin-left: 0px;
+        }
+
+        h2 {
+            font-size: 21px;
+        }
+    }
+</style>
+
+{% endblock %}
+
+{% block scripts %}
+
+<link rel="stylesheet" href="{% static 'css/view_resources.css' %}">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+
+<script>
+    // Initialize SortableJS
+    const sortableTable = document.getElementById('sortable-table');
+    const sortable = new Sortable(sortableTable.getElementsByTagName('tbody')[0], {
+        animation: 150,
+        onUpdate: function (evt) {
+            // Fetch the updated order of department IDs
+            const order = sortable.toArray();
+            const newOrder = order.map(function (id, index) {
+                return { id: id, position: index + 1 };
+            });
+
+            // Send AJAX request to update order on server
+            fetch('/update_department_order/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}', // Add CSRF token
+                },
+                body: JSON.stringify({ order: newOrder }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Order updated successfully:', data);
+            })
+            .catch(error => {
+                console.error('Error updating order:', error);
+            });
+        },
+    });
+
+
+{% endblock %}

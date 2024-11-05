@@ -1,0 +1,26 @@
+.resources_header {
+    background-color: #4e5052;
+    color: white;
+    margin-top: -70px;
+    margin-left: 140px;
+    width: 70%;
+    text-align: center;
+}
+
+a {
+    text-decoration: underline;
+    color: inherit;
+}
+
+a:hover {
+    font-weight: bold;
+    color: inherit;
+}
+
+@media (max-width: 480px) {
+    .resources_header {
+        margin-top: 5px;
+        margin-left: -20px;
+        width: 333px;
+    }
+}

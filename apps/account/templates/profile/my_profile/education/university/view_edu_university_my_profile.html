@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h5 class="my_profile_header mb-3 text-secondary border-bottom pb-2 d-flex align-items-center" style="">
+    <i class="fas fa-graduation-cap fa-lg me-2"></i> Educational Qualifications
+</h5>
+
+<div class="this_message tab-pane fade show">
+    {% for message in messages %}
+        <div class="alert alert-light alert-dismissible fade show" role="alert" style="background-color: #ffcccc; margin-left: auto; margin-right: auto; width: 70%;">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="view_edu_university card mx-auto" style="">
+
+    {% if user.profile.edu_university.is_approved %}
+        <span class="verified-tick" style="position: absolute; top: -5px; right: 25px; margin-right: 1000px; margin-top:27px;">
+            <i class="fas fa-check-circle" style="color: #007bff; font-size: 24px;"></i>
+        </span>
+    {% endif %}
+
+    <div class="card-header d-flex justify-content-between align-items-center bg-secondary text-white">
+        <h5 class="m-0">University</h5>
+    
+         {% if ctxp_profile_edu_university %}
+            <a href="{% url 'add_edu_university_step1' %}" class="btn btn-light">Edit</a>
+        {% else %}
+            {% comment %} {% if user.profile.fullname %} {% endcomment %}
+                <a href="{% url 'add_edu_university_step1' %}" class="btn btn-light">Add</a>
+            {% comment %} {% else %}
+                <a href="{% url 'personal_info_my_profile' %}" class="btn btn-light">Add</a>
+            {% endif %} {% endcomment %}
+        {% endif %} 
+    </div>
+
+    <div class="card-body">
+        {% if ctxp_profile_edu_university %}
+            <ul class="list-unstyled">
+                {% if edu_university %}
+                    <li class="mb-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="font-weight-bold">{{ edu_university.university.name }}</h6>
+                                <p><i class="fas fa-graduation-cap me-2"></i><strong>Degree:</strong> 
+                                    {% if edu_university.degree %}
+                                        {{ edu_university.degree }}
+                                    {% else %}
+                                        <span class="text-muted">[Not updated yet]</span>
+                                    {% endif %}
+                                </p>
+
+                                {% if edu_university.faculty %}
+                                    <p><i class="fas fa-building me-2"></i><strong>Faculty:</strong> 
+                                        {% if edu_university.faculty %}
+                                            {{ edu_university.faculty.name }}
+                                        {% else %}
+                                            <span class="text-muted">[Not updated yet]</span>
+                                        {% endif %}
+                                    </p>
+                                {% endif %}
+
+                                {% if edu_university.institute %}
+                                    <p><i class="fas fa-building me-2"></i><strong>Institute:</strong> 
+                                        {% if edu_university.institute %}
+                                            {{ edu_university.institute.name }}
+                                        {% else %}
+                                            <span class="text-muted">[Not updated yet]</span>
+                                        {% endif %}
+                                    </p>
+                                {% endif %}
+
+                                {% if edu_university.school %}
+                                    <p><i class="fas fa-school me-2"></i><strong>School:</strong>
+                                        {% if edu_university.school %}
+                                            {{ edu_university.school.name }}
+                                        {% else %}
+                                            <span class="text-muted">[Not updated yet]</span>
+                                        {% endif %}
+                                    </p>
+                                {% endif %}
+
+                                {% if edu_university.center %}
+                                    <p><i class="fas fa-building me-2"></i><strong>Center:</strong> 
+                                        {% if edu_university.center %}
+                                            {{ edu_university.center.name }}
+                                        {% else %}
+                                            <span class="text-muted">[Not updated yet]</span>
+                                        {% endif %}
+                                    </p>
+                                {% endif %}
+                                
+                                {% if edu_university.department %}
+                                    <p><i class="fas fa-archway me-2"></i><strong>Department:</strong> 
+                                        {% if edu_university.department %}
+                                            {{ edu_university.department.name }}
+                                        {% else %}
+                                            <span class="text-muted">[Not updated yet]</span>
+                                        {% endif %}
+                                    </p>
+                                {% endif %}
+
+                                {% if edu_university.discipline %}
+                                    <p><i class="fas fa-archway me-2"></i><strong>Discipline:</strong> 
+                                        {% if edu_university.discipline %}
+                                            {{ edu_university.discipline.name }}
+                                        {% else %}
+                                            <span class="text-muted">[Not updated yet]</span>
+                                        {% endif %}
+                                    </p>
+                                {% endif %}
+
+                                <p><i class="fas fa-calendar-alt me-2"></i><strong>Admission Session:</strong> 
+                                    {% if edu_university.session %}
+                                        {{ edu_university.session }}
+                                    {% else %}
+                                        <span class="text-muted">[Not updated yet]</span>
+                                    {% endif %}
+                                </p>
+                                <p><i class="fas fa-calendar me-2"></i><strong>Batch (Departmental):</strong> 
+                                    {% if edu_university.departmental_batch %}
+                                        {{ edu_university.departmental_batch }}
+                                    {% else %}
+                                        <span class="text-muted">[Not updated yet]</span>
+                                    {% endif %}
+                                </p>
+                                <p><i class="fas fa-calendar me-2"></i><strong>Batch (University):</strong> 
+                                    {% if edu_university.varsity_batch %}
+                                        {{ edu_university.varsity_batch }}
+                                    {% else %}
+                                        <span class="text-muted">[Not updated yet]</span>
+                                    {% endif %}
+                                </p>
+                                
+                                <p><i class="fas fa-calendar-day me-2"></i>
+                                    {% if user.profile.edu_university.department.system %}
+                                        <strong>{{user.profile.edu_university.department.system}}:</strong> 
+                                    {% else %}
+                                        <strong>Semester/Year:</strong> 
+                                    {% endif %}
+                                    {% if edu_university.semester %}
+                                        {{ edu_university.semester }}
+                                    {% else %}
+                                        <span class="text-muted">[Not updated yet]</span>
+                                    {% endif %}
+                                </p>
+                                
+                                <p><i class="fas fa-id-badge me-2"></i><strong>Student ID:</strong> 
+                                    {% if edu_university.student_id %}
+                                        {{ edu_university.student_id }}
+                                    {% else %}
+                                        <span class="text-muted">[Not updated yet]</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+
+                            <div class="col-md-6">
+                                <p><i class="fas fa-calendar me-2"></i><strong>Duration:</strong> 
+                                    {% if edu_university.start_year %}
+                                        {{ edu_university.start_year }}
+                                    {% else %}
+                                        <span class="text-muted">[Not updated yet]</span>
+                                    {% endif %}
+                                    - 
+                                    {% if edu_university.end_year %}
+                                        {{ edu_university.end_year }}
+                                    {% else %}
+                                        Present
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                {% endif %}
+            </ul>
+        {% else %}
+            <p class="text-center text-muted">No University / Faculty / Department / Institute / School / Discipline listed yet.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% if user.profile.edu_university %}
+    <div class="text-center mt-3">
+        {% include 'home/quick_buttons_home.html' %}
+    </div>
+{% endif %}
+
+{% include 'profile/my_profile/my_profile_secondary_nav.html' %}
+
+<style>
+    .my_profile_header {
+        margin-left: 140px;
+        margin-right: 150px;
+        margin-top: -10px;
+    }
+
+    .view_edu_university {
+        max-width: 80%;
+    }
+
+    @media (max-width: 480px) {
+        .my_profile_header {
+            margin-left: 10px;
+            margin-top: 50px;
+        }
+
+        .view_edu_university {
+            margin-top: -30px;
+            width: 100%;
+        }
+
+        .this_message {
+            margin-left: 15px;
+            margin-bottom: 60px;
+            width: 100%;
+        }
+    }
+</style>
+
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Notifications - Moderator{% endblock %}
+
+{% block content %}
+<h5 class="mb-3 text-secondary border-bottom pb-2 d-flex align-items-center" style="margin-left: 140px; margin-right: 150px; margin-top: -60px;">
+    <i class="fas fa-file-alt fa-lg me-2"></i>Notifications
+</h5>
+
+            <!--All Moderator-->
+        {% if user.profile.moderator_type %}
+            <div class="d-flex justify-content-center mb-3">
+                    <a href="{% url 'pending_user_list' %}" class="btn btn-secondary" style="width: 400px; margin-right: 10px;">
+                        Student Approval
+                    </a>
+            </div>
+        {% endif %}
+
+
+            <!--Deparmental or University or Central Mod-->
+        {% if user.profile.moderator_type == 'Departmental Moderator' or user.profile.moderator_type == 'University Moderator' %}
+            <div class="d-flex justify-content-center mb-3">
+                    <a href="{% url 'moderator_request_list_initial' %}" class="btn btn-secondary" style="width: 400px; margin-right: 10px;">
+                        Moderator Requests (Initial)
+                    </a>
+            </div>
+        {% endif %}
+
+
+            <!--Central Mod-->
+        {% if user.profile.moderator_type == 'Central Moderator' %}
+            <div class="d-flex justify-content-center mb-3">
+                    <a href="{% url 'moderator_request_list_final' %}" class="btn btn-secondary" style="width: 400px; margin-right: 10px;">
+                        Moderator Requests (Final)
+                    </a>
+            </div>
+        {% endif %}
+
+
+
+    {% include 'moderators/moderator_secondary_nav.html' %}
+
+    <style>
+  
+    </style>
+
+{% endblock %}

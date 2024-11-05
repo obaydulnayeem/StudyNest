@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-0">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            {% if has_sent_moderator_request and not user.profile.moderator_type %}
+
+            <p>আপনি ইতোপূর্বে একবার {{sent_moderator_request_type}} হিসেবে মডারেটর রিকয়েস্ট পাঠিয়েছেন। পুনরায় রিকয়েস্ট পাঠাতে প্রথমে নিচের বাটনে ক্লিক করে পূর্বের রিকয়েস্টটি ডিলেট করে নিন।</p>
+            <div class="d-flex justify-content-center">
+                <div class="alert alert-danger text-center" role="alert" style="width: 70%;">
+                    <a href="{% url 'delete_prev_moderator_req' %}" class="btn btn-danger btn-sm d-flex justify-content-center align-items-center mx-auto" style="width: 60%;">
+                        <i class="fas fa-hand-point-right me-2"></i>Delete the Previous Moderator Request!
+                    </a>
+                </div>
+            </div>
+
+            {% endif %}
+
+
+            {% if user.profile.moderator_type %}
+                <p>আপনি বর্তমানে {{user.profile.moderator_type}} হিসেবে আছেন। নতুন কোনো মডারেটর হওয়ার জন্য রিকয়েস্ট পাঠাতে চাইলে আগে নিচের বাটনে ক্লিক করে বর্তমান মডারেটর পদটি থেকে অব্যহতি নিয়ে নিন।</p>
+                <div class="d-flex justify-content-center">
+                    <div class="alert alert-danger text-center" role="alert" style="width: 70%;">
+                        <a href="{% url 'retire_from_moderator' %}" class="btn btn-danger btn-sm d-flex justify-content-center align-items-center mx-auto" style="width: 60%;">
+                            <i class="fas fa-hand-point-right me-2"></i>{{ user.profile.moderator_type }} থেকে অব্যহতি নিন!
+                        </a>
+                    </div>
+                </div>
+                
+            {% endif %}
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary text-white">
+                    <h4 class="mb-0">Request to Become a Moderator</h4>
+                </div>
+
+
+                {% comment %} {% if not is_available_university_moderator or not is_available_department_moderator or not is_available_batch_moderator %} {% endcomment %}
+                    {% comment %} <div class="card-body">
+                        <p class="mb-0">এই মুহুর্তে আপনি {{university.name}} অথবা {{department.name}} এর যেসব মডারেটর হওয়ার জন্য রিকয়েস্ট করতে পারবেনঃ</p>
+                        <ul>
+                            {% if not is_available_university_moderator %}
+                                <li class="mb-0">University Moderator</li>
+                            {% endif %}
+                            {% if not is_available_department_moderator %}
+                                <li class="mb-0">Departmental Moderator</li>
+                            {% endif %}
+                            {% if not is_available_batch_moderator %}
+                                <li class="mb-0">Batch Moderator</li>
+                            {% endif %}
+                        </ul>
+                    </div> {% endcomment %}
+
+                    
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" style="width: 80%; margin-left: 85px;">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+
+
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="form-group p-2">
+                                <label for="{{ form.requested_moderator_type.id_for_label }}">আপনি যে মডারেটর হতে চাচ্ছেন সেটি সিলেক্ট করুনঃ</label>
+                                {{ form.requested_moderator_type }}
+                            </div>
+
+                            <div class="form-group p-2">
+                                <div class="form-check">
+                                    {{ form.has_laptop }}
+                                    <label class="form-check-label" for="{{ form.has_laptop.id_for_label }}">
+                                        আপনার কি নিজের ল্যাপটপ বা কম্পিউটার আছে? <span class="text-muted">[না থাকলেও রিকয়েস্ট পাঠাতে পারবেন।]</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group p-2">
+                                <div class="form-check">
+                                    {{ form.has_wifi }}
+                                    <label class="form-check-label" for="{{ form.has_wifi.id_for_label }}">
+                                        আপনি কি বর্তমানে ওয়াইফাই/ব্রডব্যান্ড এরিয়াতে বসবাস করেন? <span class="text-muted">[না করলেও রিকয়েস্ট পাঠাতে পারবেন।]</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group p-2">
+                                <div class="form-check">
+                                    {{ form.is_dropped_student }}
+                                    <label class="form-check-label" for="{{ form.is_dropped_student.id_for_label }}">
+                                        আপনি কি ইয়ার/সেমিস্টার ড্রপ আউট হয়ে বর্তমান শ্রেণিতে আছেন? <span class="text-muted">[ড্রপ আউট হলেও রিকয়েস্ট পাঠাতে পারবেন।]</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group p-2">
+                                <label for="{{ form.write_something.id_for_label }}">Write something about yourself & your previous relevant experiences: (Optional)</label>
+                                {{ form.write_something }}
+                            </div>
+
+
+                            <div class="form-group p-2">
+                                <div class="form-check">
+                                    {{ form.is_dropped_student }}
+                                    <label class="form-check-label" for="{{ form.read_terms_and_conditions.id_for_label }}">
+                                        নিচে মডারেটর হওয়ার জন্য সকল নিয়মাবলী (Terms & Conditions) আমি সম্পূর্ণ পড়েছি এবং পরিপূর্ণ একমত <span class="text-muted">[চেকবক্সে টিক মার্ক করুন]</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success w-50 mt-3">Submit Request</button>
+                            </div>
+                            <p class="text-muted">সাবমিট করার পূর্বে অনুগ্রহ করে নিম্নলিখিত Terms & Conditions গুলো ভালোভাবে পড়ে নিন এবং সম্পূর্ণ একমত থাকলে তবেই সাবমিট করুন।</p>
+                        </form>
+                    </div>
+                {% comment %} {% else %}
+                    <div class="card-body">
+                        <p class="mb-0">দুঃখিত! আপনার বিশ্ববিদ্যালয় বা ডিপার্টমেন্টের জন্য এই মুহুর্তে কোনো মডারেটর প্রয়োজন নেই। পরবর্তীতে কোনো পদ শূন্য হলে আপনি আবার মডারেটর রিকয়েস্ট পাঠাতে পারবেন।</p>
+                    </div>
+                {% endif %} {% endcomment %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include '../terms_and_conditions_mod.html' %}
+
+{% endblock %}

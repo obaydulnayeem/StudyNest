@@ -1,0 +1,27 @@
+/* NOT USING */
+
+.university_info_header {
+    background-color: #4e5052;
+    color: white;
+    margin-top: -50px;
+    margin-left: 200px;
+    width: 70%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@media (max-width: 480px) {
+    .university_info {
+        margin-left: -40px;
+        /* margin-right: 0px; */
+        background-color: red;
+    }
+
+    .university_info_header {
+        margin-top: 3px;
+        margin-left: 48px;
+        width: 86%;
+    }
+}

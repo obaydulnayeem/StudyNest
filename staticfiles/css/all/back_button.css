@@ -1,0 +1,15 @@
+/* CSS styles */
+.back-button {
+    background-color: #3f4041; /* Blue background color */
+    color: white; /* White text color */
+    border: none; /* Remove border */
+    padding: 6px 15px; /* Add padding */
+    border-radius: 5px; /* Add border radius */
+    cursor: pointer; /* Change cursor to pointer */
+    transition: background-color 0.3s; /* Add transition effect */
+   
+}
+
+.back-button:hover {
+    background-color: #232324; /* Darker blue on hover */
+}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container" style="margin-top: 20px;">
+    <div class="row">
+        <div class="col-md-3">
+            {% include 'profile/my_profile/sidebar.html' %}
+        </div>
+        <div class="col-md-9">       
+            <h4>Edit Skills</h4>
+            <form method="POST">
+                {% csrf_token %}
+                {% for course in courses %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="courses" value="{{ course.id }}" id="course_{{ course.id }}"
+                               {% if course in form.instance.courses.all %}checked{% endif %}>
+                        <label class="form-check-label" for="course_{{ course.id }}">
+                            {{ course.title }} - Semester {{ course.semester }}
+                        </label>
+                    </div>
+                {% empty %}
+                    <p>No courses available.</p>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

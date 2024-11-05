@@ -1,0 +1,55 @@
+/* Scrolling text */
+.scrolling-text-container {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    border: 2px solid #ccc;
+    height: 60px; /* Increased height to accommodate the image and text */
+    width: 70%;
+    margin: 0 auto;
+    text-align: left; /* Align text to the left */
+}
+
+.profile-image img {
+    height: 100%; /* Make the image fill the entire height of its container */
+    margin-top: 10px;
+}
+
+.profile-image i {
+    font-size: 24px; /* Adjust the font size as needed */
+    color: #555; /* Adjust the color as needed */
+}
+
+.scrolling-text {
+    display: inline-block;
+    vertical-align: top; /* Align text to the top */
+    padding-left: 10px; /* Add padding to separate the image and text */
+    transform: translateX(100%); /* Start from outside the container */
+    animation: scrolling-animation 30s linear infinite; /* No delay, starts immediately */
+}
+
+@keyframes scrolling-animation {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.scrolling-text-container:hover .scrolling-text {
+    animation-play-state: paused;
+}
+
+@media (max-width: 480px) {
+    .scrolling-text-container {
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+        border: 2px solid #ccc;
+        height: 60px; /* Increased height to accommodate the image and text */
+        width: 100%;
+        margin: 0 auto;
+        text-align: left;
+    }
+}

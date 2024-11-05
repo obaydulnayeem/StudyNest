@@ -1,0 +1,94 @@
+{% if user.is_authenticated %}
+    <li class="nav-item dropdown" type ="none">
+        <div class="dropdown">
+            <a class="nav-link active dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Profile">
+
+                {% if user.profile.edu_university.is_approved and not user.profile.moderator_type %}
+                    <span class="verified-tick" style="position: absolute; top: -5px; right: 25px;">
+                        <i class="fas fa-check-circle" style="color: #1877F2;"></i>
+                    </span>
+                {% elif user.profile.edu_university.is_approved and user.profile.moderator_type == 'Batch Moderator' %}
+                    <span class="moderator-badge" style="position: absolute; top: -5px; right: 25px;">
+                        <i class="fas fa-shield-alt" style="color: #d814df;"></i> <!-- Moderator icon -->
+                    </span>
+                {% elif user.profile.edu_university.is_approved and user.profile.moderator_type == 'Departmental Moderator' %}
+                    <span class="moderator-badge" style="position: absolute; top: -5px; right: 25px;">
+                        <i class="fas fa-shield-alt" style="color: #3ac839;"></i>
+ <!-- Moderator icon -->
+                    </span>
+                {% elif user.profile.edu_university.is_approved and user.profile.moderator_type == 'University Moderator' %}
+                    <span class="moderator-badge" style="position: absolute; top: -5px; right: 25px;">
+                        <i class="fas fa-shield-alt" style="color: #7a7cff;"></i> <!-- Moderator icon -->
+                    </span>
+                {% elif user.profile.edu_university.is_approved and user.profile.moderator_type == 'Central Moderator' %}
+                    <span class="moderator-badge" style="position: absolute; top: -5px; right: 25px;">
+                        <i class="fas fa-shield-alt" style="color: #FB7373;"></i> <!-- Moderator icon -->
+                    </span>
+                {% endif %}
+
+
+                {% if user.profile.profile_image %}
+                    <img src="{{ user.profile.profile_image.url }}" alt="Profile Image" class="profile-image rounded-circle" style="width: 37px; height: 40px;">
+                {% else %}
+                    <i class="fas fa-user-circle"></i> <!-- Or any other FontAwesome user icon -->
+                {% endif %}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                    {% if user.profile.fullname %}
+                <h6 style="text-align: center">{{ user.profile.fullname }}</h6>
+                    {% else %}
+                <h6 style="text-align: center">{{ user.username }}
+                    {% endif %}</h6>
+                <p>{{ user.profile.email }}</p>
+                <li><hr class="dropdown-divider"></li>
+                <li><a style="color: black;" class="dropdown-item" href="{% url 'my_profile_overview' %}">Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+
+                
+                {% if user.profile.edu_university.is_approved and user.profile.moderator_type == 'Central Moderator' %}
+                    <li><a style="color: black;" class="dropdown-item" href="{% url 'moderator_base' %}">Moderator [Central]</a></li>
+                {% endif %}
+
+                {% comment %} {% if user.profile.edu_university.is_approved and user.profile.moderator_type == 'University Moderator' %}
+                    <li><a style="color: black;" class="dropdown-item" href="{% url 'moderator_base' %}">Moderator [University]</a></li>
+                {% endif %} {% endcomment %}
+
+                {% comment %} {% if user.profile.edu_university.is_approved and user.profile.moderator_type == 'Departmental Moderator' %}
+                    <li><a style="color: black;" class="dropdown-item" href="{% url 'moderator_base' %}">Moderator [Department]</a></li>
+                {% endif %} {% endcomment %}
+
+                {% comment %} {% if user.profile.edu_university.is_approved and user.profile.moderator_type == 'Batch Moderator' %}
+                    <li><a style="color: black;" class="dropdown-item" href="{% url 'moderator_base' %}">Moderator [Batch]</a></li>
+                {% endif %} {% endcomment %}
+
+                {% if user.profile.is_team_member %}
+                    <li><a style="color: black;" class="dropdown-item" href="{% url 'team_base' %}">Team</a></li>
+                {% endif %}
+
+                {% if user.profile.is_team_member %}
+                    <li><a style="color: black;" class="dropdown-item" href="{% url 'job_application_list' %}">Job Application List</a></li>
+                {% endif %}
+
+                <li><a style="color: black;" class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </div>
+    </li>
+
+
+    {% comment %} <li class="nav-item" type="none">
+        <a href="{% url 'generate_referral_link' %}" style="text-decoration: none;">
+        </a>
+    </li> {% endcomment %}
+{% else %}
+
+    <li class="nav-item" type="none">
+        <a href="{% url 'login' %}" style="text-decoration: none;">
+            <button style="background-color: white; border: none; border-radius: 50px; padding: 5px 10px; display: flex; align-items: center;">
+                <i class="fas fa-sign-in-alt fa-lg" style="color: black; margin-right: 5px;"></i>
+                <span style="color: black;">Login</span>
+            </button>
+        </a>
+
+        
+    </li>
+{% endif %}

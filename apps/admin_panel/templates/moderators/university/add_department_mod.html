@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-2">
+    <h3 class="mb-4 text-center">Add New Department to {{ university.name }}</h3>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" id="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group p-2">
+                            <label for="{{ form.name.id_for_label }}">Department Name:</label>
+                            {{ form.name }}
+                        </div>
+
+                        {% if university.has_faculty %}
+                            <div class="form-group p-2">
+                                <label for="{{ form.faculty.id_for_label }}">Faculty:</label>
+                                <p class="text-muted" style="font-size: 12px">[এই Department যদি কোনো Faculty'র আন্ডারে থাকে শুধুমাত্র তখন Faculty সিলেক্ট করুন। অন্যথায় ফাঁকা রাখুন]</p>
+                                {{ form.faculty }}
+                            </div>
+                        {% endif %}
+
+                        {% if university.has_institute %}
+                            <div class="form-group p-2">
+                                <label for="{{ form.institute.id_for_label }}">Institute:</label>
+                                <p class="text-muted" style="font-size: 12px">[এই Department যদি কোনো Institute'র আন্ডারে থাকে শুধুমাত্র তখন Institute সিলেক্ট করুন। অন্যথায় ফাঁকা রাখুন]</p>
+                                {{ form.institute }}
+                            </div>
+                        {% endif %}
+
+                        {% if university.has_school %}
+                            <div class="form-group p-2">
+                                <label for="{{ form.school.id_for_label }}">School:</label>
+                                <p class="text-muted" style="font-size: 12px">[এই Department যদি কোনো School এর আন্ডারে থাকে শুধুমাত্র তখন School সিলেক্ট করুন। অন্যথায় ফাঁকা রাখুন]</p>
+                                {{ form.school }}
+                            </div>
+                        {% endif %}
+
+                        {% if university.has_center %}
+                            <div class="form-group p-2">
+                                <label for="{{ form.center.id_for_label }}">Center:</label>
+                                <p class="text-muted" style="font-size: 12px">[এই Department যদি কোনো Center এর আন্ডারে থাকে শুধুমাত্র তখন Center সিলেক্ট করুন। অন্যথায় ফাঁকা রাখুন]</p>
+                                {{ form.center }}
+                            </div>
+                        {% endif %}
+
+
+                        <button type="submit" class="btn btn-primary">Add Department</button>
+                        <a href="{% url 'add_base_university_mod' %}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

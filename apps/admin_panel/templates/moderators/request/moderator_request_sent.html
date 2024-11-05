@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Request Sent{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary text-white text-center">
+                    <h4 class="mb-0">Moderator Request Sent!</h4>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title">Thank You, {{ user.profile.fullname }}!</h5>
+                    <p class="card-text">
+                        প্রিয় {{ user.profile.fullname }}, মডারেটর রিকয়েস্ট পাঠানোর জন্য ধন্যবাদ।
+                        আপনাকে চূড়ান্তভাবে মডারেটর হিসেবে বাছাই করা হলে শীঘ্রই জানিয়ে দেয়া হবে। 
+                        সাথেই থাকুন। যেকোনো জিজ্ঞাসা থাকলে আমাদের WhatsApp বা Messenger চ্যাটে মেসেজ দিন।
+                    </p>
+                    <a href="{% url 'home' %}" class="btn btn-secondary mt-3">Go Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

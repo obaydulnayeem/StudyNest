@@ -1,0 +1,33 @@
+.form-control {
+    width: 750px;
+}
+
+.guidelines {
+  text-align: center;
+  margin-bottom: px;
+  border: 1px solid #000;
+  padding: 10px;
+  border-radius: 10px;
+
+}
+
+@media (max-width: 480px) {
+    .form-control {
+        width: 280px; /* Adjust width to fit mobile screens */
+    }
+
+    .form_options {
+      margin-left: -15px;
+    }
+
+    .guidelines {
+      text-align: center;
+      margin-top: 12px;
+      border: 1px solid #000;
+      padding-left: 45px;
+      padding-top: 0px;
+      border-radius: 10px;
+      margin-left: -20px;
+      margin-right: -20px;
+    }
+}

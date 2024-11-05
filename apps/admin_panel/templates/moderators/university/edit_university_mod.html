@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Edit University Information: {{ university.name }}</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        
+        <div class="mb-3">
+            <label for="name" class="form-label">University Name</label>
+            {{ form.name }}
+        </div>
+        <div class="mb-3">
+            <label for="acronym" class="form-label">Acronym</label>
+            {{ form.acronym }}
+        </div>
+        <div class="mb-3">
+            <label for="former_name" class="form-label">Former Name</label>
+            {{ form.former_name }}
+        </div>
+        <div class="mb-3">
+            <label for="university_type" class="form-label">Type</label>
+            {{ form.university_type }}
+        </div>
+        <div class="mb-3">
+            <label for="established" class="form-label">Established</label>
+            {{ form.established }}
+        </div>
+        <div class="mb-3">
+            <label for="history" class="form-label">History</label>
+            {{ form.history }}
+        </div>
+        <div class="mb-3">
+            <label for="location_division" class="form-label">Division</label>
+            {{ form.location_division }}
+        </div>
+        <div class="mb-3">
+            <label for="location_district" class="form-label">District</label>
+            {{ form.location_district }}
+        </div>
+        <div class="mb-3">
+            <label for="location_permanent_campus" class="form-label">Permanent Campus Location</label>
+            {{ form.location_permanent_campus }}
+        </div>
+        <div class="mb-3">
+            <label for="campus_area" class="form-label">Campus Area (acres)</label>
+            {{ form.campus_area }}
+        </div>
+        <div class="mb-3">
+            <label for="motto" class="form-label">Motto</label>
+            {{ form.motto }}
+        </div>
+        <div class="mb-3">
+            <label for="logo" class="form-label">Logo</label>
+            {{ form.logo }}
+        </div>
+        <div class="mb-3">
+            <label for="num_regular_students" class="form-label">Number of Regular Students</label>
+            {{ form.num_regular_students }}
+        </div>
+        <div class="mb-3">
+            <label for="num_academic_staff" class="form-label">Number of Academic Staff</label>
+            {{ form.num_academic_staff }}
+        </div>
+        <div class="mb-3">
+            <label for="num_residence_hall" class="form-label">Number of Residence Halls</label>
+            {{ form.num_residence_hall }}
+        </div>
+        <div class="mb-3">
+            <label for="website" class="form-label">Website</label>
+            {{ form.website }}
+        </div>
+        <div class="mb-3">
+            <label for="colors" class="form-label">Colors</label>
+            {{ form.colors }}
+        </div>
+        
+        <div class="form-check">
+            {{ form.has_faculty }}
+            <label class="form-check-label" for="has_faculty">Has Faculty</label>
+        </div>
+        <div class="form-check">
+            {{ form.has_institute }}
+            <label class="form-check-label" for="has_institute">Has Institute</label>
+        </div>
+        <div class="form-check">
+            {{ form.has_school }}
+            <label class="form-check-label" for="has_school">Has School</label>
+        </div>
+        <div class="form-check">
+            {{ form.has_center }}
+            <label class="form-check-label" for="has_center">Has Center</label>
+        </div>
+        <div class="form-check">
+            {{ form.has_department }}
+            <label class="form-check-label" for="has_department">Has Department</label>
+        </div>
+        <div class="form-check">
+            {{ form.has_discipline }}
+            <label class="form-check-label" for="has_discipline">Has Discipline</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+{% endblock %}

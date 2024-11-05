@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Previous Uploaders' Contributions{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title text-center text-secondary">Previous Uploaders' Contributions</h2>
+            <p class="text-muted text-center">Individual and Total Uploads</p>
+            <p class="text-muted text-center">Computer Science and Engineering, University of Barishal</p>
+            <p class="text-muted text-center">[May 2022 to Aug 2024]</p>
+            <hr>
+
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" style="width: 80%; margin-left: 85px;">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+
+            {% if request.user.profile.has_req_for_prev_coin == False %}
+                <p>আমাদের পূর্বের ওয়েবসাইটে কোনো রিসোর্স আপলোড করলে সেখানে পাওয়া কয়েনগুলো আপনাকে দিয়ে দেয়া হবে। নিচের টেবিলে চেক করে দেখুন আপনার নাম আছে কিনা। যদি থাকে তাহলে নামের সাথে দেখানো Total Coins আপনি পেয়ে যাবেন। ২৪ ঘন্টার মধ্যে আমরা আপনার প্রোফাইলের বর্তমান কয়েনের সাথে যুক্ত করে দিবো।</p>
+
+                <p><strong>টেবিলে আপনার নাম থাকলে নিচের বাটনে ক্লিক করুনঃ</strong></p>
+
+                <div class="d-flex justify-content-center">
+                    <a href="{% url 'requested_for_previous_coin' %}" class="btn btn-secondary btn-sm d-flex align-items-center" style="margin-left:px; margin-bottom: 15px;">
+                        <i class="fas fa-hand-point-right me-2"></i>Request for Getting Previous Coins
+                    </a>
+                </div>
+            {% else %}
+                <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-success btn-sm d-flex align-items-center" style="margin-left:px; margin-bottom: 15px;">
+                        We accepted your request! Within 24 hours we will try to give you the previous coins.
+                    </a>
+                </div>
+            {% endif %}
+
+            <div class="table-responsive" style="overflow-x: auto">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Uploader</th>
+                            <th>Questions</th>
+                            <th>Notes</th>
+                            <th>Books</th>
+                            <th>Lectures</th>
+                            <th>Total Contributions</th>
+                            <th>Question Coins</th>
+                            <th>Note Coins</th>
+                            <th>Book Coins</th>
+                            <th>Lecture Coins</th>
+                            <th>Total Coins</th>
+                            {% comment %} <th>Status</th> {% endcomment %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for data in contributions %}
+                            {% if data.total_coins > 0 %}
+                                <tr class="{% if data.given_prev_coin %}table-success{% endif %}">
+                                    <td>{{ data.user }}</td>
+                                    <td>{{ data.questions }}</td>
+                                    <td>{{ data.notes }}</td>
+                                    <td>{{ data.books }}</td>
+                                    <td>{{ data.lectures }}</td>
+                                    <td>{{ data.total_contributions }}</td>
+                                    <td>{{ data.questions_coins }}</td>
+                                    <td>{{ data.notes_coins }}</td>
+                                    <td>{{ data.books_coins }}</td>
+                                    <td>{{ data.lectures_coins }}</td>
+                                    <td>{{ data.total_coins }}</td>
+                                    {% comment %} <td>
+                                        {% if data.given_prev_coin %}
+                                            <span class="badge bg-success">Given</span>
+                                        {% else %}
+                                            <span class="badge bg-warning">Pending</span>
+                                        {% endif %}
+                                    </td> {% endcomment %}
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

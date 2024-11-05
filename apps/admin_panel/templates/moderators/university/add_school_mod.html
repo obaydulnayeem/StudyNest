@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-2">
+    <h3 class="mb-4 text-center">Add New School to {{ university.name }}</h3>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" id="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group p-2">
+                            <label for="{{ form.name.id_for_label }}">School Name:</label>
+                            {{ form.name }}
+                        </div>
+
+                        {% if university.has_school %}
+                            <div class="form-group p-2">
+                                <label for="{{ form.faculty.id_for_label }}">Faculty Name: (Optional)</label>
+                                <p class="text-muted" style="font-size: 12px">[এই School যদি কোনো ফ্যাকাল্টির আন্ডারে থাকে শুধুমাত্র তখন Faculty সিলেক্ট করুন। অন্যথায় ফাঁকা রাখুন]</p>
+                                {{ form.faculty }}
+                            </div>
+                        {% endif %}
+
+                        <button type="submit" class="btn btn-primary">Add School</button>
+                        <a href="{% url 'add_base_university_mod' %}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="text-center">Signup</h2>
+          </div>
+
+          {% comment %} <div class="card-body">
+            <form method="post" id="QuestionForm" data-departments-url="{% url 'ajax_load_departments' %}">
+              {% csrf_token %}
+              {% for field in form %}
+                <div class="form-group mb-3">
+                  {{ field.label_tag }}
+                  {{ field }}
+                </div>
+              {% endfor %}
+              <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+              <br><br>
+            <p>Already have an account? <a href="{% url 'login' %}">Login</a> from here</p>
+            </form>
+          </div> {% endcomment %}
+
+          <button class="btn btn-secondary btn-block mt-3">
+            <a class="text-white" href="{% url 'social:begin' 'google-oauth2' %}">Signup with Google</a>
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

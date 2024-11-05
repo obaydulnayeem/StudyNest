@@ -1,0 +1,44 @@
+/* Scrolling text */
+.scrolling-text-container {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    border: 2px solid #ccc; 
+    height: 60px; /* Increased height to accommodate the image and text */
+    width: 70%;
+    margin: 0 auto;
+    text-align: left; /* Align text to the left */
+}
+
+.profile-image img {
+    height: 100%; /* Make the image fill the entire height of its container */
+    /* border-right: 2px solid #ccc; Add a border between the image and text */
+    /* padding-right: 10px; Add padding to separate the image and text */
+    margin-top: 10px;
+}
+
+.profile-image i {
+    font-size: 24px; /* Adjust the font size as needed */
+    color: #555; /* Adjust the color as needed */
+}
+
+
+.scrolling-text {
+    display: inline-block;
+    vertical-align: top; /* Align text to the top */
+    padding-left: 10px; /* Add padding to separate the image and text */
+    animation: scrolling-animation 30s linear infinite;
+    /* animation-delay: 2s; */
+}
+
+
+@keyframes scrolling-animation {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+

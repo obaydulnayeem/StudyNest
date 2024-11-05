@@ -1,0 +1,272 @@
+{% load static %}
+{% load semester_year_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include 'head.html' %}
+
+    <style>
+        /* Scroll to Top Button */
+        #scrollTopButton {
+            display: none; /* Hidden by default */
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            z-index: 1000;
+            font-size: 18px;
+            border: none;
+            background-color: #6c757d;
+            color: white;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #scrollTopButton:hover {
+            background-color: #873293;
+        }
+
+        #scrollTopButton i {
+            font-size: 20px;
+        }
+    
+        /* Mobile navigation bar */
+        .mobile_list {
+            display: none;
+        }
+
+        .chat_outer {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            z-index: 1000;
+        }
+    
+        @media (max-width: 480px) {
+            .desktop_list {
+                display: none;
+            }
+    
+            .mobile_list {
+                background-color: black;
+                color: white;
+                position: fixed;
+                bottom: -20px;
+                left: 0;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                width: 100%;
+                height: 58px;
+                padding: 10px;
+            }
+    
+            .mobile_list i {
+                font-size: 7vmin;
+                cursor: pointer;
+            }
+    
+            .mobile_list a {
+                color: white;
+            }
+
+            .mobile_list li {
+                type: none;
+            }
+    
+            .mobile_list li:hover i {
+                color: rgb(5, 5, 49);
+            }
+        }
+
+        /* Chat buttons common styling */
+        .chat_button {
+            background-color: #25D366;
+            color: white;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+            margin-bottom: 15px; /* Adds vertical spacing between buttons */
+        }
+
+        .chat_button i {
+            font-size: 20px;
+        }
+
+        /* WhatsApp chat button styling */
+        .whatsapp_chat {
+            background-color: #25D366;
+        }
+
+        .whatsapp_chat:hover {
+            background-color: #128C7E;
+        }
+
+        /* Facebook Messenger chat button styling */
+        .messenger_chat {
+            background-color: #0084FF;
+        }
+
+        .messenger_chat:hover {
+            background-color: #006AFF;
+        }
+
+        /* Back button styling */
+        .back-button {
+            margin-left: 50px;
+            margin-top: 50px;
+            margin-bottom: -15px;
+        }
+    
+        @media (max-width: 768px) {
+            .back-button {
+                display: none;
+            }
+        }
+
+        /* Push announcement styling */
+        .push-announcement {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1050;
+            padding: 10px;
+            background-color: #17a2b8;
+            color: white;
+        }
+        
+        .push-announcement .alert-link {
+            color: #fff;
+            text-decoration: underline;
+        }
+        
+        .push-announcement .close {
+            color: white;
+            opacity: 0.8;
+        }
+        
+        .push-announcement .close:hover {
+            opacity: 1;
+        }
+        
+        body {
+            padding-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+<div style="margin-top: 25px; text-align: center; margin-bottom: -15px;">    
+    <p>The website is in beta. Some features may not work as expected. We're actively improving your experience.</p>
+</div> 
+
+    <script>
+        // Close the announcement bar
+        function closeAnnouncementBar() {
+            document.getElementById("announcement-bar").style.display = "none";
+        }
+    </script>
+
+    {% include 'header.html' %}
+ 
+    {% if not is_home %}
+        <button class="back-button" onclick="goBack()">Back</button>
+    {% endif %}
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    {% include 'footer.html' %}
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollTopButton" title="Go to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Show scroll button when user scrolls down
+        window.onscroll = function() {
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                document.getElementById("scrollTopButton").style.display = "block";
+            } else {
+                document.getElementById("scrollTopButton").style.display = "none";
+            }
+        };
+
+        // Scroll to top when button is clicked
+        document.getElementById("scrollTopButton").onclick = function(e) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+    </script>
+
+    <ul class="mobile_list">
+        
+
+
+        <li type="none"><a href="{% url 'home' %}"><i class="fas fa-home"></i></a></li>
+        
+        {% include 'quick_buttons_header_nav.html' %}
+        {% include 'upload_resources.html' %}
+
+        <li type="none" class="nav-item">
+            <a class="nav-link active" href="{% url 'leaderboard' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Leaderboard">
+                <i class="fas fa-trophy fa-lg"></i>
+            </a>
+        </li>
+
+        <li type="none" class="nav-item">
+            <a class="nav-link active" href="{% url 'notifications' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications">
+                <span class="fas fa-bell fa-lg"></span>
+                {% if unread_notifications_count > 0 %}
+                    <span class="badge badge-pill badge-danger">{{ unread_notifications_count }}</span>
+                {% endif %}
+            </a>
+        </li>
+
+        {% include 'profile.html' %}
+    </ul>
+
+    <!-- Chat Buttons -->
+    <div class="chat_outer">
+        <!-- WhatsApp Chat Button -->
+        <a href="https://wa.me/+8801569134868" class="chat_button whatsapp_chat" target="_blank" style="text-decoration: none;">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+
+        <!-- Facebook Messenger Chat Button -->
+        <a href="https://m.me/116328604722401" class="chat_button messenger_chat" target="_blank" style="text-decoration: none;">
+            <i class="fab fa-facebook-messenger"></i>
+        </a>
+    </div>
+
+    {% comment %} Push announcement script will be deleted later {% endcomment %}
+    <script>
+        $(document).ready(function() {
+            $('.push-announcement .close').click(function() {
+                $('.push-announcement').slideUp();
+            });
+        });
+    </script>
+
+    <!-- jQuery will be deleted later -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS will be deleted later -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+    {% include 'script_links.js' %}
+</body>
+
+</html>

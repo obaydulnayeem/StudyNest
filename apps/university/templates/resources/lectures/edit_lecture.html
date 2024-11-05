@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Lecture{% endblock %}
+
+{% block content %}
+<div class="container mt-1">
+    <h1 class="text-center mb-2">Edit Lecture</h1>
+    <form method="post" id="QuestionForm" enctype="multipart/form-data" data-courses-url="{% url 'ajax_load_courses' %}" class="border p-4 rounded">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            {% if ctxp_profile_edu_university.department.system == 'Semester' %}
+                <div class="form-group">
+                    <label for="{{ form.semester.id_for_label }}">Semester:</label>
+                    {{ form.semester }}
+                </div>
+            {% else %}
+                <div class="form-group">
+                    <label for="{{ form.year.id_for_label }}">Year:</label>
+                    {{ form.year }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <div class="form-group">
+                <label for="{{ form.course.id_for_label }}">Course:</label>
+                {{ form.course }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="form-group">
+                <label for="{{ form.session.id_for_label }}">Session:</label>
+                {{ form.session }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="form-group">
+                <label for="{{ form.lecture_title.id_for_label }}">Lecture Title:</label>
+                {{ form.lecture_title }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="form-group">
+                <label for="{{ form.lecture_author.id_for_label }}">Author:</label>
+                {{ form.lecture_author }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="form-group">
+                <label for="{{ form.lecture_file.id_for_label }}">Attach File:</label>
+                {{ form.lecture_file }}
+            </div>
+        </div>
+
+        {% if user.profile.moderator_type == "Central Moderator" %}
+            <div class="mb-3">
+                <div class="form-group">
+                    <label for="{{ form.uploaded_by_team.id_for_label }}">Uploaded By (Team):</label>
+                    {{ form.uploaded_by_team }}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if user.profile.moderator_type == "Central Moderator" %}
+            <div class="mb-3">
+                <div class="form-group">
+                    <label for="{{ form.uploaded_by_prev.id_for_label }}">Uploaded By (Previous):</label>
+                    {{ form.uploaded_by_prev }}
+                    <small class="form-text text-muted">(পূর্বের ওয়েবসাইটে যে আপলোড করেছিলো তার Fullname)</small>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

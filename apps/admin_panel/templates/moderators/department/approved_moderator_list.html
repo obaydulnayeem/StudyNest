@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Approved Moderators{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h5 class="mb-4 text-secondary border-bottom pb-2 d-flex align-items-center">
+            <i class="fas fa-user-shield fa-lg me-2"></i> Approved Moderators
+        </h5>
+
+        <!-- For Departmental Moderator -->
+    {% if user.profile.moderator_type == 'Departmental Moderator' %}
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th scope="col">Batch</th>
+                        <th scope="col">Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in batch_moderators %}
+                        <tr>
+                            <td>{{ m.edu_university.departmental_batch }} Batch</td>
+                            <td><a href="{% url 'view_profile_overview' m.user.id %}">{{ m.fullname }}</a></td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">No approved moderators found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+
+        <!-- For Central Moderator -->
+    {% if user.profile.moderator_type == 'Central Moderator' %}
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Moderator Type</th>
+                        <th scope="col">University</th>
+                        <th scope="col">Approved Final At</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in all_moderators %}
+                        <tr>
+                            <td><a href="{% url 'view_profile_overview' m.id %}">{{ m.fullname }}</a>(u-{{m.id}}) (p-{{m.user.profile.id}})</td>
+                            <td>{{ m.user }}</td>
+                            <td>{{ m.moderator_type }}</td>
+                            <td>{{ m.edu_university.department }}, {{m.profile.edu_university.university}}</td>
+                            <td>{{ m.moderator_info.approved_final_at }}</td>
+                            <td><a href="{% url 'reject_moderator_initial' m.moderator_info.id %}" class="btn btn-secondary btn-sm">Reject from Moderator</a>
+                            
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">No approved moderators found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+        {% include '../moderator_secondary_nav.html' %}
+    </div>
+{% endblock %}

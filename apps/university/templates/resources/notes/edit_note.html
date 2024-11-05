@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Note{% endblock %}
+
+{% block content %}
+<div class="container mt-1">
+    <h1 class="text-center mb-2">Edit Note</h1>
+    <form method="post" id="QuestionForm" enctype="multipart/form-data" data-courses-url="{% url 'ajax_load_courses' %}" class="border p-4 rounded">
+        {% csrf_token %}
+        
+        <!-- Form validation messages -->
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <ul>
+            {% for field in form %}
+                {% for error in field.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- Semester or Year -->
+        <div class="mb-3">
+            {% if ctxp_profile_edu_university.department.system == 'Semester' %}
+                <div class="form-group">
+                    <label for="{{ form.semester.id_for_label }}">Semester:</label>
+                    {{ form.semester }}
+                </div>
+            {% else %}
+                <div class="form-group">
+                    <label for="{{ form.year.id_for_label }}">Year:</label>
+                    {{ form.year }}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Course -->
+        <div class="mb-3">
+            <div class="form-group">
+                <label for="{{ form.course.id_for_label }}">Course:</label>
+                {{ form.course }}
+            </div>
+        </div>
+
+        <!-- Session -->
+        <div class="mb-3">
+            <div class="form-group">
+                <label for="{{ form.session.id_for_label }}">Session:</label>
+                {{ form.session }}
+            </div>
+        </div>
+
+        <!-- Note Title -->
+        <div class="mb-3">
+            <div class="form-group">
+                <label for="{{ form.note_title.id_for_label }}">Note Title:</label>
+                {{ form.note_title }}
+            </div>
+        </div>
+
+        <!-- Note Author -->
+        <div class="mb-3">
+            <div class="form-group">
+                <label for="{{ form.note_author.id_for_label }}">Note Author:</label>
+                {{ form.note_author }}
+            </div>
+        </div>
+
+        <!-- Note File -->
+        <div class="mb-3">
+            <div class="form-group">
+                <label for="{{ form.note_file.id_for_label }}">Attach File:</label>
+                {{ form.note_file }}
+            </div>
+        </div>
+
+        {% if user.profile.moderator_type == "Central Moderator" %}
+            <!-- Uploaded By (Team) -->
+            <div class="mb-3">
+                <div class="form-group">
+                    <label for="{{ form.uploaded_by_team.id_for_label }}">Uploaded By (Team):</label>
+                    {{ form.uploaded_by_team }}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if user.profile.moderator_type == "Central Moderator" %}
+            <!-- Uploaded By (Previous) -->
+            <div class="mb-3">
+                <div class="form-group">
+                    <label for="{{ form.uploaded_by_prev.id_for_label }}">Uploaded By (Previous):</label>
+                    {{ form.uploaded_by_prev }}
+                    <small class="form-text text-muted">(পূর্বের ওয়েবসাইটে যে আপলোড করেছিলো তার Fullname)</small>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Submit Button -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

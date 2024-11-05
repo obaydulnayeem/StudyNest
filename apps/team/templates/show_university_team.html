@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-1">
+    <h2 class="text-center mb-4">{{ university.name }} - Detailed Information</h2>
+
+
+      <!-- Department Table -->
+      <h3>Departments</h3>
+      <table class="table table-bordered table-hover table-striped">
+          <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Total Courses</th>
+                  <th>Faculty</th>
+                  <th>Institute</th>
+                  <th>School</th>
+                  <th>Center</th>
+                  {% comment %} <th>Established</th> {% endcomment %}
+                  <th>Created At</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for department in departments %}
+              <tr>
+                  <td><a href="{% url 'show_department_team' department.id %}">{{ department.name }}</a></td>
+                  <td>{{ department.num_courses }}</td>
+                  <td>{{ department.faculty.name }}</td>
+                  <td>{{ department.institute.name }}</td>
+                  <td>{{ department.school.name }}</td>
+                  <td>{{ department.center.name }}</td>
+                  {% comment %} <td>{{ department.established }}</td> {% endcomment %}
+                  <td>{{ department.created_at|date:"Y-m-d" }}</td>
+              </tr>
+              {% empty %}
+              <tr><td colspan="7" class="text-center">No departments available.</td></tr>
+              {% endfor %}
+          </tbody>
+      </table>
+
+
+    <!-- Faculty Table -->
+    <h3>Faculties</h3>
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Layer</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for faculty in faculties %}
+            <tr>
+                <td>{{ faculty.name }}</td>
+                <td>{{ faculty.layer }}</td>
+                <td>{{ faculty.created_at|date:"Y-m-d" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="3" class="text-center">No faculties available.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Institute Table -->
+    <h3>Institutes</h3>
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Faculty</th>
+                <th>System</th>
+                <th>Established</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for institute in institutes %}
+            <tr>
+                <td>{{ institute.name }}</td>
+                <td>{{ institute.faculty.name }}</td>
+                <td>{{ institute.system }}</td>
+                <td>{{ institute.established }}</td>
+                <td>{{ institute.created_at|date:"Y-m-d" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5" class="text-center">No institutes available.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- School Table -->
+    <h3>Schools</h3>
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Faculty</th>
+                <th>Layer</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for school in schools %}
+            <tr>
+                <td>{{ school.name }}</td>
+                <td>{{ school.faculty.name }}</td>
+                <td>{{ school.layer }}</td>
+                <td>{{ school.created_at|date:"Y-m-d" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4" class="text-center">No schools available.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Center Table -->
+    <h3>Centers</h3>
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Layer</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for center in centers %}
+            <tr>
+                <td>{{ center.name }}</td>
+                <td>{{ center.layer }}</td>
+                <td>{{ center.created_at|date:"Y-m-d" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="3" class="text-center">No centers available.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+  
+
+    <!-- Discipline Table -->
+    <h3>Disciplines</h3>
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Faculty</th>
+                <th>Institute</th>
+                <th>School</th>
+                <th>Center</th>
+                <th>Established</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for discipline in disciplines %}
+            <tr>
+                <td>{{ discipline.name }}</td>
+                <td>{{ discipline.faculty.name }}</td>
+                <td>{{ discipline.institute.name }}</td>
+                <td>{{ discipline.school.name }}</td>
+                <td>{{ discipline.center.name }}</td>
+                <td>{{ discipline.established }}</td>
+                <td>{{ discipline.created_at|date:"Y-m-d" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7" class="text-center">No disciplines available.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<div class="mt-4">
+    {% include 'team_secondary_nav.html' %}
+</div>
+{% endblock %}

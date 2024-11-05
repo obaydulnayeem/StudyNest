@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% load semester_year_filters %}
+
+{% block title %} Detailed Contributions {% endblock %}
+
+{% block content %}
+<h5 class="my_profile_header mb-4 text-secondary border-bottom pb-2 d-flex align-items-center">
+    <i class="fas fa-list-alt fa-lg me-2"></i> Detailed Contribution
+</h5>
+
+<div class="dp_detailed_contribution tab-pane">
+    <h4 class="mb-4">Detailed Contributions by {{department_system}}:</h4>
+
+    {% for semester, courses in resources_by_semester.items %}
+        {% if semester|semester_converter <= total_semester_or_year %}
+        <h2 class="mb-3 text-primary bg-light text-secondary py-2 px-3 rounded">
+            {{ semester }} {{ department_system }}
+        </h2>
+        
+            <ul class="list-unstyled">
+                {% for course_title, resources in courses.items %}
+                    <li class="mb-4">
+                        <h6 class="course-title text-dark"><strong>{{ course_title }}</strong></h6>
+                        <ul class="list-unstyled pl-3">
+                            <li class="mb-2">
+                                <strong>Questions:</strong>
+                                <ul class="list-unstyled pl-3">
+                                    {% for qs in resources.questions %}
+                                        <li>
+                                            <a href="{{ qs.question_file.url }}" target="_blank">{{ qs }}</a>
+                                            <span class="text-muted">[{{ qs.session }}]</span>
+                                        </li>
+                                    {% empty %}
+                                        <li class="text-muted">No questions uploaded.</li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            <li class="mb-2">
+                                <strong>Books:</strong>
+                                <ul class="list-unstyled pl-3">
+                                    {% for bk in resources.books %}
+                                        <li>
+                                            <a href="{{ bk.book_file.url }}" target="_blank">
+                                                {{ bk }}
+                                                {% if bk.book_edition %}
+                                                    <span class="text-muted">({{ bk.book_edition }})</span>
+                                                {% endif %}
+                                            </a>
+                                            {% if bk.book_author %}
+                                                <span class="text-muted">[{{ bk.book_author }}]</span>
+                                            {% endif %}
+                                        </li>
+                                    {% empty %}
+                                        <li class="text-muted">No books uploaded.</li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            <li class="mb-2">
+                                <strong>Notes:</strong>
+                                <ul class="list-unstyled pl-3">
+                                    {% for nt in resources.notes %}
+                                        <li>
+                                            <a href="{{ nt.note_file.url }}" target="_blank">
+                                                {{ nt }}
+                                                <span class="text-muted">({{ nt.session }})</span>
+                                            </a>
+                                            {% if nt.note_author %}
+                                                <span class="text-muted">[{{ nt.note_author }}]</span>
+                                            {% endif %}
+                                        </li>
+                                    {% empty %}
+                                        <li class="text-muted">No notes uploaded.</li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            <li class="mb-2">
+                                <strong>Lecture Slides:</strong>
+                                <ul class="list-unstyled pl-3">
+                                    {% for lc in resources.lectures %}
+                                        <li>
+                                            <a href="{{ lc.lecture_file.url }}" target="_blank">
+                                                {{ lc }}
+                                                <span class="text-muted">({{ lc.session }})</span>
+                                            </a>
+                                            {% if lc.lecture_author %}
+                                                <span class="text-muted">[{{ lc.lecture_author }}]</span>
+                                            {% endif %}
+                                        </li>
+                                    {% empty %}
+                                        <li class="text-muted">No lecture slides uploaded.</li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endfor %}
+</div>
+
+{% include 'profile/my_profile/my_profile_secondary_nav.html' %}
+
+<style>
+    .my_profile_header {
+        margin-left: 140px;
+        margin-right: 150px;
+        margin-top: -10px;
+        font-size: 1.2rem;
+    }
+
+    .dp_detailed_contribution {
+        margin-left: 380px;
+    }
+
+    .course-title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    /* Media Queries for Responsiveness */
+    @media (max-width: 768px) {
+        .my_profile_header {
+            margin-left: 20px;
+            margin-top: 40px;
+        }
+
+        .dp_detailed_contribution {
+            margin-left: 20px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .my_profile_header {
+            margin-left: 10px;
+            margin-top: 50px;
+        }
+
+        .dp_detailed_contribution {
+            margin-left: 15px;
+            margin-top: -10px;
+        }
+    }
+
+    a {
+        color: #007bff;
+    }
+
+    a:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}

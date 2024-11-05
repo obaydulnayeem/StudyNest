@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}Moderator Dashboard{% endblock %}
+
+{% block content %}
+<h5 class="moderator_base mb-3 text-secondary border-bottom pb-2 d-flex align-items-center" style="">
+    <i class="fas fa-home fa-lg me-2"></i>Moderator Home
+</h5>
+
+    <div class="main_div container mt-2">
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <div id="welcome_moderator_panel" class="text-center">
+                    <p style="text-align: left;">Hello,
+                        {% if user.profile.fullname %}
+                            {{ user.profile.fullname }}
+                        {% else %}
+                            {{ user }}
+                        {% endif %}
+                        !</p>
+                    <h3 class="mb-2">Welcome to Moderator Panel</h3>
+                    <p class="text-muted mb-4" style="margin-top: -10px;">
+                        
+                        {% if user.profile.moderator_type == 'Batch Moderator' %}
+                            [Batch Moderator Panel] [{{user.profile.edu_university.departmental_batch}} Batch]
+                        {% elif user.profile.moderator_type == 'Departmental Moderator' %}
+                            [Departmental Moderator Panel]
+                        {% elif user.profile.moderator_type == 'University Moderator' %}
+                            [University Moderator Panel]
+                        {% elif user.profile.moderator_type == 'Central Moderator' %}
+                            [Central Moderator Panel]
+                        {% endif %}
+                    </p>
+                    {% if user.profile.moderator_type != 'Central Moderator' %}
+                        <p>{{ ctxp_profile_edu_department_name }}, {{ ctxp_profile_edu_university_name }}</p>
+                    {% endif %}
+                    <hr>
+                </div>
+
+                <div class="mt-4">
+                    {% include 'moderators/moderator_secondary_nav.html' %}
+                </div>
+
+
+                <div class="container mt-2">
+                    <h6>Responsibilities as a {{user.profile.moderator_type}}:</h6>
+                <ul>
+                    {% if user.profile.moderator_type == 'Batch Moderator' %}
+                        <li>নতুন কোনো ইউজার আপনার ব্যাচে শিক্ষার্থী হিসেবে যুক্ত হতে চাইলে উপরের Notification (Student Approval) আইকনে ক্লিক করে তার প্রোফাইল সঠিকভাবে যাচাই করে অ্যাপ্রুভ করতে হবে। কোনোভাবে বাহিরের কেউ আপনার ব্যাচে যুক্ত হয়ে গেলে তাকে রিমুভ করে দিতে হবে।</li>
+                    {% endif %}
+
+                    {% if user.profile.moderator_type == 'Departmental Moderator' %}
+                        <li>আপনাকে আপনার ডিপার্টমেন্ট এর সিলেবাস, কোর্স কারিকুলাম সহ ইন্টারনাল বিভিন্ন বিষয় যুক্ত ও পরিবর্তন করার এক্সেস দেয়া আছে। ডিপার্টমেন্টের একাডেমিক সিলেবাসে যেকোনো ধরণের পরিবর্তন আসলে সাথে সাথে আপডেট করে দেয়ার চেষ্টা করবেন।</li>
+                    {% endif %}
+
+                    {% if user.profile.moderator_type == 'Departmental Moderator' or user.profile.moderator_type == 'Batch Moderator' %}
+                        <li>আপনাকে আপনার ডিপার্টমেন্ট এর সকল রিসোর্স এর এডিট এক্সেস দেয়া আছে। আপলোডকৃত যেকোনো রিসোর্সে (যেমনঃ Question / Book / Lecture Slide / Note এ) কোনো ধরণের ত্রুটি থাকলে (যেমনঃ বানান ভুল বা অন্যান্য) আপডেট করে দিতে হবে।</li>
+                    {% endif %}
+
+                    
+
+
+                        <li>যেকোনো সমস্যা হলে অথবা কোনো কিছু না বুঝলে আমাদেরকে মেসেজ অথবা কল দিন।</li>
+                </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class=" container mb-4 p-2 mt-3">
+        <h4 class="text-center">During Moderator Request</h4>
+        {% include 'moderators/terms_and_conditions_mod.html' %}
+    </div>
+    
+<style>
+
+    .moderator_base {
+        margin-left: 140px; margin-right: 150px; margin-top: -15px;
+    }
+
+    @media (max-width: 480px) {
+        .moderator_base {
+            margin-left: 10px;
+        }
+
+        .main_div {
+            margin-left: 0px;
+        }
+    }
+
+
+    body {
+        background-color: #f7f9fc; /* Light background color for contrast */
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: #fff; /* Card background color */
+    }
+
+    .card-body {
+        padding: 2rem; /* Increase padding for a spacious look */
+    }
+
+    #welcome_moderator_panel h3 {
+        font-size: 1.75rem; /* Increase font size for title */
+        font-weight: 700; /* Bold font weight for title */
+        color: #333; /* Darker color for title text */
+    }
+
+    #welcome_moderator_panel p {
+        font-size: 1rem; /* Consistent font size for subtitle */
+    }
+
+    hr {
+        border: 0;
+        height: 1px;
+        background-color: #ddd; /* Light gray color for the divider */
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+   
+</style>
+
+{% endblock %}

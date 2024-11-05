@@ -1,0 +1,165 @@
+{% load static %}
+
+<div class="description_outer container mt-3">
+  <!-- Secondary Navigation Bar -->
+  <div class="dp_secondary_nav mb-4">
+      <nav class="nav nav-pills justify-content-center" id="myTab" role="tablist">
+          <a class="nav-link active" id="description0-tab" data-toggle="tab" href="#description0" role="tab" aria-controls="description0" aria-selected="true"><i class="fas fa-info-circle fa-lg me-2"></i>What is Onebyzero Edu?</a>
+
+          <a class="nav-link" id="description1-tab" data-toggle="tab" href="#description1" role="tab" aria-controls="description1" aria-selected="true"><i class="fas fa-info-circle fa-lg me-2"></i>Our Objectives</a>
+
+          <a class="nav-link" id="description2-tab" data-toggle="tab" href="#description2" role="tab" aria-controls="description2" aria-selected="false"><i class="fas fa-info-circle fa-lg me-2"></i>Our Resources Types</a>
+          
+          <a class="nav-link" id="description3-tab" data-toggle="tab" href="#description3" role="tab" aria-controls="description3" aria-selected="false"><i class="fas fa-info-circle fa-lg me-2"></i>Our Core Features</a>
+      </nav>
+  </div>
+
+  <!-- Content Sections -->
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="description0" role="tabpanel" aria-labelledby="description0-tab">
+      <p> Onebyzero Edu is an innovative Ed-Tech platform designed specifically for university students in
+        Bangladesh, aiming to serve as a digital and analytical study partner. Our mission is to make education
+        more organized, insightful, and hassle-free by leveraging technology and data analytics.</p>
+    </div>
+    
+    
+    <div class="tab-pane fade" id="description1" role="tabpanel" aria-labelledby="description1-tab">
+      <div class="">
+         <ul>
+            <li>Increasing Peer Collaboration & Connectivity <span class="text-muted">(Foster an environment for easy connection and collaboration among students and educators.)</span></li>
+            <li>Organizing Educational Resources <span class="text-muted">(Centralize all educational materials to streamline access and reduce redundancy.)</span></li>
+            <li>Reducing Hassles <span class="text-muted">(Minimize redundant tasks to save time and effort for users.)</span></li>
+            <li>Providing Institutional Insights,  Comparisons & Summary <span class="text-muted">(Offer detailed analytics and comparisons across institutions.)</span></li>
+            <li>Creating Universal Student Portfolio <span class="text-muted">(Create a comprehensive portfolio for students to track and showcase their academic journey.)</span></li>
+          </ul>
+      </div>
+    
+    </div>
+
+    <div class="tab-pane fade" id="description2" role="tabpanel" aria-labelledby="description2-tab">
+        <ul>
+            <li>Syllabus & Course Curriculum</li>
+            <li>Previous Year Questions</li>
+            <li>Books</li>
+            <li>Lecture Slides</li>
+            <li>Handnotes</li>
+            <li>Suggested Tutorials (Video/Textual) <span class="text-muted">[Upcoimg Soon]</span></li>
+            <li>Blogs <span class="text-muted">[Upcoimg Soon]</span></li>
+            <li>Analytical Discussions  <span class="text-muted">[Upcoimg Soon]</span></li>
+    </div>
+
+    <div class="tab-pane fade" id="description3" role="tabpanel" aria-labelledby="description3-tab">
+        <ul>
+            <li>Organize Resources <span class="text-muted">(View, Edit, Delete, Upload, Download, Share, Feedback)</span></li>
+
+            <li>Leaderboard & Ranking <span class="text-muted">(Academic performance, contributions, quiz results, team works, etc) </span></li>
+
+            <li>Profiles <span class="text-muted">(Student, Teacher, Guardian, Graduated, Govt. Employee, Corporate/Company/Industry Employee, and Visitor) [Upcoming Soon]</span></li>
+
+            <li>Hiererchical Moderation <span class="text-muted">(Central Moderator, University Moderator, Department Moderator, Batch Moderator)</span></li>
+
+            <li>Statistics & Analytics <span class="text-muted">(Academic results, contributions, exam durations, successful students, etc)</span></li>
+
+            <li>Feed <span class="text-muted">(Blog, Post, Like, Comment, Share) <span class="text-muted">[Upcoming Soon]</span></li>
+
+            <li>Guideline / Pathway (One to One Mentorship) <span class="text-muted">[Upcoming Soon]</span></li>
+
+            <li>Quiz <span class="text-muted">(Create, participate, and evaluate quizzes.) [Upcoming Soon]</li>
+            <li>Chat (Around batch, department, university With anyone / One-to-One individually) [Upcoming Soon]</span>
+              </li>
+
+            <li>Schedule Reminder <span class="text-muted">(Class, Exam, Important Events) [Upcoming Soon]</span></li>
+
+            <li>Level by Level Authentication <span class="text-muted">(Becoming student, Becoming moderator
+              )</span></li>
+            <li>Referral & Onebyzero Coin</li>
+        </ul>
+        
+    </div>
+  </div>
+</div>
+
+<!-- External CSS -->
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<style>
+/* Secondary Navigation Bar Styling */
+.dp_secondary_nav {
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+}
+
+.nav-pills .nav-link {
+  margin: 0 10px;
+  font-size: 1.1rem;
+  color: black; /* Set initial link color to black */
+}
+
+.nav-pills .nav-link i {
+  color: black; /* Set initial icon color to black */
+}
+
+.nav-pills .nav-link.active {
+  background-color: #6c757d; /* Gray color */
+  color: white;
+}
+
+.nav-pills .nav-link.active i {
+  color: white; /* Change icon color to white when active */
+}
+
+/* Fixed Left Column */
+.fixed-left {
+  position: fixed;
+  top: 72px;
+  left: 0;
+  width: 332px;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 1020;
+  background-color: #fff;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Content With Fixed Nav */
+.content-with-fixed-nav {
+  margin-top: 80px;
+  margin-left: 340px; /* Adjusted to match the width of the left column */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dp_secondary_nav {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .fixed-left {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .content-with-fixed-nav {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .dp_secondary_nav {
+      margin-top: 15px;
+  }
+
+  .content-section {
+      padding: 10px;
+  }
+  .nav-link {
+    margin-left: px;
+    width: 80%;
+  }
+}
+</style>

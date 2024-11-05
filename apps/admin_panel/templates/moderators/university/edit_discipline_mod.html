@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-2">
+    <h3 class="mb-4 text-center">Edit Discipline: {{ discipline.name }}</h3>
+    <h4 class="text-muted mb-4 text-center">{{university}}</h4>
+
+    {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="form-group p-2">
+                            <label for="{{ form.name.id_for_label }}">Discipline Name:</label>
+                            {{ form.name }}
+                            {% if form.name.errors %}
+                                <div class="text-danger">{{ form.name.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        {% if university.has_faculty %}
+                            <div class="form-group p-2">
+                                <label for="{{ form.faculty.id_for_label }}">Faculty:</label>
+                                <p class="text-muted" style="font-size: 12px">[এই Discipline যদি কোনো Faculty'র আন্ডারে থাকে শুধুমাত্র তখন Faculty সিলেক্ট করুন। অন্যথায় ফাঁকা রাখুন]</p>
+                                {{ form.faculty }}
+                            </div>
+                        {% endif %}
+
+                        {% if university.has_institute %}
+                            <div class="form-group p-2">
+                                <label for="{{ form.institute.id_for_label }}">Institute:</label>
+                                <p class="text-muted" style="font-size: 12px">[এই Discipline যদি কোনো Institute'র আন্ডারে থাকে শুধুমাত্র তখন Institute সিলেক্ট করুন। অন্যথায় ফাঁকা রাখুন]</p>
+                                {{ form.institute }}
+                            </div>
+                        {% endif %}
+
+                        {% if university.has_school %}
+                            <div class="form-group p-2">
+                                <label for="{{ form.school.id_for_label }}">School:</label>
+                                <p class="text-muted" style="font-size: 12px">[এই Discipline যদি কোনো School এর আন্ডারে থাকে শুধুমাত্র তখন School সিলেক্ট করুন। অন্যথায় ফাঁকা রাখুন]</p>
+                                {{ form.school }}
+                            </div>
+                        {% endif %}
+
+                        {% if university.has_center %}
+                            <div class="form-group p-2">
+                                <label for="{{ form.center.id_for_label }}">Center:</label>
+                                <p class="text-muted" style="font-size: 12px">[এই Discipline যদি কোনো Center এর আন্ডারে থাকে শুধুমাত্র তখন Center সিলেক্ট করুন। অন্যথায় ফাঁকা রাখুন]</p>
+                                {{ form.center }}
+                            </div>
+                        {% endif %}
+
+                        <button type="submit" class="btn btn-primary">Update Discipline</button>
+                        <a href="{% url 'show_disciplines_mod' university_id %}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

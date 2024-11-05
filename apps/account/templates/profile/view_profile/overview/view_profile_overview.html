@@ -1,0 +1,437 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<h5 class="my_profile_header mb-3 text-secondary border-bottom pb-2 d-flex align-items-center">
+    <i class="fas fa-user-circle fa-lg me-2"></i> Profile Overview
+</h5>
+
+<div class="dp_overview tab-pane fade show active">
+
+    {% for message in messages %}
+        <div class="alert alert-light alert-dismissible fade show mx-auto" role="alert" style="background-color: #ffcccc; width: 70%;">
+            <p class="mb-0">{{ message }}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
+
+    <div class="my_profile_overview card mt-4 mx-auto" style="max-width: 800px;">
+        <!-- Profile Header -->
+        <div class="card-header d-flex justify-content-between align-items-center bg-secondary text-white">
+            <h5 class="m-0">
+                {% if d_profile.fullname %}
+                    {{ d_profile.fullname }}
+                {% else %}
+                    {{ d_profile.user }}
+                {% endif %}
+
+                {% if d_profile.nickname %}
+                    ({{ d_profile.nickname }})
+                {% endif %}
+            </h5>
+
+            {% if d_profile.moderator_type and not d_profile.moderator_type == 'Central Moderator' %}
+                <div class="card bg-dark text-white text-center py-1 px-3" style="border-radius: 12px;">
+                    <span class="badge bg-white text-dark me-1">
+                        <i class="fas fa-shield-alt"></i>
+                    </span>
+                    {{ d_profile.moderator_type }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="card-body profile-section d-flex flex-wrap justify-content-between">
+
+
+            <!-- Profile Image -->
+            <div class="profile_image_outer mb-3">
+                <div class="profile-image-container">
+                    <div class="profile-image-frame">
+                            <!-- ICONS-->
+                        {% if d_profile.edu_university.is_approved and not d_profile.moderator_type %}
+                            <span class="verified-tick" style="position: absolute; top: -5px; right: 25px; margin-right: 625px; margin-top: 65px;">
+                                <i class="fas fa-check-circle" style="color: #1877F2; font-size: 24px;"></i>
+                            </span>
+                        {% elif d_profile.edu_university.is_approved and d_profile.moderator_type == 'Batch Moderator' %}
+                            <span class="moderator-badge" style="position: absolute; top: -5px; right: 25px; margin-right: 565px; margin-top: 95px;">
+                                <i class="fas fa-shield-alt" style="color: #d814df; font-size: 24px;"></i> <!-- Moderator icon -->
+                            </span>
+                        {% elif d_profile.edu_university.is_approved and d_profile.moderator_type == 'Departmental Moderator' %}
+                            <span class="moderator-badge" style="position: absolute; top: -5px; right: 25px; margin-right: 625px; margin-top: 95px;">
+                                <i class="fas fa-shield-alt" style="color: #3ac839; font-size: 24px;"></i>
+        <!-- Moderator icon -->
+                            </span>
+                        {% elif d_profile.edu_university.is_approved and d_profile.moderator_type == 'University Moderator' %}
+                            <span class="moderator-badge" style="position: absolute; top: -5px; right: 25px; margin-right: 625px; margin-top: 95px;">
+                                <i class="fas fa-shield-alt" style="color: #7a7cff; font-size: 24px;"></i> <!-- Moderator icon -->
+                            </span>
+                        {% comment %} {% elif d_profile.edu_university.is_approved and d_profile.moderator_type == 'Central Moderator' %}
+                            <span class="moderator-badge" style="position: absolute; top: -5px; right: 25px; margin-right: 565px; margin-top: 95px;">
+                                <i class="fas fa-shield-alt" style="color: #FB7373; font-size: 24px;"></i> <!-- Moderator icon -->
+                            </span> {% endcomment %}
+                        {% endif %}
+
+                            <!-- Profile Image -->
+                        {% if d_profile.profile_image %}
+                            <img src="{{ d_profile.profile_image.url }}" alt="Profile Image" class="profile-image rounded-image">
+                        {% else %}
+                            <i class="fas fa-user-circle fa-5x"></i>
+                        {% endif %}
+                    </div>
+                </div>
+                <p class="text-muted mt-2 bio-text">{{ d_profile.bio }}</p>
+            </div>
+
+            <!-- Profile Details -->
+            <div class="profile-details">
+                {% if d_profile.edu_university.is_approved %}
+                    <p class="font-weight-bold">{{ d_profile.edu_university.department }}</p> <p class="font-weight-bold">{{ d_profile.edu_university.faculty }}, {{ d_profile.edu_university.university }}</p>
+                {% endif %}
+
+                {% if d_profile.edu_university.is_approved and d_profile.edu_university.departmental_batch and d_profile.edu_university.varsity_batch and d_profile.edu_university.session and d_profile.edu_university.semester %}
+                    <p>{{ d_profile.edu_university.departmental_batch }} Batch (dept.), {{d_profile.edu_university.varsity_batch}} Batch (varsity), {{ d_profile.edu_university.session }} session, {{ d_profile.edu_university.semester }} {{d_profile.edu_university.department.system}}</p>
+                {% endif %}
+
+                {% if d_profile.edu_university.is_approved and d_profile.edu_university.student_id %}
+                    <p><i class="fas fa-id-card fa-lg" title="Student ID"></i>
+                        Student ID: {{ d_profile.edu_university.student_id }}</p>
+                {% endif %}
+
+                <!-- Email -->
+                {% if d_profile.email_visibility == "public" %}
+                    <p><i class="fas fa-envelope fa-lg text-black me-2"></i> <a href="mailto:{{ d_profile.email }}" class="text-black">{{ d_profile.email }}</a></p>
+                {% elif d_profile.email_visibility == "my_university" and user.profile.edu_university.university == d_profile.edu_university.university%}
+                    <p><i class="fas fa-envelope fa-lg text-black me-2"></i> <a href="mailto:{{ d_profile.email }}" class="text-black">{{ d_profile.email }}</a></p>
+                {% elif d_profile.email_visibility == "my_department" and user.profile.edu_university.department == d_profile.edu_university.department %}
+                    <p><i class="fas fa-envelope fa-lg text-black me-2"></i> <a href="mailto:{{ d_profile.email }}" class="text-black">{{ d_profile.email }}</a></p>
+                {% elif d_profile.email_visibility == "my_batch" and d_profile.edu_university.department == user.profile.edu_university.department and user.profile.edu_university.departmental_batch == d_profile.edu_university.departmental_batch %}
+                    <p><i class="fas fa-envelope fa-lg text-black me-2"></i> <a href="mailto:{{ d_profile.email }}" class="text-black">{{ d_profile.email }}</a></p>
+                {% endif %}
+
+                <!-- Mobile Number -->
+                {% if d_profile.mobile_number_visibility == "public" %}
+                    <p><i class="fas fa-phone fa-lg text-black me-2"></i> {{ d_profile.mobile_number }}</p>
+                {% elif d_profile.mobile_number_visibility == "my_university" and user.profile.edu_university.university == d_profile.edu_university.university%}
+                    <p><i class="fas fa-phone fa-lg text-black me-2"></i> {{ d_profile.mobile_number }}</p>
+                {% elif d_profile.mobile_number_visibility == "my_department" and user.profile.edu_university.department == d_profile.edu_university.department %}
+                    <p><i class="fas fa-phone fa-lg text-black me-2"></i> {{ d_profile.mobile_number }}</p>
+                {% elif d_profile.mobile_number_visibility == "my_batch" and user.profile.edu_university.departmental_batch == d_profile.edu_university.departmental_batch and user.profile.department == d_profile.edu_university.department %}
+                    <p><i class="fas fa-phone fa-lg text-black me-2"></i> {{ d_profile.mobile_number }}</p>
+                {% endif %}
+
+                <!-- Blood Group -->
+                {% if d_profile.blood_group_visibility == "public" %}
+                    <p><i class="fas fa-tint fa-lg text-black me-2"></i> {{ d_profile.blood_group }}</p>
+                {% elif d_profile.blood_group_visibility == "my_university" and user.profile.edu_university.university == d_profile.edu_university.university%}
+                    <p><i class="fas fa-tint fa-lg text-black me-2"></i> {{ d_profile.blood_group }}</p>
+                {% elif d_profile.blood_group_visibility == "my_department" and user.profile.edu_university.department == d_profile.edu_university.department %}
+                    <p><i class="fas fa-tint fa-lg text-black me-2"></i> {{ d_profile.blood_group }}</p>
+                {% elif d_profile.blood_group_visibility == "my_batch" and user.profile.edu_university.departmental_batch == d_profile.edu_university.departmental_batch and user.profile.department == d_profile.edu_university.department %}
+                    <p><i class="fas fa-tint fa-lg text-black me-2"></i> {{ d_profile.blood_group }}</p>
+                {% endif %}
+                
+                <p><i class="fas fa-coins fa-lg" style="color: black; margin-right: 8px;"></i>Total Coins: {{ d_profile.total_coins }}</p>
+
+                <!-- Social Media Links -->
+                <div class="social-icons mt-2">
+                    {% comment %} {% if d_profile.facebook_id %}
+                        <a href="{{ d_profile.facebook_id }}" target="_blank" class="me-3"><i class="fab fa-facebook fa-2x text-primary" title="Facebook"></i></a>
+                    {% endif %} {% endcomment %}
+
+                    <!-- Facebook -->
+                     {% if d_profile.facebook_id %}
+                        {% if d_profile.facebook_id_visibility == "public" %}
+                            <a href="{{ d_profile.facebook_id }}" target="_blank" class="me-3"><i class="fab fa-facebook fa-2x text-primary" title="Facebook"></i></a>
+                        {% elif d_profile.facebook_id_visibility == "my_university" and user.profile.edu_university.university == d_profile.edu_university.university %}
+                            <a href="{{ d_profile.facebook_id }}" target="_blank" class="me-3"><i class="fab fa-facebook fa-2x text-primary" title="Facebook"></i></a>
+                        {% elif d_profile.facebook_id_visibility == "my_department" and user.profile.edu_university.department == d_profile.edu_university.department %}
+                            <a href="{{ d_profile.facebook_id }}" target="_blank" class="me-3"><i class="fab fa-facebook fa-2x text-primary" title="Facebook"></i></a>
+                        {% elif d_profile.facebook_id_visibility == "my_batch" and user.profile.edu_university.departmental_batch == d_profile.edu_university.departmental_batch and user.profile.department == d_profile.edu_university.department %}
+                            <a href="{{ d_profile.facebook_id }}" target="_blank" class="me-3"><i class="fab fa-facebook fa-2x text-primary" title="Facebook"></i></a>
+                        {% endif %}
+                    {% endif %}
+                
+    
+
+                    <!-- Instagram -->  
+                     {% if d_profile.instagram_id %}                    
+                        {% if d_profile.instagram_id_visibility == "public" %}
+                            <a href="{{ d_profile.instagram_id }}" target="_blank" class="me-3"><i class="fab fa-instagram fa-2x text-danger" title="Instagram"></i></a>
+                        {% elif d_profile.instagram_id_visibility == "my_university" and user.profile.edu_university.university == d_profile.edu_university.university %}
+                            <a href="{{ d_profile.instagram_id }}" target="_blank" class="me-3"><i class="fab fa-instagram fa-2x text-danger" title="Instagram"></i></a>
+                        {% elif d_profile.instagram_id_visibility == "my_department" and user.profile.edu_university.department == d_profile.edu_university.department %}
+                            <a href="{{ d_profile.instagram_id }}" target="_blank" class="me-3"><i class="fab fa-instagram fa-2x text-danger" title="Instagram"></i></a>
+                        {% elif d_profile.instagram_id_visibility == "my_batch" and user.profile.edu_university.departmental_batch == d_profile.edu_university.departmental_batch and user.profile.department == d_profile.edu_university.department %}
+                            <a href="{{ d_profile.instagram_id }}" target="_blank" class="me-3"><i class="fab fa-instagram fa-2x text-danger" title="Instagram"></i></a>
+                        {% endif %}
+                    {% endif %}
+                
+
+                    <!--LinkedIn -->
+
+                    {% if d_profile.linkedin_id %}
+                        {% if d_profile.linkedin_id_visibility == "public" %}
+                            <a href="{{ d_profile.linkedin_id }}" target="_blank" class="me-3"><i class="fab fa-linkedin fa-2x text-primary" title="LinkedIn"></i></a>
+                        {% elif d_profile.linkedin_id_visibility == "my_university" and user.profile.edu_university.university == d_profile.edu_university.university %}
+                            <a href="{{ d_profile.linkedin_id }}" target="_blank" class="me-3"><i class="fab fa-linkedin fa-2x text-primary" title="LinkedIn"></i></a>
+                        {% elif d_profile.linkedin_id_visibility == "my_department" and user.profile.edu_university.department == d_profile.edu_university.department %}
+                            <a href="{{ d_profile.linkedin_id }}" target="_blank" class="me-3"><i class="fab fa-linkedin fa-2x text-primary" title="LinkedIn"></i></a>
+                        {% elif d_profile.linkedin_id_visibility == "my_batch" and user.profile.edu_university.departmental_batch == d_profile.edu_university.departmental_batch and user.profile.department == d_profile.edu_university.department %}
+                            <a href="{{ d_profile.linkedin_id }}" target="_blank" class="me-3"><i class="fab fa-linkedin fa-2x text-primary" title="LinkedIn"></i></a>
+                        {% endif %}
+                    {% endif %}
+                
+            
+
+                    <!-- Twitter -->
+                    {% if d_profile.twitter_id %}
+                        {% if d_profile.twitter_id_visibility == "public" %}
+                            <a href="{{ d_profile.twitter_id }}" target="_blank" class="me-3"><i class="fab fa-twitter fa-2x text-info" title="Twitter"></i></a>
+                        {% elif d_profile.twitter_id_visibility == "my_university" and user.profile.edu_university.university == d_profile.edu_university.university %}
+                            <a href="{{ d_profile.twitter_id }}" target="_blank" class="me-3"><i class="fab fa-twitter fa-2x text-info" title="Twitter"></i></a>
+                        {% elif d_profile.twitter_id_visibility == "my_department" and user.profile.edu_university.department == d_profile.edu_university.department %}
+                            <a href="{{ d_profile.twitter_id }}" target="_blank" class="me-3"><i class="fab fa-twitter fa-2x text-info" title="Twitter"></i></a>
+                        {% elif d_profile.twitter_id_visibility == "my_batch" and user.profile.edu_university.departmental_batch == d_profile.edu_university.departmental_batch and user.profile.department == d_profile.edu_university.department %}
+                            <a href="{{ d_profile.twitter_id }}" target="_blank" class="me-3"><i class="fab fa-twitter fa-2x text-info" title="Twitter"></i></a>
+                        {% endif %}
+                    {% endif %}
+                
+                
+
+                    <!-- Github -->
+                    {% if d_profile.github_id %}
+                        {% if d_profile.github_id_visibility == "public" %}
+                            <a href="{{ d_profile.github_id }}" target="_blank" class="me-3"><i class="fab fa-github fa-2x text-dark" title="Github"></i></a>
+                        {% elif d_profile.github_id_visibility == "my_university" and user.profile.edu_university.university == d_profile.edu_university.university %}
+                            <a href="{{ d_profile.github_id }}" target="_blank" class="me-3"><i class="fab fa-github fa-2x text-dark" title="Github"></i></a>
+                        {% elif d_profile.github_id_visibility == "my_department" and user.profile.edu_university.department == d_profile.edu_university.department %}
+                            <a href="{{ d_profile.github_id }}" target="_blank" class="me-3"><i class="fab fa-github fa-2x text-dark" title="Github"></i></a>
+                        {% elif d_profile.github_id_visibility == "my_batch" and user.profile.edu_university.departmental_batch == d_profile.edu_university.departmental_batch and user.profile.department == d_profile.edu_university.department %}
+                            <a href="{{ d_profile.github_id }}" target="_blank" class="me-3"><i class="fab fa-github fa-2x text-dark" title="Github"></i></a>
+                        {% endif %}
+                    {% endif %}
+                
+                    <!-- Youtube -->
+                    {% if d_profile.youtube_channel %}
+                        {% if d_profile.youtube_channel_visibility == "public" %}
+                            <a href="{{ d_profile.youtube_channel }}" target="_blank" class="me-3"><i class="fab fa-youtube fa-2x text-danger" title="Youtube"></i></a>
+                        {% elif d_profile.youtube_channel_visibility == "my_university" and user.profile.edu_university.university == d_profile.edu_university.university %}
+                            <a href="{{ d_profile.youtube_channel }}" target="_blank" class="me-3"><i class="fab fa-youtube fa-2x text-danger" title="Youtube"></i></a>
+                        {% elif d_profile.youtube_channel_visibility == "my_department" and user.profile.edu_university.department == d_profile.edu_university.department %}
+                            <a href="{{ d_profile.youtube_channel }}" target="_blank" class="me-3"><i class="fab fa-youtube fa-2x text-danger" title="Youtube"></i></a>
+                        {% elif d_profile.youtube_channel_visibility == "my_batch" and user.profile.edu_university.departmental_batch == d_profile.edu_university.departmental_batch and user.profile.department == d_profile.edu_university.department %}
+                            <a href="{{ d_profile.youtube_channel }}" target="_blank" class="me-3"><i class="fab fa-youtube fa-2x text-danger" title="Youtube"></i></a>
+                        {% endif %}
+                    {% endif %}
+                
+
+                    <!-- Google Scholar -->
+                    {% if d_profile.google_scholar %}
+                        {% if d_profile.google_scholar_visibility == "public" %}
+                            <a href="{{ d_profile.google_scholar }}" target="_blank"><i class="fas fa-graduation-cap fa-2x text-dark" title="Google Scholar"></i></a>
+                        {% elif d_profile.google_scholar_visibility == "my_university" and user.profile.edu_university.university == d_profile.edu_university.university %}
+                            <a href="{{ d_profile.google_scholar }}" target="_blank"><i class="fas fa-graduation-cap fa-2x text-dark" title="Google Scholar"></i></a>
+                        {% elif d_profile.google_scholar_visibility == "my_department" and user.profile.edu_university.department == d_profile.edu_university.department %}
+                            <a href="{{ d_profile.google_scholar }}" target="_blank"><i class="fas fa-graduation-cap fa-2x text-dark" title="Google Scholar"></i></a>
+                        {% elif d_profile.google_scholar_visibility == "my_batch" and user.profile.edu_university.departmental_batch == d_profile.edu_university.departmental_batch and user.profile.department == d_profile.edu_university.department %}
+                            <a href="{{ d_profile.google_scholar }}" target="_blank"><i class="fas fa-graduation-cap fa-2x text-dark" title="Google Scholar"></i></a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% comment %} {% if d_profile.edu_university %} {% endcomment %}
+        {% if user.profile.moderator_type and user.profile.moderator_info.is_running and user.profile.edu_university.department == d_profile_edu_university.department %}
+    <h3 class="mt-5" style="text-align: center;">[Only Visible For the Moderators]</h3>
+            
+        <div class="card mt-3 mx-5" style="max-width: ; overflow-x: auto">
+            <table class="table table-striped">
+                <tbody>
+                    {% if edu_university %}
+                        <tr>
+                            <th>University Type</th>
+                            <td>{{ edu_university.university_type }}</td>
+                        </tr>
+                        <tr>
+                            <th>University</th>
+                            <td>{{ edu_university.university }}</td>
+                        </tr>
+                        <tr>
+                            <th>Faculty</th>
+                            <td>{{ edu_university.faculty }}</td>
+                        </tr>
+                        <tr>
+                            <th>Institute</th>
+                            <td>{{ edu_university.institute }}</td>
+                        </tr>
+                        <tr>
+                            <th>School</th>
+                            <td>{{ edu_university.school }}</td>
+                        </tr>
+                        <tr>
+                            <th>Center</th>
+                            <td>{{ edu_university.center }}</td>
+                        </tr>
+                        <tr>
+                            <th>Department</th>
+                            <td>{{ edu_university.department }}</td>
+                        </tr>
+                        <tr>
+                            <th>Discipline</th>
+                            <td>{{ edu_university.discipline }}</td>
+                        </tr>
+                        <tr>
+                            <th>Degree</th>
+                            <td>{{ edu_university.degree }}</td>
+                        </tr>
+                        <tr>
+                            <th>Session</th>
+                            <td>{{ edu_university.session }}</td>
+                        </tr>
+                        <tr>
+                            <th>University Batch</th>
+                            <td>{{ edu_university.varsity_batch }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Departmental Batch</th>
+                            <td>{{ edu_university.departmental_batch }}</td>
+                        </tr>
+                        <tr>
+                            <th>Semester</th>
+                            <td>{{ edu_university.semester }}</td>
+                        </tr>
+                        <tr>
+                            <th>Student ID</th>
+                            <td>{{ edu_university.student_id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Start Year</th>
+                            <td>{{ edu_university.start_year }}</td>
+                        </tr>
+                        <tr>
+                            <th>End Year</th>
+                            <td>{{ edu_university.end_year }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="2">No education information available.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+
+            <div class="card mt-3 mx-5 mb-2">
+                <div class="card-body">
+                    <p class="card-title"><strong>Approval Query:</strong> আপনার ব্যাচ সম্পর্কে এমন একটি তথ্য লিখুন যেটি দিয়ে আমরা আপনাকে সঠিকভাবে শনাক্ত করতে পারি। উদাহরণস্বরূপঃ আপনার ব্যাচের বর্তমান সিআর (Class Representative) এর নাম অথবা অন্যকিছু।</h5>
+                    <p class="card-text"><strong>Answer:</strong> {{ d_profile_edu_university.approval_query }}</p>
+                </div>
+            </div>
+        {% endif %}
+
+
+        {% if user.profile.moderator_type == 'Central Moderator' %}
+            <p>Mobile Num: {{ d_profile.mobile_number }} </p>
+            <p>Facebook: {{ d_profile.facebook_id }} </p>
+        {% endif %}
+{% comment %} {% endif %} {% endcomment %}
+
+
+
+
+
+
+{% include 'profile/view_profile/view_profile_secondary_nav.html' %}
+
+<style>
+    
+
+    .my_profile_header {
+        margin-left: 140px; 
+        margin-right: 150px; 
+        margin-top: -20px;
+    }
+
+    .dp_overview {
+        margin-top: 20px;
+    }
+
+    .my_profile_overview {
+        margin-top: -45px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .profile-image-frame {
+        display: inline-block;
+        overflow: hidden;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 2px solid #007bff;
+    }
+    
+    .rounded-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .profile_image_outer {
+        margin-top: 10px;
+    }
+
+    .profile-details i {
+        color: black;
+    }
+
+    .social-icons a {
+        margin-right: 15px; /* Adjust spacing between icons */
+    }
+    
+    .bio-text {
+        word-wrap: break-word;
+    }
+
+    @media (max-width: 480px) {
+        .my_profile_header {
+            margin-top: 60px;
+            margin-left: 15px;
+        }
+
+        .dp_overview {
+            margin-top: -5px;
+            margin-left: 20px;
+            width: 90%;
+        }
+
+        .my_profile_overview {
+            margin-top: 30px;
+            margin-left: 40px;
+        }
+
+        .card-header h5 {
+            font-size: 1rem;
+        }
+        
+        .btn {
+            font-size: 0.875rem;
+        }
+    }
+</style>
+{% endblock %}

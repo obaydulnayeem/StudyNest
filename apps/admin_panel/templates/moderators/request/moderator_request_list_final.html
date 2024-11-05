@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    {% comment %} <h2 class="mb-4">Pending Moderator Requests [Initial Approved]</h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Profile Name</th>
+                    <th scope="col">Requested Moderator Type</th>
+                    <th scope="col" class="text-center">Requested At</th>
+                    <th scope="col" class="text-center">Initial Approved By</th>
+                    <th scope="col" class="text-center">Initial Approved At</th>
+                    <th scope="col" class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                        <tr>
+                            <td><a href="{% url 'view_profile_overview' request.profile.id %}">{{ request.profile.fullname }}</a></td>
+                            <td>{{ request.requested_moderator_type }}</td>
+                            <td>{{ request.requested_at }}</td>
+                            <td>
+                                {% if request.approved_initial_by %}
+                                    <a href="{% url 'view_profile_overview' request.approved_initial_by.id %}">{{ request.approved_initial_by.fullname }}</a>
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>{{ request.approved_initial_at }}</td>
+                            <td class="text-center">
+                                {% if not request.is_approved_final %}
+                                    <a href="{% url 'approve_moderator_final' request.id %}" class="btn btn-success btn-sm">
+                                    Approve Finally
+                                </a>
+                                {% else %}
+                                    Approved
+                                {% endif %}
+                            </td>
+                        </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center">No pending requests</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div> {% endcomment %}
+
+    <h2 class="mb-4">Pending Moderator Requests [All]</h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Profile Name</th>
+                    <th scope="col">Requested Moderator Type</th>
+                    <th scope="col" class="text-center">Requested At</th>
+                    <th scope="col" class="text-center">Initial Approved By</th>
+                    <th scope="col" class="text-center">Initial Approved At</th>
+                    <th scope="col" class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in all_requests %}
+                        <tr>
+                            <td><a href="{% url 'view_profile_overview' request.profile.id %}">{{ request.profile.fullname }}</a></td>
+                            <td>{{ request.requested_moderator_type }}</td>
+                            <td>{{ request.requested_at }}</td>
+                            <td>
+                                {% if request.approved_initial_by %}
+                                    <a href="{% url 'view_profile_overview' request.approved_initial_by.id %}">{{ request.approved_initial_by.fullname }}</a>
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>{{ request.approved_initial_at }}</td>
+                            <td class="text-center">
+                                {% if not request.is_approved_final %}
+                                    <a href="{% url 'approve_moderator_final' request.id %}" class="btn btn-success btn-sm">
+                                    Approve Finally
+                                </a>
+                                {% else %}
+                                    Approved
+                                {% endif %}
+                            </td>
+                        </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center">No pending requests</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include '../moderator_secondary_nav.html' %}
+</div>
+{% endblock %}

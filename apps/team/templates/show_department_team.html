@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+    <div class="container mt-5">
+        <h2>Courses for {{ department.name }}</h2>
+        
+        <div class="text-center mb-2">
+            <a class="btn btn-secondary btn-sm" href="{% url 'show_university_team' university.id %}">Back to University</a>
+        </div>
+
+        <div class="d-flex justify-content-end mb-3">
+            <a href="{% url 'add_course' %}" class="btn btn-primary btn-sm">Add New Course</a>
+        </div>
+
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Course Title</th>
+                    <th>Total Common Courses</th> <!-- New column for common course count -->
+                    <th>Semester/Year</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                <tr>
+                    <td><a href="{% url 'show_course_team' course.id %}">{{ course.title }}</a></td>
+                    <td>{{ course.common_courses.count }}</td> <!-- Display the total common courses -->
+                    <td>{{ course.semester }}</td>
+                    <td>
+                        <a href="{% url 'edit_course' course.id %}" class="btn btn-primary btn-sm">Edit Course</a>
+                        <a href="{% url 'edit_common_courses' course.id %}" class="btn btn-primary btn-sm">Edit Common Courses</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4">
+        {% include 'team_secondary_nav.html' %}
+    </div>
+{% endblock %}

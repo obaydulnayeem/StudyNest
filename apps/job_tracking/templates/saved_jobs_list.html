@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+
+<div class="container mt-0">
+    <div class="row">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-center">My Saved Jobs ({{saved_jobs.count }})</h2>
+        </div>
+        
+        {% include 'secondary_nav_job_tracking.html' %}
+
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <a href="{% url 'save_job' %}" class="btn btn-dark btn-sm mt-1 mb-2">Add New</a>
+                    <ul class="list-group">
+                    {% for job in saved_jobs %}
+                        <li class="list-group-item">
+                            <a href="{{ job.job_link }}" target="_blank">{{ job.job_link }}</a>
+                            <div class="mt-2">
+                                <span class="text-muted">Saved on: {{ job.added_at|date:"Y-m-d" }}</span>
+                            </div>
+                            {% if job.published %}
+                            <p class="text-muted"><b>Published: {{ job.published|date:"Y-m-d" }}</b></p>
+                            {% endif %}
+                            {% if job.deadline %}
+                            <p class="text-muted"><b>Deadline: {{ job.deadline|date:"Y-m-d" }}</b></p>
+                            {% endif %}
+                            <div class="mt-2">
+                                <a href="{% url 'edit_saved_job' job.id %}" class="btn btn-secondary btn-sm">Edit</a>
+                                <form method="POST" action="{% url 'mark_as_applied' job.id %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-secondary btn-sm mt-2">Remove</button>
+                                </form>
+                            </div>
+                        </li>
+                        <hr>
+                    {% empty %}
+                        <li class="list-group-item">No jobs saved yet.</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

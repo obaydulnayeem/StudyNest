@@ -1,0 +1,125 @@
+{% load semester_year_filters %}
+
+        <li class="nav-item dropdown">
+            <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Resources">
+                <i class="fas fa-folder-open fa-lg"></i>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              
+                <!-- My Semester -->
+                {% if user.is_authenticated %}
+                    {% if user.profile.edu_university %}
+                        {% if ctxp_profile_edu_university.department and profile_semester %}
+                            <li class="nav-item">
+                                <a class="dropdown-item custom-color" href="{% url 'my_resources_s' ctxp_profile_edu_department_id profile_semester|semester_converter %}" data-bs-toggle="tooltip" data-bs-placement="top" title="My Semester" style="color: black!important;">My {{ctxp_profile_edu_university.department.system}}</a>
+                            </li>
+                        {% elif ctxp_profile_edu_university.discipline and profile_semester %}
+                            <li class="nav-item">
+                                <a class="dropdown-item custom-color" href="{% url 'my_resources_s' ctxp_profile_edu_discipline_id profile_semester|semester_converter %}" data-bs-toggle="tooltip" data-bs-placement="top" title="My Semester" style="color: black!important;">My {{ctxp_profile_edu_university.discipline.system}}</a>
+                            </li>
+                        {% elif ctxp_profile_edu_university.institute and profile_semester %}
+                            <li class="nav-item">
+                                <a class="dropdown-item custom-color" href="{% url 'my_resources_s' ctxp_profile_edu_institute_id profile_semester|semester_converter %}" data-bs-toggle="tooltip" data-bs-placement="top" title="My Semester" style="color: black!important;">My {{ctxp_profile_edu_university.institute.system}}</a>
+                            </li>
+                        {% endif %}
+
+                    {% elif not user.profile.edu_university %}
+                        {% comment %} <li class="nav-item">
+                            <a class="dropdown-item" href="{% url 'view_edu_university_my_profile' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="My Semester" style="color: black;">My Semester/Year</a>
+                        </li> {% endcomment %}
+                    {% endif %}
+                {% else %}
+                        {% comment %} <li class="nav-item">
+                            <a class="dropdown-item" href="{% url 'login' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Login" style="color: black;">My Semester/Year</a>
+                        </li> {% endcomment %}
+                {% endif %}
+
+
+                    
+            <!-- My Department -->
+                    {% if user.is_authenticated %}
+                        {% if ctxp_profile_edu_university.department %}
+                            <li class="nav-item">
+                                <a class="dropdown-item" href="{% url 'show_department' ctxp_profile_edu_department_id %}" data-bs-toggle="tooltip" data-bs-placement="top" title="My Department" style="color: black;">My Department</a>
+                            </li>
+                        {% elif not ctxp_profile_edu_university %}
+                            {% comment %} <li class="nav-item">
+                                <a class="dropdown-item" href="{% url 'view_edu_university_my_profile' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Update Department" style="color: black;">My Department</a>
+                            </li> {% endcomment %}
+                        {% endif %}
+                    {% else %}
+                        {% comment %} <li class="nav-item">
+                            <a class="dropdown-item" href="{% url 'login' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Login" style="color: black;">My Department</a>
+                        </li> {% endcomment %}
+                    {% endif %}
+
+
+            <!-- My Discipline -->
+                    {% if user.is_authenticated %}
+                        {% if ctxp_profile_edu_university.discipline %}
+                            <li class="nav-item">
+                                <a class="dropdown-item" href="{% url 'show_discipline' ctxp_profile_edu_discipline_id %}" data-bs-toggle="tooltip" data-bs-placement="top" title="My Discipline" style="color: black;">My Discipline</a>
+                            </li>
+                        {% elif not ctxp_profile_edu_university %}
+                            {% comment %} <li class="nav-item">
+                                <a class="dropdown-item" href="{% url 'view_edu_university_my_profile' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Update Department" style="color: black;">My Department</a>
+                            </li> {% endcomment %}
+                        {% endif %}
+                    {% else %}
+                        {% comment %} <li class="nav-item">
+                            <a class="dropdown-item" href="{% url 'login' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Login" style="color: black;">My Department</a>
+                        </li> {% endcomment %}
+                    {% endif %}
+
+            <!-- My Institute -->
+            {% if user.is_authenticated %}
+                {% if ctxp_profile_edu_university.institute %}
+                    <li class="nav-item">
+                        <a class="dropdown-item" href="{% url 'show_institute' ctxp_profile_edu_institute_id %}" data-bs-toggle="tooltip" data-bs-placement="top" title="My Institute" style="color: black;">My Institute</a>
+                    </li>
+                {% elif not ctxp_profile_edu_university %}
+                    {% comment %} <li class="nav-item">
+                        <a class="dropdown-item" href="{% url 'view_edu_university_my_profile' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Update Department" style="color: black;">My Department</a>
+                    </li> {% endcomment %}
+                {% endif %}
+            {% else %}
+                {% comment %} <li class="nav-item">
+                    <a class="dropdown-item" href="{% url 'login' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Login" style="color: black;">My Department</a>
+                </li> {% endcomment %}
+            {% endif %}
+                
+
+
+                <!-- My University -->
+                {% if user.is_authenticated %}
+                    {% if ctxp_profile_edu_university.university %}
+                        <li class="nav-item">
+                            <a class="dropdown-item" href="{% url 'show_university' ctxp_profile_edu_university_id %}" data-bs-toggle="tooltip" data-bs-placement="top" title="My University" style="color: black;">My University</a>
+                        </li>
+                    {% elif not ctxp_profile_edu_university %}
+                        {% comment %} <li class="nav-item">
+                            <a class="dropdown-item" href="{% url 'view_edu_university_my_profile' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Update University" style="color: black;">My University</a>
+                        </li> {% endcomment %}
+                    {% endif %}
+                {% else %}
+                    {% comment %} <li class="nav-item">
+                        <a class="dropdown-item" href="{% url 'login' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Login" style="color: black;">My University</a>
+                    </li> {% endcomment %}
+                {% endif %}
+        
+
+
+            <!-- All Universities -->
+                <li class="nav-item">
+                    <a class="dropdown-item" href="{% url 'show_all_universities' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="All Universities" style="color: black;">All Universities</a>
+                </li>
+                
+            </ul>
+        </li>
+    {% comment %} {% endif %} {% endcomment %}
+
+<style>
+    .dropdown-item.custom-color {
+        color: black !important;
+    }    
+</style>

@@ -1,0 +1,124 @@
+<div class="container-feedback mt-5 mb-2">
+    {% comment %} <h1 style="text-align: center;">Feedbacks</h1> {% endcomment %}
+    <div class="feedback-scroller" id="feedbackScroller">
+        <ul class="feedback-list">
+            {% for feedback in feedbacks %}
+            <li class="feedback-item">
+                <div class="d-flex align-items-center">
+                    {% if feedback.user.profile.profile_image %}
+                        <img src="{{ feedback.user.profile.profile_image.url }}" alt="Profile Image" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                    {% else %}
+                        <i class="fas fa-user-circle fa-3x me-3"></i>
+                    {% endif %}
+                    <div>
+                        <strong>
+                            {% if feedback.user.profile.fullname %}
+                                {{ feedback.user.profile.fullname }}
+                            {% else %}
+                                {{ feedback.user.username }}
+                            {% endif %}
+                        </strong><br>
+                        {% comment %} <p class="mb-0 text-muted">{{ feedback.user.profile.edu_university.university }}</p> {% endcomment %}
+                        <small class="text-muted">{{ feedback.created_at|date:"M d, Y H:i" }}</small>
+                        <p>
+                            {{ feedback.comment|slice:":70" }}{% if feedback.comment|length > 70 %}...
+                            <a href="{% url 'display_feedbacks' %}?feedback_id={{ feedback.id }}" class="text-primary">See full...</a>{% endif %}
+                        </p>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<div style="text-align: center;">
+    <a class="btn btn-secondary btn-sm mt-2" href="{% url 'display_feedbacks' %}"><i class="fas fa-hand-point-right fa-lg me-2"></i> View All Feedbacks</a>
+
+    <a class="btn btn-secondary btn-sm mt-2" href="{% url 'submit_feedback' %}">
+        <i class="fas fa-hand-point-right"></i> Give a feedback now!
+    </a>
+</div>
+
+<div style="margin-top: 1px; margin-bottom: 10px; text-align: center;">
+    <div class="feedback_video card mx-auto">
+        <div class="row justify-content-center">
+            <div class="col-md-12 video-container mt-3">
+                <iframe src="https://www.youtube.com/embed/sS6rU0LrXpA?si=k0-6brR4gVuFKgTW?controls=0" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% comment %} https://youtu.be/sS6rU0LrXpA?si=k0-6brR4gVuFKgTW {% endcomment %}
+{% comment %} <iframe src="https://www.youtube.com/embed/u1weZzcEZsU?si=AzwpW2FfV8QakfXR?controls=0" frameborder="0" allowfullscreen></iframe> {% endcomment %}
+
+<div style="text-align: center;">
+    Onebyzero Edu সম্পর্কে আপনার একটা মূল্যবান মন্তব্য জানতে পারি কি?
+    <a class="btn btn-secondary btn-sm" href="{% url 'submit_feedback' %}">
+        <i class="fas fa-hand-point-right"></i> Give a feedback now!
+    </a>
+</div>
+
+<style>
+    .container-feedback {
+        max-width: 900px;
+        margin: 0 auto; /* Center the container */
+    }
+    .feedback-scroller {
+        overflow: hidden;
+        width: 100%;
+        height: 200px; /* Adjust height as needed */
+        border: 1px solid #ccc;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: relative; /* Added position relative for hover effect */
+    }
+    .feedback-list {
+        display: flex;
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+        animation: scrollList 30s linear infinite; /* Adjust animation duration as needed */
+    }
+    .feedback-item {
+        min-width: 250px; /* Adjust width of each item */
+        padding: 15px; /* Increased padding for better spacing */
+        border-right: 1px solid #ccc;
+        transition: background-color 0.3s ease; /* Added transition for hover effect */
+        position: relative; /* Ensure relative positioning */
+    }
+    .feedback-item:hover {
+        background-color: #f1f1f1; /* Hover background color */
+    }
+    .feedback-item:hover .feedback-scroller {
+        animation-play-state: paused; /* Pause animation on hover */
+    }
+    .rounded-circle {
+        border-radius: 50%;
+    }
+    .text-muted {
+        font-size: 0.8rem; /* Adjust font size for timestamp */
+        color: #6c757d; /* Adjust color for timestamp */
+    }
+    @keyframes scrollList {
+        0% {
+            transform: translateX(0%);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+    .feedback_video {
+        width: 70%; 
+        padding: 20px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 480px) {
+        .feedback_video {
+            width: 95%;
+        }        
+    }
+</style>

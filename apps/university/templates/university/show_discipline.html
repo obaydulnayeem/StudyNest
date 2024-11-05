@@ -1,0 +1,1134 @@
+{% extends "base.html" %}
+
+{% block title %}My Discipline{% endblock %}
+
+{% block content %}
+
+{% comment %} {% for msg in messages %}
+  <div class="alert alert-{{ msg.tags }}" role="alert">
+    {{ msg }}
+  </div>
+{% endfor %} {% endcomment %}
+
+  <div class="department_outer container">
+      <!--Header-->
+    <div class="department_heading text-center mb-3 pt-1 pb-1" style="">
+      <h4>{{ discipline.name }}</h4>
+      <hr style="margin-top: -5px">
+      
+      <p style="margin-top: -15px;">
+        {% comment %} <a href="{% url 'show_university' department.university.id %}?faculty={{ department.faculty.id }}" style="color: inherit; cursor: pointer; text-decoration: underline;">
+            {{ department.faculty.name }}
+        </a>, {% endcomment %}
+
+        {% if discipline.faculty %}
+          <a href="{% url 'show_faculty' discipline.faculty.id %}" style="color: inherit; cursor: pointer; text-decoration: underline;">
+            {{ discipline.faculty.name }}
+          </a>,
+        {% endif %}
+
+        {% if discipline.institute %}
+          <a href="{% url 'show_institute' discipline.institute.id %}" style="color: inherit; cursor: pointer; text-decoration: underline;">
+            {{ discipline.institute.name }}
+          </a>,
+        {% endif %}
+
+        {% if discipline.school %}
+          <a href="{% url 'show_school' discipline.school.id %}" style="color: inherit; cursor: pointer; text-decoration: underline;">
+            {{ discipline.school.name }}
+          </a>,
+        {% endif %}
+
+        {% if discipline.center %}
+          <a href="{% url 'show_center' discipline.center.id %}" style="color: inherit; cursor: pointer; text-decoration: underline;">
+            {{ discipline.center.name }}
+          </a>,
+        {% endif %}
+
+        <a href="{% url 'show_university' discipline.university.id %}" style="color: inherit;  cursor: pointer;  text-decoration: underline;">
+            {{ discipline.university.name }}
+        </a>
+      </p>
+    </div>
+
+    <br/>
+    <div class="row">
+      <div class="col-md-9">
+           <!-- if no resources are available -->
+           {% if total_courses_s == 0 %}
+            <div class="alert alert-warning mt- mx- mb-5">
+                <h5 class="alert-heading">Sorry! No Resources Available Yet!</h5>
+                <p>দুঃখিত! আমাদের ওয়েবসাইটে {{ discipline.name }}, {{ discipline.university.name }}-এর জন্য এখন পর্যন্ত কোনো রিসোর্স যুক্ত করা সম্ভব হয়নি। তাই এই ডিপার্টমেন্টের জন্য আপনি আপাতত কোনো রিসোর্স খুঁজে পাচ্ছেন না। তবে আমাদের কাজ চলমান। অতি শীঘ্রই সবকিছু সঠিক ও সুন্দরভাবে দেখতে পাবেন।</p>
+            
+                <p>এই মুহুর্তে আপনি চাইলে উদাহরণ হিসেবে <a href="{% url 'show_university' bu.id %}">University of Barishal</a> এর <a href="{% url 'show_department' 1 %}">Computer Science and Engineering</a> ডিপার্টমেন্ট-টা ঘুরে আসতে পারেন। সেখানে শিক্ষার্থীরা এখন পর্যন্ত <strong>{{questions_cse_bu}}টি</strong> Question, <strong>{{books_cse_bu}}টি</strong> Book, <strong>{{notes_cse_bu}}টি</strong> Note ও <strong>{{lectures_cse_bu}}টি</strong> Lecture Slide সহ মোট <strong>{{total_cse_bu}}টি</strong> এডুকেশনাল রিসোর্স আপলোড দিয়েছেন এবং নিজেরা প্রতিনিয়ত ব্যবহার করছেন।</p>
+            </div>
+          {% endif %}
+
+          {% if not user.profile.edu_university %}
+          <div class="text-center">
+              <p style="font-weight: ; margin-bottom:-7px; " class="text-muted"> {{discipline.name}}, {{university.name}} এর একজন শিক্ষার্থী হিসেবে Onebyzero Edu -তে যুক্ত হতে নিচের বাটনে ক্লিক করুনঃ</p>
+              <a href="{% url 'view_edu_university_my_profile' %}" class="btn btn-secondary mx-5 mt-3 mb-3" style="text-align: center;"><i class="fas fa-hand-point-right me-2"></i> Be a Student of the {{ discipline.name }}</a>
+          </div>
+          {% endif %}
+
+        <!-- Summary Table -->
+        <div style="overflow-x: auto;">
+          <table class="summary_table table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th scope="col" style="text-align: center;">{{discipline.system}}</th>
+                <th style="text-align: center;">Total Courses</th>
+                <th style="text-align: center;">Total Credits</th>
+                {% if discipline.course_has_hour %}
+                  <th style="text-align: center;">Total Hours</th>
+                {% endif %}
+                
+                <th style="text-align: center;">Total Resources</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% comment %} {% if total_semester_or_year|length == 1 %} {% endcomment %}
+              {% if 1 in total_semester_or_year %}
+                <tr>
+                  <th scope="row"><a href="#sem1" style="color: inherit; cursor: pointer; text-decoration: underline;">1st {{discipline.system}}</a></th>
+                  <td align="center">{{courses_sem1}}</td>
+                  <td align="center">{{credits_sem1|floatformat:"2"}}</td>
+                  {% if discipline.course_has_hour %}
+                    <td align="center">{{hours_sem1}}</td>
+                  {% endif %}
+                  <td align="center">{{total_resources_sem1}}</td>
+                </tr>
+              {% endif %}
+
+              {% if 2 in total_semester_or_year %}
+                <tr>
+                  <th scope="row"><a href="#sem2" style="color: inherit; cursor: pointer; text-decoration: underline;">2nd {{discipline.system}}</a></th>
+                  <td align="center">{{courses_sem2}}</td>
+                  <td align="center">{{credits_sem2|floatformat:"2"}}</td>
+                  {% if discipline.course_has_hour %}
+                    <td align="center">{{hours_sem2}}</td>
+                  {% endif %}
+                  <td align="center">{{total_resources_sem2}}</td>
+                </tr>
+              {% endif %}
+
+              {% if 3 in total_semester_or_year %}
+                <tr>
+                  <th scope="row"><a href="#sem3" style="color: inherit; cursor: pointer; text-decoration: underline;">3rd {{discipline.system}}</a></th>
+                  <td align="center">{{courses_sem3}}</td>
+                  <td align="center">{{credits_sem3|floatformat:"2"}}</td>
+                  {% if discipline.course_has_hour %}
+                    <td align="center">{{hours_sem3}}</td>
+                  {% endif %}
+                  <td align="center">{{total_resources_sem3}}</td>
+                </tr>
+              {% endif %}
+
+              {% if 4 in total_semester_or_year %}
+                <tr>
+                  <th scope="row"><a href="#sem4" style="color: inherit; cursor: pointer; text-decoration: underline;">4th {{discipline.system}}</a></th>
+                  <td align="center">{{courses_sem4}}</td>
+                  <td align="center">{{credits_sem4|floatformat:"2"}}</td>
+                  {% if discipline.course_has_hour %}
+                    <td align="center">{{hours_sem4}}</td>
+                  {% endif %}
+                  <td align="center">{{total_resources_sem4}}</td>
+                </tr>
+              {% endif %}
+
+              {% if 5 in total_semester_or_year %}
+                <tr>
+                  <th scope="row"><a href="#sem5" style="color: inherit; cursor: pointer; text-decoration: underline;">5th {{discipline.system}}</a></th>
+                  <td align="center">{{courses_sem5}}</td>
+                  <td align="center">{{credits_sem5|floatformat:"2"}}</td>
+                  {% if discipline.course_has_hour %}
+                    <td align="center">{{hours_sem5}}</td>
+                  {% endif %}
+                  <td align="center">{{total_resources_sem5}}</td>
+                </tr>
+              {% endif %}
+
+              {% if 6 in total_semester_or_year %}
+                <tr>
+                  <th scope="row"><a href="#sem6" style="color: inherit; cursor: pointer; text-decoration: underline;">6th {{discipline.system}}</a></th>
+                  <td align="center">{{courses_sem6}}</td>
+                  <td align="center">{{credits_sem6|floatformat:"2"}}</td>
+                  {% if discipline.course_has_hour %}
+                    <td align="center">{{hours_sem6}}</td>
+                  {% endif %}
+                  <td align="center">{{total_resources_sem6}}</td>
+                </tr>
+              {% endif %}
+
+              {% if 7 in total_semester_or_year %}
+                <tr>
+                  <th scope="row"><a href="#sem7" style="color: inherit; cursor: pointer; text-decoration: underline;">7th {{discipline.system}}</a></th>
+                  <td align="center">{{courses_sem7}}</td>
+                  <td align="center">{{credits_sem7|floatformat:"2"}}</td>
+                  {% if discipline.course_has_hour %}
+                    <td align="center">{{hours_sem7}}</td>
+                  {% endif %}
+                  <td align="center">{{total_resources_sem7}}</td>
+                </tr>
+              {% endif %}
+
+              {% if 8 in total_semester_or_year %}
+                <tr>
+                  <th scope="row"><a href="#sem8" style="color: inherit; cursor: pointer; text-decoration: underline;">8th {{discipline.system}}</a></th>
+                  <td align="center">{{courses_sem8}}</td>
+                  <td align="center">{{credits_sem8|floatformat:"2"}}</td>
+                  {% if discipline.course_has_hour %}
+                    <td align="center">{{hours_sem8}}</td>
+                  {% endif %}
+                  <td align="center">{{total_resources_sem8}}</td>
+                </tr>
+              {% endif %}
+
+              {% if 9 in total_semester_or_year %}
+                <tr>
+                  <th scope="row"><a href="#sem9" style="color: inherit; cursor: pointer; text-decoration: underline;">9th {{discipline.system}}</a></th>
+                  <td align="center">{{courses_sem8}}</td>
+                  <td align="center">{{credits_sem8|floatformat:"2"}}</td>
+                  {% if discipline.course_has_hour %}
+                    <td align="center">{{hours_sem8}}</td>
+                  {% endif %}
+                  <td align="center">{{total_resources_sem8}}</td>
+                </tr>
+              {% endif %}
+
+              {% if 10 in total_semester_or_year %}
+                <tr>
+                  <th scope="row"><a href="#sem10" style="color: inherit; cursor: pointer; text-decoration: underline;">10th {{discipline.system}}</a></th>
+                  <td align="center">{{courses_sem8}}</td>
+                  <td align="center">{{credits_sem8|floatformat:"2"}}</td>
+                  {% if discipline.course_has_hour %}
+                    <td align="center">{{hours_sem8}}</td>
+                  {% endif %}
+                  <td align="center">{{total_resources_sem8}}</td>
+                </tr>
+              {% endif %}
+
+              {% if 11 in total_semester_or_year %}
+                <tr>
+                  <th scope="row"><a href="#sem11" style="color: inherit; cursor: pointer; text-decoration: underline;">11th {{discipline.system}}</a></th>
+                  <td align="center">{{courses_sem8}}</td>
+                  <td align="center">{{credits_sem8|floatformat:"2"}}</td>
+                  {% if discipline.course_has_hour %}
+                    <td align="center">{{hours_sem8}}</td>
+                  {% endif %}
+                  <td align="center">{{total_resources_sem8}}</td>
+                </tr>
+              {% endif %}
+
+              {% if 12 in total_semester_or_year %}
+                <tr>
+                  <th scope="row"><a href="#sem12" style="color: inherit; cursor: pointer; text-decoration: underline;">12th {{discipline.system}}</a></th>
+                  <td align="center">{{courses_sem8}}</td>
+                  <td align="center">{{credits_sem8|floatformat:"2"}}</td>
+                  {% if discipline.course_has_hour %}
+                    <td align="center">{{hours_sem8}}</td>
+                  {% endif %}
+                  <td align="center">{{total_resources_sem8}}</td>
+                </tr>
+              {% endif %}
+
+
+                <tr>
+                  <th scope="row" style="text-align: center;">Total</th>
+                  <td align="center"><strong>{{total_courses_s}}</strong></td>
+                  <td align="center"><strong>{{total_credits_s|floatformat:"2"}}</strong></td>
+                  {% if discipline.course_has_hour %}
+                    <td align="center"><strong>{{total_hours_s}}</strong></td>
+                  {% endif %}
+                  <td align="center"><strong>{{total_resources_all_sem}}</strong></td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+
+        
+
+        <!-- Detailed Table -->
+        {% if 1 in total_semester_or_year %}
+            <div id="sem1">
+              <div>
+                <h4 style="font-weight: bold; text-align: center" class="mt-4">1st {{discipline.system}}</h4>
+
+                  <div class="inner_summary_table" style="overflow-x:auto">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="text-align: center;">Total Courses</th>
+                          <th scope="col" style="text-align: center;">Total Credits</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Total Hours</th>
+                          {% endif %}
+                          <th scope="col" style="text-align: center;">Total Resources</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td scope="row" align="center">{{courses_sem1}}</td>
+                          <td align="center">{{credits_sem1}}</td>
+                          {% if discipline.course_has_hour %}
+                            <td align="center">{{hours_sem1}}</td>
+                          {% endif %}
+                          <td align="center">{{total_resources_sem1}}</td>
+                          {% comment %} <td align="center">*</td> {% endcomment %}
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+              
+                  <div style="overflow-x:auto">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          {% comment %} <th scope="col" style="text-align: center;">#</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Title</th>
+                          {% comment %} <th scope="col" style="text-align: center;">Total Resources</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Code</th>
+                          <th scope="col" style="text-align: center;">Credit</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Hour</th>
+                          {% endif %}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for c in courses %}
+                          {% if c.semester == '1st' %}
+                            <tr>
+                              {% comment %} <th scope="row" align="center">{{forloop.counter}}</th> {% endcomment %}
+                              <td><a href="{% url 'show_course' c.id %}">{{c}}</a></td>
+                              {% comment %} <td align="center">*</td> {% endcomment %}
+                              <td align="center">{{c.code}}</td>
+                              <td align="center">{{c.credit}}</td>
+                              {% if discipline.course_has_hour %}
+                                <td align="center">{{c.hour}}</td>
+                              {% endif %}
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+
+            <hr>
+        {% endif %}
+
+
+        {% if 2 in total_semester_or_year %}
+            <div id="sem2">
+              <div>
+                <h4 style="font-weight: bold; text-align: center" class="mt-4">2nd {{discipline.system}}</h4>
+
+                  <div class="inner_summary_table" style="overflow-x:auto">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="text-align: center;">Total Courses</th>
+                          <th scope="col" style="text-align: center;">Total Credits</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Total Hours</th>
+                          {% endif %}
+                          <th scope="col" style="text-align: center;">Total Resources</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td scope="row" align="center">{{courses_sem2}}</td>
+                          <td align="center">{{credits_sem2}}</td>
+                          {% if discipline.course_has_hour %}
+                            <td align="center">{{hours_sem2}}</td>
+                          {% endif %}
+                          <td align="center">{{total_resources_sem2}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+              
+                  <div style="overflow-x:auto">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          {% comment %} <th scope="col" style="text-align: center;">#</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Title</th>
+                          {% comment %} <th scope="col" style="text-align: center;">Total Resources</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Code</th>
+                          <th scope="col" style="text-align: center;">Credit</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Hour</th>
+                          {% endif %}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for c in courses %}
+                          {% if c.semester == '2nd' %}
+                            <tr>
+                              {% comment %} <th scope="row" align="center">{{forloop.counter}}</th> {% endcomment %}
+                              <td><a href="{% url 'show_course' c.id %}">{{c}}</a></td>
+                              {% comment %} <td align="center">*</td> {% endcomment %}
+                              <td align="center">{{c.code}}</td>
+                              <td align="center">{{c.credit}}</td>
+                              {% if discipline.course_has_hour %}
+                                <td align="center">{{c.hour}}</td>
+                              {% endif %}
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+
+            <hr>
+        {% endif %}
+
+
+        {% if 3 in total_semester_or_year %}
+            <div id="sem3">
+              <div>
+                <h4 style="font-weight: bold; text-align: center" class="mt-4">3rd {{discipline.system}}</h4>
+
+                  <div class="inner_summary_table" style="overflow-x:auto">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="text-align: center;">Total Courses</th>
+                          <th scope="col" style="text-align: center;">Total Credits</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Total Hours</th>
+                          {% endif %}
+                          <th scope="col" style="text-align: center;">Total Resources</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td scope="row" align="center">{{courses_sem3}}</td>
+                          <td align="center">{{credits_sem3}}</td>
+                          {% if discipline.course_has_hour %}
+                            <td align="center">{{hours_sem3}}</td>
+                          {% endif %}
+                          <td align="center">{{total_resources_sem3}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+              
+                  <div style="overflow-x:auto">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          {% comment %} <th scope="col" style="text-align: center;">#</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Title</th>
+                          {% comment %} <th scope="col" style="text-align: center;">Total Resources</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Code</th>
+                          <th scope="col" style="text-align: center;">Credit</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Hour</th>
+                          {% endif %}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for c in courses %}
+                          {% if c.semester == '3rd' %}
+                            <tr>
+                              {% comment %} <th scope="row" align="center">{{forloop.counter}}</th> {% endcomment %}
+                              <td><a href="{% url 'show_course' c.id %}">{{c}}</a></td>
+                              {% comment %} <td align="center">*</td> {% endcomment %}
+                              <td align="center">{{c.code}}</td>
+                              <td align="center">{{c.credit}}</td>
+                              {% if discipline.course_has_hour %}
+                                <td align="center">{{c.hour}}</td>
+                              {% endif %}
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+
+            <hr>
+        {% endif %}
+
+
+        {% if 4 in total_semester_or_year %}
+            <div id="sem4">
+              <div>
+                <h4 style="font-weight: bold; text-align: center" class="mt-4">4th {{discipline.system}}</h4>
+
+                  <div class="inner_summary_table" style="overflow-x:auto">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="text-align: center;">Total Courses</th>
+                          <th scope="col" style="text-align: center;">Total Credits</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Total Hours</th>
+                          {% endif %}
+                          <th scope="col" style="text-align: center;">Total Resources</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td scope="row" align="center">{{courses_sem4}}</td>
+                          <td align="center">{{credits_sem4}}</td>
+                          {% if discipline.course_has_hour %}
+                            <td align="center">{{hours_sem4}}</td>
+                          {% endif %}
+                          <td align="center">{{total_resources_sem4}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+              
+                  <div style="overflow-x:auto">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          {% comment %} <th scope="col" style="text-align: center;">#</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Title</th>
+                          {% comment %} <th scope="col" style="text-align: center;">Total Resources</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Code</th>
+                          <th scope="col" style="text-align: center;">Credit</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Hour</th>
+                          {% endif %}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for c in courses %}
+                          {% if c.semester == '4th' %}
+                            <tr>
+                              {% comment %} <th scope="row" align="center">{{forloop.counter}}</th> {% endcomment %}
+                              <td><a href="{% url 'show_course' c.id %}">{{c}}</a></td>
+                              {% comment %} <td>*</td> {% endcomment %}
+                              <td align="center">{{c.code}}</td>
+                              <td align="center">{{c.credit}}</td>
+                              {% if discipline.course_has_hour %}
+                                <td align="center">{{c.hour}}</td>
+                              {% endif %}
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+
+              <hr>
+        {% endif %}
+
+
+        {% if 5 in total_semester_or_year %}
+            <div id="sem5">
+              <div>
+                <h4 style="font-weight: bold; text-align: center" class="mt-4">5th {{discipline.system}}</h4>
+
+                  <div class="inner_summary_table" style="overflow-x:auto">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="text-align: center;">Total Courses</th>
+                          <th scope="col" style="text-align: center;">Total Credits</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Total Hours</th>
+                          {% endif %}
+                          <th scope="col" style="text-align: center;">Total Resources</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td scope="row" align="center">{{courses_sem5}}</td>
+                          <td align="center">{{credits_sem5}}</td>
+                          {% if discipline.course_has_hour %}
+                            <td align="center">{{hours_sem5}}</td>
+                          {% endif %}
+                          <td align="center">{{total_resources_sem5}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+              
+                  <div style="overflow-x:auto">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          {% comment %} <th scope="col" style="text-align: center;">#</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Title</th>
+                          {% comment %} <th scope="col" style="text-align: center;">Total Resources</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Code</th>
+                          <th scope="col" style="text-align: center;">Credit</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Hour</th>
+                          {% endif %}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for c in courses %}
+                          {% if c.semester == '5th' %}
+                            <tr>
+                              {% comment %} <th scope="row" align="center">{{forloop.counter}}</th> {% endcomment %}
+                              <td><a href="{% url 'show_course' c.id %}">{{c}}</a></td>
+                              {% comment %} <td align="center">*</td> {% endcomment %}
+                              <td align="center">{{c.code}}</td>
+                              <td align="center">{{c.credit}}</td>
+                              {% if discipline.course_has_hour %}
+                                <td align="center">{{c.hour}}</td>
+                              {% endif %}
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+
+            <hr>
+        {% endif %}
+
+
+        {% if 6 in total_semester_or_year %}
+            <div id="sem6">
+              <div>
+                <h4 style="font-weight: bold; text-align: center" class="mt-4">6th {{discipline.system}}</h4>
+
+                  <div class="inner_summary_table" style="overflow-x:auto">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="text-align: center;">Total Courses</th>
+                          <th scope="col" style="text-align: center;">Total Credits</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Total Hours</th>
+                          {% endif %}
+                          <th scope="col" style="text-align: center;">Total Resources</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td scope="row" align="center">{{courses_sem6}}</td>
+                          <td align="center">{{credits_sem6}}</td>
+                          {% if discipline.course_has_hour %}
+                            <td align="center">{{hours_sem6}}</td>
+                          {% endif %}
+                          <td align="center">{{total_resources_sem6}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+              
+                  <div style="overflow-x:auto">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          {% comment %} <th scope="col" style="text-align: center;">#</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Title</th>
+                          {% comment %} <th scope="col" style="text-align: center;">Total Resources</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Code</th>
+                          <th scope="col" style="text-align: center;">Credit</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Hour</th>
+                          {% endif %}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for c in courses %}
+                          {% if c.semester == '6th' %}
+                            <tr>
+                              {% comment %} <th scope="row" align="center">{{forloop.counter}}</th> {% endcomment %}
+                              <td><a href="{% url 'show_course' c.id %}">{{c}}</a></td>
+                              {% comment %} <td align="center">*</td> {% endcomment %}
+                              <td align="center">{{c.code}}</td>
+                              <td align="center">{{c.credit}}</td>
+                              {% if discipline.course_has_hour %}
+                                <td align="center">{{c.hour}}</td>
+                              {% endif %}
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+
+            <hr>
+        {% endif %}
+
+
+        {% if 7 in total_semester_or_year %}
+            <div id="sem7">
+              <div>
+                <h4 style="font-weight: bold; text-align: center" class="mt-4">7th {{discipline.system}}</h4>
+
+                  <div class="inner_summary_table" style="overflow-x:auto">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="text-align: center;">Total Courses</th>
+                          <th scope="col" style="text-align: center;">Total Credits</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Total Hours</th>
+                          {% endif %}
+                          <th scope="col" style="text-align: center;">Total Resources</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td scope="row" align="center">{{courses_sem7}}</td>
+                          <td align="center">{{credits_sem7}}</td>
+                          {% if discipline.course_has_hour %}
+                            <td align="center">{{hours_sem7}}</td>
+                          {% endif %}
+                          <td align="center">{{total_resources_sem7}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+              
+                  <div style="overflow-x:auto">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          {% comment %} <th scope="col" style="text-align: center;">#</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Title</th>
+                          {% comment %} <th scope="col" style="text-align: center;">Total Resources</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Code</th>
+                          <th scope="col" style="text-align: center;">Credit</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Hour</th>
+                          {% endif %}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for c in courses %}
+                          {% if c.semester == '7th' %}
+                            <tr>
+                              {% comment %} <th scope="row" align="center">{{forloop.counter}}</th> {% endcomment %}
+                              <td><a href="{% url 'show_course' c.id %}">{{c}}</a></td>
+                              {% comment %} <td align="center">*</td> {% endcomment %}
+                              <td align="center">{{c.code}}</td>
+                              <td align="center">{{c.credit}}</td>
+                              {% if discipline.course_has_hour %}
+                              <td align="center">{{c.hour}}</td>
+                              {% endif %}
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+
+            <hr>
+        {% endif %}
+
+              <!-- Scroll to top button -->
+              {% comment %} <button class="scroll-top-button" onclick="scrollToTop()">Top</button> {% endcomment %}
+
+        {% if 8 in total_semester_or_year %}
+            <div id="sem8">
+              <div>
+                <h4 style="font-weight: bold; text-align: center" class="mt-4">8th {{discipline.system}}</h4>
+
+                  <div class="inner_summary_table" style="overflow-x:auto">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="text-align: center;">Total Courses</th>
+                          <th scope="col" style="text-align: center;">Total Credits</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Total Hours</th>
+                          {% endif %}
+                          <th scope="col" style="text-align: center;">Total Resources</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td scope="row" align="center">{{courses_sem8}}</td>
+                          <td align="center">{{credits_sem8}}</td>
+                          {% if discipline.course_has_hour %}
+                            <td align="center">{{hours_sem8}}</td>
+                          {% endif %}
+                          <td align="center">{{total_resources_sem8}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+              
+                  <div style="overflow-x:auto">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          {% comment %} <th scope="col" style="text-align: center;">#</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Title</th>
+                          {% comment %} <th scope="col" style="text-align: center;">Total Resources</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Code</th>
+                          <th scope="col" style="text-align: center;">Credit</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Hour</th>
+                          {% endif %}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for c in courses %}
+                          {% if c.semester == '8th' %}
+                            <tr>
+                              {% comment %} <th scope="row" align="center">{{forloop.counter}}</th> {% endcomment %}
+                              <td><a href="{% url 'show_course' c.id %}">{{c}}</a></td>
+                              {% comment %} <td align="center">*</td> {% endcomment %}
+                              <td align="center">{{c.code}}</td>
+                              <td align="center">{{c.credit}}</td>
+                              {% if discipline.course_has_hour %}
+                                <td align="center">{{c.hour}}</td>
+                              {% endif %}
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>     
+            </div>
+
+            <hr>
+        {% endif %}
+
+
+        {% if 9 in total_semester_or_year %}
+            <div id="sem9">
+              <div>
+                <h4 style="font-weight: bold; text-align: center" class="mt-4">8th {{discipline.system}}</h4>
+
+                  <div class="inner_summary_table" style="overflow-x:auto">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="text-align: center;">Total Courses</th>
+                          <th scope="col" style="text-align: center;">Total Credits</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Total Hours</th>
+                          {% endif %}
+                          <th scope="col" style="text-align: center;">Total Resources</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td scope="row" align="center">{{courses_sem8}}</td>
+                          <td align="center">{{credits_sem8}}</td>
+                          {% if discipline.course_has_hour %}
+                            <td align="center">{{hours_sem8}}</td>
+                          {% endif %}
+                          <td align="center">{{total_resources_sem8}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+              
+                  <div style="overflow-x:auto">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          {% comment %} <th scope="col" style="text-align: center;">#</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Title</th>
+                          {% comment %} <th scope="col" style="text-align: center;">Total Resources</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Code</th>
+                          <th scope="col" style="text-align: center;">Credit</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Hour</th>
+                          {% endif %}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for c in courses %}
+                          {% if c.semester == '8th' %}
+                            <tr>
+                              {% comment %} <th scope="row" align="center">{{forloop.counter}}</th> {% endcomment %}
+                              <td><a href="{% url 'show_course' c.id %}">{{c}}</a></td>
+                              {% comment %} <td align="center">*</td> {% endcomment %}
+                              <td align="center">{{c.code}}</td>
+                              <td align="center">{{c.credit}}</td>
+                              {% if discipline.course_has_hour %}
+                                <td align="center">{{c.hour}}</td>
+                              {% endif %}
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>     
+            </div>
+
+            <hr>
+        {% endif %}
+
+
+        {% if 10 in total_semester_or_year %}
+            <div id="sem10">
+              <div>
+                <h4 style="font-weight: bold; text-align: center" class="mt-4">8th {{discipline.system}}</h4>
+
+                  <div class="inner_summary_table" style="overflow-x:auto">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="text-align: center;">Total Courses</th>
+                          <th scope="col" style="text-align: center;">Total Credits</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Total Hours</th>
+                          {% endif %}
+                          <th scope="col" style="text-align: center;">Total Resources</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td scope="row" align="center">{{courses_sem8}}</td>
+                          <td align="center">{{credits_sem8}}</td>
+                          {% if discipline.course_has_hour %}
+                            <td align="center">{{hours_sem8}}</td>
+                          {% endif %}
+                          <td align="center">{{total_resources_sem8}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+              
+                  <div style="overflow-x:auto">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          {% comment %} <th scope="col" style="text-align: center;">#</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Title</th>
+                          {% comment %} <th scope="col" style="text-align: center;">Total Resources</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Code</th>
+                          <th scope="col" style="text-align: center;">Credit</th>
+                          {% if discipline.course_has_hour %} 
+                            <th scope="col" style="text-align: center;">Hour</th>
+                          {% endif %}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for c in courses %}
+                          {% if c.semester == '8th' %}
+                            <tr>
+                              {% comment %} <th scope="row" align="center">{{forloop.counter}}</th> {% endcomment %}
+                              <td><a href="{% url 'show_course' c.id %}">{{c}}</a></td>
+                              {% comment %} <td align="center">*</td> {% endcomment %}
+                              <td align="center">{{c.code}}</td>
+                              <td align="center">{{c.credit}}</td>
+                              {% if discipline.course_has_hour %}
+                                <td align="center">{{c.hour}}</td>
+                              {% endif %}
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>     
+            </div>
+
+            <hr>
+        {% endif %}
+
+
+        {% if 11 in total_semester_or_year %}
+            <div id="sem11">
+              <div>
+                <h4 style="font-weight: bold; text-align: center" class="mt-4">8th {{discipline.system}}</h4>
+
+                  <div class="inner_summary_table" style="overflow-x:auto">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="text-align: center;">Total Courses</th>
+                          <th scope="col" style="text-align: center;">Total Credits</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Total Hours</th>
+                          {% endif %}
+                          <th scope="col" style="text-align: center;">Total Resources</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td scope="row" align="center">{{courses_sem8}}</td>
+                          <td align="center">{{credits_sem8}}</td>
+                          {% if discipline.course_has_hour %}
+                            <td align="center">{{hours_sem8}}</td>
+                          {% endif %}
+                          <td align="center">{{total_resources_sem8}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+              
+                  <div style="overflow-x:auto">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          {% comment %} <th scope="col" style="text-align: center;">#</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Title</th>
+                          {% comment %} <th scope="col" style="text-align: center;">Total Resources</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Code</th>
+                          <th scope="col" style="text-align: center;">Credit</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Hour</th>
+                          {% endif %}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for c in courses %}
+                          {% if c.semester == '8th' %}
+                            <tr>
+                              {% comment %} <th scope="row" align="center">{{forloop.counter}}</th> {% endcomment %}
+                              <td><a href="{% url 'show_course' c.id %}">{{c}}</a></td>
+                              {% comment %} <td align="center">*</td> {% endcomment %}
+                              <td align="center">{{c.code}}</td>
+                              <td align="center">{{c.credit}}</td>
+                              {% if discipline.course_has_hour %}
+                                <td align="center">{{c.hour}}</td>
+                              {% endif %}
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+
+            <hr>
+        {% endif %}
+
+
+        {% if 12 in total_semester_or_year %}
+            <div id="sem12">
+              <div>
+                <h4 style="font-weight: bold; text-align: center" class="mt-4">8th {{discipline.system}}</h4>
+
+                  <div class="inner_summary_table" style="overflow-x:auto">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th scope="col" style="text-align: center;">Total Courses</th>
+                          <th scope="col" style="text-align: center;">Total Credits</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Total Hours</th>
+                          {% endif %}
+                          <th scope="col" style="text-align: center;">Total Resources</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td scope="row" align="center">{{courses_sem8}}</td>
+                          <td align="center">{{credits_sem8}}</td>
+                          {% if discipline.course_has_hour %}
+                            <td align="center">{{hours_sem8}}</td>
+                          {% endif %}
+                          <td align="center">{{total_resources_sem8}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+              
+                  <div style="overflow-x:auto">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          {% comment %} <th scope="col" style="text-align: center;">#</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Title</th>
+                          {% comment %} <th scope="col" style="text-align: center;">Total Resources</th> {% endcomment %}
+                          <th scope="col" style="text-align: center;">Course Code</th>
+                          <th scope="col" style="text-align: center;">Credit</th>
+                          {% if discipline.course_has_hour %}
+                            <th scope="col" style="text-align: center;">Hour</th>
+                          {% endif %}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for c in courses %}
+                          {% if c.semester == '8th' %}
+                            <tr>
+                              {% comment %} <th scope="row" align="center">{{forloop.counter}}</th> {% endcomment %}
+                              <td><a href="{% url 'show_course' c.id %}">{{c}}</a></td>
+                              {% comment %} <td align="center">*</td> {% endcomment %}
+                              <td align="center">{{c.code}}</td>
+                              <td align="center">{{c.credit}}</td>
+                              {% if discipline.course_has_hour %}
+                                <td align="center">{{c.hour}}</td>
+                              {% endif %}
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>     
+            </div>
+
+            <hr>
+        {% endif %}
+            <br/>
+      </div>
+
+      <div class="col-md-3">        
+          {% include 'moderator_section.html' %}
+      </div>
+    </div>
+</div>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha384-o9D8b0qEGT5Br3SOGwnfO9NSeM4SBDjzVZcvZZZZ9dCvGz8ZbR9FO9Rn5KMsFVCq" crossorigin="anonymous"></script>
+
+
+  <style>
+    .department_heading {
+      color: white;
+      background-color:#4e5052;
+      margin-top: -45px;
+      margin-left: 140px;
+      width: 70%;
+      text-align: center;
+    }
+
+    .inner_summary_table {
+      width:50%;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 480px) {
+
+      .department_outer {
+        margin-top: 0px;
+      }
+
+      .department_heading {
+        margin-top: 17px;
+        margin-left: 0px;
+        width: 100%;
+      }
+
+      .summary_table {
+        margin-left: px;
+      }
+
+      .inner_summary_table {
+        width:100%; 
+        margin: 0 0;
+      }
+    }
+
+ 
+  </style>
+
+{% endblock %}

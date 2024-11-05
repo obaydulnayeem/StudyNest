@@ -1,0 +1,9 @@
+/* CSS for active page*/
+.active-page {
+    background-color: #343a40; /* Change this to the desired background color */
+    color: white; /* Change this to the desired text color */
+    border-radius: 10px;
+    /* padding: -20px; */
+}
+
+  

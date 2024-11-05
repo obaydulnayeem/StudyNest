@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container" style="margin-top: 10px; margin-left: 200px;">
+    <div class="row">
+    
+        <div class="col-md-9">
+            <div class="card-header bg-secondary text-white text-center">
+              <h3>Add University Information</h3>
+            </div>
+            <p class="text-muted text-center mx-5">[আপনার বিশ্ববিদ্যালয়ের সাথে কোনো ফিল্ড/অপশনের অমিল থাকলে বা কোনো তথ্য খুঁজে না পেলে অথবা অন্য কোনো সমস্যা হলে আমাদেরকে মেসেজ দিন। যেসব অপশন আপনার জন্য প্রযোজ্য নয় সেগুলো ফাঁকা রাখুন।]</p>
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="post" id="QuestionForm" enctype="multipart/form-data" data-universities-url="{% url 'ajax_load_universities' %}" data-faculties-url="{% url 'ajax_load_faculties' %}" data-departments-url="{% url 'ajax_load_departments' %}">
+                        {% csrf_token %}
+                           <!-- Form Fields -->
+                        <div class="mb-4">
+                          <div class="form-group mb-3">
+                              <label for="{{ form.university_type.id_for_label }}">University Type:</label>
+                              {{ form.university_type }}
+                          </div>
+
+                          <div class="form-group mb-3">
+                              <label for="{{ form.university.id_for_label }}">University Name:</label>
+                              {{ form.university }}
+                          </div>
+
+                          <div class="form-group mb-3">
+                              <label for="{{ form.faculty.id_for_label }}">Faculty:</label>
+                              {{ form.faculty }}
+                              <p class="text-muted">
+                          </div>
+
+                          <div class="form-group mb-3">
+                              <label for="{{ form.department.id_for_label }}">Department:</label>
+                              {{ form.department }}
+                          </div>
+
+                          {% comment %} {% if user.profile.user_type == 'Student' %} {% endcomment %}
+                            <div class="form-group mb-3">
+                                <label for="{{ form.degree.id_for_label }}">Degree:</label>
+                                {{ form.degree }}
+                            </div>
+                          {% comment %} {% endif %} {% endcomment %}
+                        
+                          {% comment %} {% if user.profile.user_type == 'Student' %} {% endcomment %}
+                            <div class="form-group mb-3">
+                                <label for="{{ form.session.id_for_label }}">Admission Session:</label>
+                                {{ form.session }}
+                            </div>
+                          {% comment %} {% endif %} {% endcomment %}
+
+                          {% comment %} {% if user.profile.user_type == 'Student' %} {% endcomment %}
+                            <div class="form-group mb-3">
+                                <label for="{{ form.varsity_batch.id_for_label }}">University Batch:</label>
+                                {{ form.varsity_batch }}
+                            </div>
+                          {% comment %} {% endif %} {% endcomment %}
+
+                          {% comment %} {% if user.profile.user_type == 'Student' %} {% endcomment %}
+                            <div class="form-group mb-3">
+                                <label for="{{ form.departmental_batch.id_for_label }}">Departmental Batch:</label>
+                                {{ form.departmental_batch }}
+                            </div>
+                          {% comment %} {% endif %} {% endcomment %}
+
+                          {% comment %} {% if user.profile.user_type == 'Student' %} {% endcomment %}
+                            <div class="form-group mb-3">
+                                <label for="{{ form.semester.id_for_label }}">Semester/Year:</label>
+                                {{ form.semester }}
+                                <span class="text-muted" style="font-size: 12px">আপনার Department/Discipline/Institute 'সেমিস্টার সিস্টেম' হলে বর্তমান সেমিস্টার সংখ্যা সিলেক্ট করুন। অথবা 'ইয়ার সিস্টেম' হলে বর্তমান ইয়ার সংখ্যা সিলেক্ট করুন।</span>
+                            </div>
+                          {% comment %} {% endif %} {% endcomment %}
+
+                          {% comment %} {% if user.profile.user_type == 'Student' %} {% endcomment %}
+                            <div class="form-group mb-3">
+                                <label for="{{ form.student_id.id_for_label }}">Student ID / Class Roll:</label>
+                                {{ form.student_id }}
+                            </div>
+                          {% comment %} {% endif %} {% endcomment %}
+
+                          {% comment %} {% if user.profile.user_type == 'Student' %} {% endcomment %}
+                            <div class="form-group mb-3">
+                                <label for="{{ form.start_year.id_for_label }}">University Start Year:</label>
+                                {{ form.start_year }}
+                            </div>
+                          {% comment %} {% endif %} {% endcomment %}
+
+                          {% comment %} {% if user.profile.user_type == 'Student' %} {% endcomment %}
+                            <div class="form-group mb-3">
+                                <label for="{{ form.end_year.id_for_label }}">End Year (Expected):</label>
+                                {{ form.end_year }}
+                            </div>
+                          {% comment %} {% endif %} {% endcomment %}
+
+                          <div class="form-group mb-3">
+                              <label for="{{ form.approval_query.id_for_label }}">Approval Query:</label>
+                              {{ form.approval_query }}
+                          </div>
+
+                        <button type="submit" class="btn btn-secondary">Save changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'profile/my_profile/my_profile_secondary_nav.html' %}
+
+{% endblock %}

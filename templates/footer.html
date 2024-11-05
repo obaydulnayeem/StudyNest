@@ -1,0 +1,80 @@
+<footer class="base_footer text-light py-4" style="">
+    <p class="noto-serif-bengali mx-3" class="text-center" style="margin-bottom: 15px; font-size: 13px; text-align: center;">ওয়েবসাইটের যেকোনো অংশে যেকোনো ধরণের সমস্যা দেখলে অথবা আপনার ইউনিভার্সিটি বা ডিপার্টমেন্ট অনুসারে কোনো ফিচার সম্পর্কে অমিল বা আপনার যেকোনো সাজেশন থাকলে ডান পাশের Facebook / WhatsApp চ্যাট আইকনে ক্লিক করুন।</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5 class="mb-3">Useful Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-light">About Us</a></li>
+                    <li><a href="{% url 'home' %}" class="text-light">Home</a></li>
+                    <li><a href="{% url 'generate_referral_link' %}" class="text-light">Refer & earn 100 coins!</a></li>
+                    {% comment %} <li><a href="#" class="text-light">Refund Policy</a></li> {% endcomment %}
+                    {% comment %} <li><a href="#" class="text-light">Privacy Policy</a></li> {% endcomment %}
+                    {% comment %} <li><a href="#" class="text-light">Terms and Conditions</a></li> {% endcomment %}
+                </ul>
+            </div>
+
+            <div class="col-md-4">
+                <h5 class="mb-3">Contact Info</h5>
+                <p class="mb-2"><i class="fas fa-phone-alt me-2"></i>Cell/WhatsApp: +880 1569 134 868 </p>
+                <p class="mb-0"><i class="fas fa-envelope me-2"></i>Email: info.onebyzeroedu@gmail.com</p>
+            </div>
+
+            <div class="col-md-4">
+                <h5 class="mb-3">Onebyzero Edu Community</h5>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="https://www.facebook.com/onebyzeroedu.com.broadcast" target="_blank" class="text-light"><i class="fab fa-facebook fa-lg"></i></a></li>
+                    <li class="list-inline-item"><a href="https://www.youtube.com/@onebyzeroedu.broadcast" target="_blank" class="text-light"><i class="fab fa-youtube fa-lg"></i></a></li>
+                    <li class="list-inline-item"><a href="https://www.linkedin.com/company/onebyzero-edu" target="_blank" class="text-light"><i class="fab fa-linkedin fa-lg"></i></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="my-4 border-light">
+
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="mb-3">Onebyzero Talks 
+                    <a href="https://www.youtube.com/playlist?list=PLHwdA3-2d1yGgXPytvbZn2f7cQ76l691Q" target="_blank" class="btn btn-sm btn-secondary ms-2">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </h5>
+                <p class="mb-0"><a href="https://www.youtube.com/playlist?list=PLHwdA3-2d1yGgXPytvbZn2f7cQ76l691Q" target="_blank" class="btn btn-sm btn-secondary ms-2">
+                Watch educational talks with our top professional guests.</a></p>
+            </div>
+            
+            
+
+            <div class="col-md-6 text-md-end">
+                <h5 class="mb-0">&copy; Onebyzero Edu</h5>
+                <p>A River of Educational Resources</p>
+                <p>2022 to Present</p>
+            </div>
+        </div>
+    </div>
+
+    <p class="text-light text-center" style="margin-bottom: -10px; margin-top: 10px; font-size: 10px;"><span style="font-weight: bold;">Beta Version</span> [The website is still in development. Certain features may not work as expected.  We're working hard to bring you the best experience soon]</p>
+</footer>
+
+<style>
+    .base_footer {
+        background-color: #212529;
+        margin-top: 40px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 14px;
+    }
+    
+    .base_footer p {
+        margin-bottom: 0;
+    }
+
+    @media (max-width: 480px) {
+        .base_footer {
+            margin-right: -50px;
+            margin-bottom: 50px;
+            width: 100%;
+
+        }
+    }
+</style>

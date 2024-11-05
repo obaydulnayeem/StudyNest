@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Resources{% endblock %}
+
+{% block content %}
+    <div class="semester_year container">
+        <div class="semester_year_heading text-center mb-3 pt-1 pb-1">
+
+            <h4>
+                {% comment %} {% for d in courses %}
+                        {{ d.semester }}
+                    {% empty %}
+                {% endfor %} {% endcomment %}
+
+                {{ course_semester }}
+
+                {% if user.profile.edu_university.department %}
+                    {% if department.system == 'Semester' %}
+                    Semester
+                    {% else %}
+                    Year
+                    {% endif %}
+                {% elif user.profile.edu_university.discipline %}
+                    {% if discipline.system == 'Semester' %}
+                    Semester
+                    {% else %}
+                    Year
+                    {% endif %}
+                {% endif %}
+            </h4>
+
+            <hr style="margin-top: -5px">
+
+            {% if department %}
+                <p style="margin-top: -15px"><a href="{% url 'show_department' department.id %}">{{ department.name }}</a>, <a href="{% url 'show_university' department.university.id %}">{{ department.university.name }}</a></p>
+            {% elif discipline %}
+                <p style="margin-top: -15px"><a href="{% url 'show_discipline' discipline.id %}">{{ discipline.name }}</a>, <a href="{% url 'show_university' discipline.university.id %}">{{ discipline.university.name }}</a></p>
+            {% endif %}
+        </div>
+        
+        <div class="extra_options">
+            {% comment %} {% if department %}
+                <a href="{% url 'view_edu_university_my_profile' %}" class="btn btn-secondary btn-sm">Change {{ department.system }}</a>
+
+                <a href="{% url 'my_department_s' ctxp_profile_edu_university_id ctxp_profile_edu_department_id %}" class="btn btn-secondary btn-sm">All {{ department.system }}s</a>
+            {% endif %} {% endcomment %}
+        </div>
+        
+        <div class="">
+            <div class="courses row mt-4">
+                {% for data in course_data %}
+                    <div class="col-md-4 mb-4 d-flex">
+                        <div class="card w-100 h-50">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">{{ data.course.title }}</h5>
+                                <p class="card-text">Course Code: {{ data.course.code }}</p>
+                                {% comment %} <p class="card-text flex-grow-1">Explore <b>{{ data.question_count }}</b> questions, <b>{{ data.book_count }}</b> books, <b>{{ data.lecture_count }}</b> lecture slides, <b>{{ data.note_count }}</b> notes</p> {% endcomment %}
+                                <p class="card-text flex-grow-1">Explore a collection of Questions, Books, Lecture Slides, and Notes for this course</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="{% url 'show_course' data.course.id %}" class="btn btn-secondary btn-block view-btn">View</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% comment %} <div class="col-md-3">
+                {% include 'moderator_section.html' %}
+            </div> {% endcomment %}
+        </div>
+    </div>
+
+    <style>
+        a {
+            color: white;
+        }
+
+        a:hover {
+            color: rgb(5, 5, 49)
+        }
+        
+        .semester_year {
+            margin-top: -50px;
+        }
+
+        .semester_year_heading {
+            background-color: #4e5052; 
+            color: white;
+            margin-left: 110px;
+            width: 80%;
+            text-align: center;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card-body {
+            flex-grow: 1;
+        }
+
+        .courses .card {
+            min-height: 300px; /* Adjust based on your needs */
+        }
+
+        @media (max-width: 480px) {
+            .semester_year {
+                margin-top: 20px;
+                
+            }
+
+            .semester_year_heading {
+                width: 90%;
+                margin-top: 20px;
+                margin-left: 20px;
+            }
+
+            .extra_options {
+                text-align: center;
+            }
+
+            .courses {
+               
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="{% static 'css/view_resources.css' %}">
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-2">
+    <h3 class="mb-4 text-center">Edit Institute: {{ institute.name }}</h3>
+    <p class="text-muted mb-4 text-center">{{university}}</p>
+    {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="form-group p-2">
+                            <label for="{{ form.name.id_for_label }}">Institute Name:</label>
+                            {{ form.name }}
+                            {% if form.name.errors %}
+                                <div class="text-danger">{{ form.name.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group p-2">
+                            <label for="{{ form.faculty.id_for_label }}">Faculty Name: (Optional)</label>
+                            <p class="text-muted" style="font-size: 12px">[এই Institute যদি কোনো ফ্যাকাল্টির আন্ডারে থাকে শুধুমাত্র তখন Faculty সিলেক্ট করুন। অন্যথায় ফাঁকা রাখুন]</p>
+                            {{ form.faculty }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Update Institute</button>
+                        <a href="{% url 'show_institutes_mod' university_id %}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

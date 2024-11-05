@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Company List{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-center">Company List ({{companies.count }})</h2>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-12">
+        {% comment %} <a href="{% url 'add_company' %}" class="btn btn-success mb-3 btn-sm">Add New Company</a> {% endcomment %}
+
+        {% include 'secondary_nav_job_tracking.html' %}
+
+        <a href="{% url 'add_company' %}" class="btn btn-dark btn-sm mr-2 mb-2">
+            <i class="fas fa-plus"></i> Add New Company
+        </a>
+
+            {% if companies %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Company Name</th>
+                            <th>Location</th>
+                            <th>Website Link</th>
+                            <th>LinkedIn</th>
+                            <th>Apply Link</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cm in companies %}
+                            <tr>
+                                <td>{{ cm.company_name }}</td>
+                                <td>{{ cm.company_location }}</td>
+                                <td>
+                                    {% if cm.website_link %}
+                                        <a href="{{ cm.website_link }}" target="_blank" class="btn btn-secondary btn-sm">Website</a>
+                                    {% else %}
+                                        <span class="text-muted">No Link</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if cm.linkedin %}
+                                        <a href="{{ cm.linkedin }}" target="_blank" class="btn btn-secondary btn-sm">LinkedIn</a>
+                                    {% else %}
+                                        <span class="text-muted">No Link</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% if cm.apply_link %}
+                                        <a href="{{ cm.apply_link }}" target="_blank" class="btn btn-success btn-sm">Apply Now</a>
+                                    {% else %}
+                                        <span class="text-muted">No Link</span>
+                                    {% endif %}
+                                </td>
+                                {% comment %} <td>
+                                    <a href="{% url 'edit_company' cm.id %}" class="btn btn-primary btn-sm">Edit</a>
+                                </td> {% endcomment %}
+
+                                <td>
+                                    <a href="{% url 'edit_company' cm.pk %}" class="btn btn-primary btn-sm">Edit</a>
+                                    <button onclick="confirmDelete('{{ cm.pk }}');" class="btn btn-danger btn-sm">Delete</button>
+                                    
+                                    <!-- Hidden form for the delete request -->
+                                    <form id="delete-form-{{ cm.pk }}" method="POST" action="{% url 'delete_company' cm.pk %}" style="display:none;">
+                                        {% csrf_token %}
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-center">You have not added any companies.</p>
+            {% endif %}
+        </div> 
+    </div>
+</div>
+
+<!-- JavaScript for confirming the delete action -->
+<script>
+    function confirmDelete(companyId) {
+        const confirmed = confirm('Are you sure you want to delete this company? This action cannot be undone.');
+        if (confirmed) {
+            document.getElementById(`delete-form-${companyId}`).submit();
+        }
+    }
+</script>
+{% endblock %}

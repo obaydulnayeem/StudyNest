@@ -1,0 +1,345 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+<div class="container mt-3">
+    
+        <!-- Right Side Content Column -->
+        
+            <!-- Secondary Navigation Bar -->
+            <div class="dp_secondary_nav fixed-top mb-4">
+                <nav class="nav nav-pills">
+                    <a class="nav-link active btn-secondary" href="#overview" role="tab" data-toggle="tab" style="color: black;"><i class="fas fa-user fa-lg"></i>
+                    </a>
+                    
+                    <a class="nav-link btn-secondary" href="#contribution-summary" role="tab" data-toggle="tab" style="color: black;"><i class="fas fa-list-alt fa-lg"></i>
+                    </a>
+                   
+                    <a class="nav-link btn-secondary" href="#detailed-contribution" role="tab" data-toggle="tab" style="color: black;"><i class="fas fa-chart-line fa-lg"></i>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="content-with-fixed-nav mt-1" style="margin-left: 100px">
+                <div class="tab-content">
+                    <!-- Overview Tab -->
+                    <div class="dp_overview tab-pane fade show active" id="overview">
+                        <div class=" card-body">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                {% if d_profile.fullname %}
+                                    <h5>{{ d_profile.fullname }}</h5>
+                                {% else %}
+                                    <h5>{{ d_profile.user }}</h5>
+                                {% endif %}
+                            </div>
+        
+                            <div class="profile-section">
+                                {% if d_profile.profile_image %}
+                                    <div class="profile-image-container">
+                                        <div class="profile-image-frame">
+                                            <img src="{{ d_profile.profile_image.url }}" alt="Profile Image" class="profile-image" style="width: 150px;">
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="profile-image-container">
+                                        <div class="profile-image-frame">
+                                            <i class="fas fa-user-circle fa-5x"></i>
+                                        </div>
+                                    </div>
+                                {% endif %}
+        
+                                <div class="profile-details">
+                                    {% if d_profile.bio %}
+                                        <p>{{ d_profile.bio }}</p>
+                                    {% endif %}
+        
+                                    {% if ctxp_profile_edu_university_name %}
+                                        <p><strong>{{ ctxp_profile_edu_department_name }}, {{ ctxp_profile_edu_university_name }}</strong></p>
+                                    {% endif %}
+        
+                                    {% if d_profile.year and d_profile.semester %}
+                                        <p>
+                                            {% if d_profile.year == 1 %}
+                                                {{ d_profile.year }}st Year,
+                                            {% elif d_profile.year == 2 %}
+                                                {{ d_profile.year }}nd Year,
+                                            {% elif d_profile.year == 3 %}
+                                                {{ d_profile.year }}rd Year,
+                                            {% elif d_profile.year == 4 %}
+                                                {{ d_profile.year }}th Year,
+                                            {% endif %}
+        
+                                            {% if d_profile.semester == 1 %}
+                                                {{ d_profile.semester }}st Semester
+                                            {% elif d_profile.semester == 2 %}
+                                                {{ d_profile.semester }}nd Semester
+                                            {% endif %}
+                                        </p>
+                                    {% endif %}
+        
+                                    {% if d_profile.departmental_batch and d_profile.session %}
+                                        <p>{{ d_profile.departmental_batch }} Batch (dept.), *th Batch (varsity), {{ d_profile.session }} session</p>
+                                    {% endif %}
+        
+                                    {% if d_profile.fullname %}
+                                        <p><strong>Fullname:</strong> {{ d_profile.fullname }}</p>
+                                    {% endif %}
+        
+                                    {% if d_profile.nickname %}
+                                        <p><strong>Nickname:</strong> {{ d_profile.nickname }}</p>
+                                    {% endif %}
+        
+                                    {% if d_profile.email %}
+                                        <p><strong>Email:</strong> {{ d_profile.email }}</p>
+                                    {% endif %}
+        
+                                    {% if d_profile.facebook_id or d_profile.codeforces_id %}
+                                        <p><strong>Social Links:</strong></p>
+                                        {% if d_profile.facebook_id %}
+                                            <a href="{{ d_profile.facebook_id }}" target="_blank"><i class="fab fa-facebook fa-2x p-2" title="Facebook"></i></a>
+                                        {% endif %}
+                                        {% if d_profile.codeforces_id %}
+                                            <a href="{{ d_profile.codeforces_id }}" target="_blank"><i class="fas fa-globe fa-2x p-2" title="Codeforces"></i></a>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contribution Summary Tab -->
+                    <div class="dp_contribution_summary tab-pane fade show" id="contribution-summary">
+                        <h4>
+                            {% if d_profile.nickname %}
+                                {{ d_profile.nickname }}'s Contributions:
+                            {% else %}
+                                {{ d_profile.user }}'s Contributions:
+                            {% endif %}
+                        </h4>
+                        <p>Total Uploads: {{ total_uploads }}</p>
+
+                        <div style="overflow-x: auto;">
+                            <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">1st Sem</th>
+                                    <th scope="col">2nd Sem</th>
+                                    <th scope="col">3rd Sem</th>
+                                    <th scope="col">4th Sem</th>
+                                    <th scope="col">5th Sem</th>
+                                    <th scope="col">6th Sem</th>
+                                    <th scope="col">7th Sem</th>
+                                    <th scope="col">8th Sem</th>
+                                    <th scope="col">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Questions</th>
+                                    <td>{{ qs_sem1 }}</td>
+                                    <td>{{ qs_sem2 }}</td>
+                                    <td>{{ qs_sem3 }}</td>
+                                    <td>{{ qs_sem4 }}</td>
+                                    <td>{{ qs_sem5 }}</td>
+                                    <td>{{ qs_sem6 }}</td>
+                                    <td>{{ qs_sem7 }}</td>
+                                    <td>{{ qs_sem8 }}</td>
+                                    <td><strong>{{ qs_total }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Books</th>
+                                    <td>{{ books_sem1 }}</td>
+                                    <td>{{ books_sem2 }}</td>
+                                    <td>{{ books_sem3 }}</td>
+                                    <td>{{ books_sem4 }}</td>
+                                    <td>{{ books_sem5 }}</td>
+                                    <td>{{ books_sem6 }}</td>
+                                    <td>{{ books_sem7 }}</td>
+                                    <td>{{ books_sem8 }}</td>
+                                    <td><strong>{{ books_total }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Notes</th>
+                                    <td>{{ notes_sem1 }}</td>
+                                    <td>{{ notes_sem2 }}</td>
+                                    <td>{{ notes_sem3 }}</td>
+                                    <td>{{ notes_sem4 }}</td>
+                                    <td>{{ notes_sem5 }}</td>
+                                    <td>{{ notes_sem6 }}</td>
+                                    <td>{{ notes_sem7 }}</td>
+                                    <td>{{ notes_sem8 }}</td>
+                                    <td><strong>{{ notes_total }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Lecture Slides</th>
+                                    <td>{{ lectures_sem1 }}</td>
+                                    <td>{{ lectures_sem2 }}</td>
+                                    <td>{{ lectures_sem3 }}</td>
+                                    <td>{{ lectures_sem4 }}</td>
+                                    <td>{{ lectures_sem5 }}</td>
+                                    <td>{{ lectures_sem6 }}</td>
+                                    <td>{{ lectures_sem7 }}</td>
+                                    <td>{{ lectures_sem8 }}</td>
+                                    <td><strong>{{ lectures_total }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Total</th>
+                                    <td><strong>{{ all_sem1 }}</strong></td>
+                                    <td><strong>{{ all_sem2 }}</strong></td>
+                                    <td><strong>{{ all_sem3 }}</strong></td>
+                                    <td><strong>{{ all_sem4 }}</strong></td>
+                                    <td><strong>{{ all_sem5 }}</strong></td>
+                                    <td><strong>{{ all_sem6 }}</strong></td>
+                                    <td><strong>{{ all_sem7 }}</strong></td>
+                                    <td><strong>{{ all_sem8 }}</strong></td>
+                                    <td><strong>{{ total_uploads }}</strong></td>
+                                </tr>
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Contribution Tab -->
+                    <div class="dp_detailed_contribution tab-pane fade" id="detailed-contribution">
+                        <h4 class="mb-4">Detailed Contributions by Semester:</h4>
+                        {% for semester, courses in resources_by_semester.items %}
+                            <h6 class="mb-3">{{ semester }} Semester</h6>
+                            <ul class="list-unstyled">
+                                {% for course_title, resources in courses.items %}
+                                    <li class="mb-4">
+                                        <strong>{{ course_title }}</strong>
+                                        <ul class="list-unstyled pl-3">
+                                            <li class="mb-2"><strong>Questions:</strong>
+                                                <ul class="list-unstyled pl-3">
+                                                    {% for qs in resources.questions %}
+                                                        <li><a href="{{ qs.question_file.url }}" target="_blank">{{ qs }}</a> [{{ qs.session }}]</li>
+                                                    {% empty %}
+                                                        <li>No questions uploaded.</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                            <li class="mb-2"><strong>Books:</strong>
+                                                <ul class="list-unstyled pl-3">
+                                                    {% for bk in resources.books %}
+                                                        <li>
+                                                            <a href="{{ bk.book_file.url }}" target="_blank">
+                                                                {{ bk }}
+                                                                {% if bk.book_edition %}
+                                                                    ({{ bk.book_edition }})
+                                                                {% endif %}
+                                                            </a> 
+                                                            {% if bk.book_author %}
+                                                                [{{ bk.book_author }}]
+                                                            {% endif %}
+                                                        </li>
+                                                    {% empty %}
+                                                        <li>No books uploaded.</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                            <li class="mb-2"><strong>Notes:</strong>
+                                                <ul class="list-unstyled pl-3">
+                                                    {% for nt in resources.notes %}
+                                                        <li>
+                                                            <a href="{{ nt.note_file.url }}" target="_blank">
+                                                                {{ nt }}
+                                                                ({{ nt.session }})
+                                                            </a>
+                                                            {% if nt.note_author %}
+                                                                [{{ nt.note_author }}]
+                                                            {% endif %}
+                                                        </li>
+                                                    {% empty %}
+                                                        <li>No notes uploaded.</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                            <li><strong>Lecture Slides:</strong>
+                                                <ul class="list-unstyled pl-3">
+                                                    {% for lc in resources.lectures %}
+                                                        <li>
+                                                            <a href="{{ lc.lecture_file.url }}" target="_blank">{{ lc }}
+                                                            ({{ lc.session }})
+                                                            </a>
+                                                            {% if lc.lecture_author %}
+                                                                [{{ lc.lecture_author }}]
+                                                            {% endif %}
+                                                        </li>
+                                                    {% empty %}
+                                                        <li>No lecture slides uploaded.</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        
+    
+</div>
+
+<!-- Link to external CSS file -->
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<style>
+  .content-with-fixed-nav {
+    margin-top: 80px; /* Adjust based on the height of your fixed nav bar */
+    margin-left: 332px; /* Same as the width of your left column */
+  }
+
+  .fixed-left {
+    position: fixed;
+    top: 72px; /* Adjust based on the height of your top nav bar */
+    left: 0;
+    width: 332px; /* Width of your left column */
+    height: 100vh; /* Full viewport height */
+    overflow-y: auto; /* Allow scrolling within the column */
+    z-index: 1020; /* Ensure it stays behind the secondary nav bar */
+    background-color: #fff; /* Background color to match your design */
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1); /* Optional: add shadow for better visibility */
+  }
+
+  .dp_secondary_nav {
+    {% comment %} z-index: 1030; /* Ensure it stays on top of other elements */ {% endcomment %}
+    background-color: #f8f9fa; /* Background color to match your design */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: add shadow for better visibility */
+
+    width: 60%;
+    margin-left: 180px;
+    margin-top: 75.5px;
+  }
+
+  @media (max-width: 480px) {
+    .dp_secondary_nav {
+        margin-left: 0px;
+        margin-top: 58px;
+        background-color: ;
+    }
+
+    .dp_overview {
+        margin-top: 15px;
+        margin-left: -87px;
+    }
+
+    .dp_contribution_summary {
+        margin-top: 45px;
+        margin-left: -100px;
+    }
+
+    .dp_detailed_contribution {
+        margin-top: 45px;
+        margin-left: -80px;
+    }
+  }
+</style>
+
+{% endblock %}

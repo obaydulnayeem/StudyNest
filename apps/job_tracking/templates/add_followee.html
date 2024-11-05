@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Add Followee{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h2 class="text-center">Add New Followee</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="POST" action="{% url 'add_followee' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Add Followee</button>
+                <a href="{% url 'followees' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

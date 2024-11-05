@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Payment for Session with {{ session.mentor.user }}</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="method" class="form-label">Payment Method</label>
+                            {{ payment_form.method }}
+                        </div>
+                        <div class="form-group">
+                            <label for="transaction_id" class="form-label">Transaction ID</label>
+                            {{ payment_form.transaction_id }}
+                        </div>
+                        <div class="form-group">
+                            <label for="amount" class="form-label">Amount</label>
+                            {{ payment_form.amount }}
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block mt-3">Submit Payment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

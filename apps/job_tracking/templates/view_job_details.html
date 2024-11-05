@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Job Application Details{% endblock %}
+
+{% block content %}
+<div class="container" style="margin-top: -50px;">
+    <h2 class="text-center mb-4">{{ job_application.job_title }} - {{ job_application.company_name }}</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Job Title: {{ job_application.job_title }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Company Name: {{ job_application.company_name }}</h6>
+            <p><strong>Date Applied:</strong> {{ job_application.date_applied }}</p>
+
+            {% if job_application.current_status %} 
+                <p><strong>Current Status:</strong> {{ job_application.current_status }}</p>
+            {% endif %}
+
+            {% if job_application.interview_date %}
+                <p><strong>Interview Date:</strong> {{ job_application.interview_date }}</p>
+            {% endif %}
+            
+            {% if job_application.job_type %}
+                <p><strong>Job Type:</strong> {{ job_application.job_type }}</p>
+            {% endif %}
+            
+            {% if job_application.work_environment %}
+                <p><strong>Work Environment:</strong> {{ job_application.work_environment }}</p>
+            {% endif %}
+
+            {% if job_application.experience_level %}
+                <p><strong>Experience Level:</strong> {{ job_application.experience_level }}</p>
+            {% endif %}
+            
+            {% if job_application.expected_salary %}
+                <p><strong>Expected Salary:</strong> {{ job_application.expected_salary }}</p>
+            {% endif %}
+            
+            {% if job_application.company_website %}
+                <p><strong>Company Website:</strong> <a href="{{ job_application.company_website }}" target="_blank">{{ job_application.company_website }}</a></p>
+            {% endif %}
+
+            {% if job_application.company_linkedin_link %}
+                <p><strong>Company LinkedIn Link:</strong> <a href="{{ job_application.company_linkedin_link }}" target="_blank">{{ job_application.company_linkedin_link }}</a></p>
+            {% endif %}
+            
+            {% if job_application.company_location %}
+                <p><strong>Company Location:</strong> {{ job_application.company_location }}</p>
+            {% endif %}
+            
+            {% if job_application.job_link %}
+                <p><strong>Job Link:</strong> <a href="{{ job_application.job_link }}" target="_blank">{{ job_application.job_link }}</a></p>
+            {% endif %}
+
+            {% if job_application.job_location %}
+                <p><strong>Job Location:</strong> {{ job_application.job_location }}</p>
+            {% endif %}
+
+            {% if job_application.resume %}
+                <p><strong>Resume:</strong> <a href="{{ job_application.resume.url }}" target="_blank">Download</a></p>
+            {% endif %}
+
+            {% if job_application.hr_profile_link %}
+                <p><strong>HR Profile Link:</strong> <a href="{{ job_application.hr_profile_link }}" target="_blank">{{ job_application.hr_profile_link }}</a></p>
+            {% endif %}
+            
+            {% if job_application.notes %}
+                <p><strong>Notes:</strong> {{ job_application.notes }}</p>
+            {% endif %}
+            
+            {% if job_application.job_description %}
+                <p><strong>Job Description:</strong> {{ job_application.job_description|linebreaks }}</p>
+            {% endif %}
+            
+        </div>
+    </div>
+    
+    <div class="text-center mt-4">
+        <a href="{% url 'job_application_list' %}" class="btn btn-secondary">Back to All Job Applications</a>
+    </div>
+</div>
+{% endblock %}

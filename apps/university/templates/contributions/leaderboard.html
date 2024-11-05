@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Leaderboard{% endblock %}
+
+{% block content %}
+    <div class="leaderboard_header text-center mb-1 pt-1 pb-1" style="">
+        <h4>Leaderboard</h4>
+        <p style="font-size: 16px; margin-bottom: 8px;">Top 50 Contributors</p>
+        <hr style="margin-top: -5px">
+        <p class="" style="font-size: 13px; margin-top: -15px; margin-bottom: 5px;">(Based on uploading resources, <a style="font-weight: bold; color: white" href="{% url 'generate_referral_link' %}">referring new students</a> and other contributions)</p>
+    </div>
+
+        {% if user_rank and user_total_coins %}
+            <div class="card text-center mb-1 mx-5 p-1 shadow-sm">
+                <div class="card-body">
+                    <!-- Rank Section -->
+                    <div class="mb-1">
+                        <h5 class="card-title">
+                            <i class="fas fa-trophy text-secondary me-2"></i>
+                            Your Rank: <span class="text-secondary">{{ user_rank }}</span>
+                        </h5>
+                    </div>
+            
+                    <!-- Coins Section -->
+                    <div>
+                        <h6 class="card-subtitle">
+                            <i class="fas fa-coins text-secondary me-2"></i>
+                            Total Onebyzero Coins: <span class="text-secondary">{{ user_total_coins }}</span>
+                        </h6>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+    <div class="row mx-4">
+        <div class="col-md-8">
+            <div class="container" style="overflow-x: auto" style="">
+
+                <span class="text-muted" style="font-size: 13px; text-align: center;">[বিঃদ্রঃ Onebyzero Edu -এর পূর্বের ওয়েবসাইটে যারা রিসোর্স আপলোড করেছিলো তাদের প্রাপ্ত কয়েনও বর্তমান কয়েনের সাথে যুক্ত করে দেয়া হয়েছে। যারা পূর্বের কয়েন এখনও পাননি তারা <a href="{% url 'previous_uploaders_total_contribution' %}">এখানে</a> ক্লিক করুন।]</span>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col" align="center">Rank</th>
+                            <th scope="col" align="center">Name</th>
+                            <th scope="col" align="center">Total Coins</th>
+                            <th scope="col" align="center">Department</th>
+                            <th scope="col" align="center">University</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for c in users_with_all_info|slice:":50" %}
+                        <tr scope="row">
+                            <td align="center">{{ forloop.counter }}</td>
+                            <td>
+                                <a href="{% url 'view_profile_overview' c.id %}">
+                                    {{ c.user_fullname|default:c.username }}
+                                </a>
+                            </td>
+                            <td align="center">{{ c.total_coins_annotated }}</td>
+                            <td>{{ c.department_name }}</td>
+                            <td>{{ c.university_name }}</td>
+                        </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="5" align="center">No users found.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    
+                </table>
+
+            </div>
+        </div>
+
+        <div class="col-md-4">
+                <h5>Recent 50 Contributions:</h5>
+                {% comment %} <ul> {% endcomment %}
+                    {% for resource in recent_uploads %}
+                        <p>
+                            {% if resource.uploaded_by and resource.uploaded_by.profile_image %}
+                                    <img src="{{ resource.uploaded_by.profile_image.url }}" alt="Profile Image" class="rounded-circle me-3" style="width: 40px; height: 40px;">
+                                    {% else %}
+                                    <i class="fas fa-user-circle fa-3x me-3"></i>
+                                {% endif %}
+                            <a href="{% url 'view_profile_overview' resource.uploaded_by.id %}" style="margin-left: -15px;">{{resource.uploaded_by.fullname}}</a> 
+
+                            {% if resource.question_file %}
+                                uploaded a <a style="font-weight: bold;" href="{% url 'view_questions' resource.course.id %}">question</a>!
+                            {% elif resource.note_file %}
+                                uploaded a <a style="font-weight: bold;" href="{% url 'view_notes' resource.course.id %}">note</a>!
+                            {% elif resource.book_file %}
+                                uploaded a <a style="font-weight: bold;" href="{% url 'view_books' resource.course.id %}">book</a>!
+                            {% elif resource.lecture_file %}
+                                uploaded a <a style="font-weight: bold;" href="{% url 'view_lectures' resource.course.id %}">lecture</a>!
+                            {% endif %}
+                        </br>
+                            <span class="text-muted" style="font-size: 12px">{{ resource.upload_time|date:"F j, Y, g:i a" }}</sp> 
+                                <hr>
+                        </p>
+                    {% endfor %}
+                {% comment %} </ul> {% endcomment %}
+
+        </div>
+    </div>
+
+    <style>
+        .leaderboard_header {
+            background-color: #4e5052;
+            color: white;
+            margin-top: -50px;
+            margin-left: 180px;
+            width: 70%;
+            text-align: center;
+        }
+
+        @media (max-width: 480px) {
+            .leaderboard_header {
+                margin-top: 19px;
+                margin-left: 58px;
+            }
+        }
+    </style>
+
+{% endblock %}

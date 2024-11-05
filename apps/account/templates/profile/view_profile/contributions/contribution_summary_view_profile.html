@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+
+{% block title %} {{ d_profile }}'s Contributions {% endblock %}
+
+{% block content %}
+
+<h5 class="my_profile_header mb-3 text-secondary border-bottom pb-2 d-flex align-items-center" style="">
+    <i class="fas fa-chart-line fa-lg me-2"></i> Contribution Summary
+</h5>
+
+<div class="dp_contribution_summary tab-pane fade show">
+    <h4>
+        {% if d_profile.fullname %}
+            {{ d_profile.fullname }}'s Contributions:
+        {% else %}
+            {{ d_profile.user }}'s Contributions:
+        {% endif %}
+    </h4>
+    
+    {% if d_profile.edu_university %}
+        <p>{{d_profile.edu_university.department}}, {{d_profile.edu_university.university}}</p>
+    {% endif %}
+
+    <p>Total Uploads: {{ total_uploads }} | Total Onebyzero Coins: {{ d_profile.total_coins }}</p>
+    <div style="overflow-x: auto;">
+        <table class="contribution_table table table-bordered" style=" overflow-x:auto;">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">1st {{department_system}}</th>
+                <th scope="col">2nd {{department_system}}</th>
+                <th scope="col">3rd {{department_system}}</th>
+                <th scope="col">4th {{department_system}}</th>
+                
+                {% if total_semester_or_year >= 5 %} 
+                    <th scope="col">5th {{department_system}}</th>
+                {% endif %}
+
+                {% if total_semester_or_year >= 6 %}
+                    <th scope="col">6th {{department_system}}</th>
+                {% endif %}
+
+                {% if total_semester_or_year >= 7 %}
+                    <th scope="col">7th {{department_system}}</th>
+                {% endif %}
+
+                {% if total_semester_or_year >= 8 %}
+                    <th scope="col">8th {{department_system}}</th>
+                {% endif %}
+
+                {% if total_semester_or_year >= 9 %}
+                    <th scope="col">9th {{department_system}}</th>
+                {% endif %}
+
+                {% if total_semester_or_year >= 10 %}
+                    <th scope="col">10th {{department_system}}</th>
+                {% endif %}
+
+                {% if total_semester_or_year >= 11 %}
+                    <th scope="col">11th {{department_system}}</th>
+                {% endif %}
+
+                {% if total_semester_or_year == 12 %}
+                    <th scope="col">12th {{department_system}}</th>
+                {% endif %}
+                <th scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Questions</th>
+                <td>{{ qs_sem1 }}</td>
+                <td>{{ qs_sem2 }}</td>
+                <td>{{ qs_sem3 }}</td>
+                {% if total_semester_or_year >= 4 %}
+                    <td>{{ qs_sem4 }}</td>
+                {% endif %}
+
+                {% if total_semester_or_year >= 5 %}
+                    <td>{{ qs_sem5 }}</td>
+                {% endif %}
+
+                {% if total_semester_or_year >= 6 %}
+                    <td>{{ qs_sem6 }}</td>
+                {% endif %}
+
+                {% if total_semester_or_year >= 7 %}
+                    <td>{{ qs_sem7 }}</td>
+                {% endif %}
+
+                {% if total_semester_or_year >= 8 %}
+                    <td>{{ qs_sem8 }}</td>
+                {% endif %}
+
+                <td><strong>{{ qs_total }}</strong></td>
+            </tr>
+            <tr>
+                <th scope="row">Books</th>
+                <td>{{ books_sem1 }}</td>
+                <td>{{ books_sem2 }}</td>
+                <td>{{ books_sem3 }}</td>
+                <td>{{ books_sem4 }}</td>
+
+                {% if total_semester_or_year >= 5 %}
+                    <td>{{ books_sem5 }}</td>
+                {% endif %}
+
+                {% if total_semester_or_year >= 6 %}
+                    <td>{{ books_sem6 }}</td>
+                {% endif %}
+
+                {% if total_semester_or_year >= 7 %}
+                    <td>{{ books_sem7 }}</td>
+                {% endif %}
+
+                {% if total_semester_or_year >= 8 %}
+                    <td>{{ books_sem8 }}</td>
+                {% endif %}
+
+                <td><strong>{{ books_total }}</strong></td>
+            </tr>
+            <tr>
+                <th scope="row">Notes</th>
+                <td>{{ notes_sem1 }}</td>
+                <td>{{ notes_sem2 }}</td>
+                <td>{{ notes_sem3 }}</td>
+                <td>{{ notes_sem4 }}</td>
+
+                {% if total_semester_or_year >= 5 %}
+                    <td>{{ notes_sem5 }}</td>
+                {% endif %}
+
+                {% if total_semester_or_year >= 6 %}
+                    <td>{{ notes_sem6 }}</td>
+                {% endif %}
+
+                {% if total_semester_or_year >= 7 %}
+                    <td>{{ notes_sem7 }}</td>
+                {% endif %}
+
+                {% if total_semester_or_year >= 8 %}
+                    <td>{{ notes_sem8 }}</td>
+                {% endif %}
+                
+                <td><strong>{{ notes_total }}</strong></td>
+            </tr>
+            <tr>
+                <th scope="row">Lecture Slides</th>
+                <td>{{ lectures_sem1 }}</td>
+                <td>{{ lectures_sem2 }}</td>
+                <td>{{ lectures_sem3 }}</td>
+                <td>{{ lectures_sem4 }}</td>
+
+                {% if total_semester_or_year >= 5 %}
+                    <td>{{ lectures_sem5 }}</td>
+                {% endif %}
+
+                {% if total_semester_or_year >= 6 %}
+                    <td>{{ lectures_sem6 }}</td>
+                {% endif %}
+
+                {% if total_semester_or_year >= 7 %}
+                    <td>{{ lectures_sem7 }}</td>
+                {% endif %}
+
+                {% if total_semester_or_year >= 8 %}
+                    <td>{{ lectures_sem8 }}</td>
+                {% endif %}
+
+                <td><strong>{{ lectures_total }}</strong></td>
+            </tr>
+            <tr>
+                <th scope="row">Total</th>
+                <td><strong>{{ all_sem1 }}</strong></td>
+                <td><strong>{{ all_sem2 }}</strong></td>
+                <td><strong>{{ all_sem3 }}</strong></td>
+                <td><strong>{{ all_sem4 }}</strong></td>
+
+                {% if total_semester_or_year >= 5 %}
+                    <td><strong>{{ all_sem5 }}</strong></td>
+                {% endif %}
+
+                {% if total_semester_or_year >= 6 %}
+                    <td><strong>{{ all_sem6 }}</strong></td>
+                {% endif %}
+
+                {% if total_semester_or_year >= 7 %}
+                    <td><strong>{{ all_sem7 }}</strong></td>
+                {% endif %}
+
+                {% if total_semester_or_year >= 8 %}
+                    <td><strong>{{ all_sem8 }}</strong></td>
+                {% endif %}
+
+                <td><strong>{{ total_uploads }}</strong></td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+</div>
+
+{% include 'profile/view_profile/view_profile_secondary_nav.html' %}
+
+<style>
+    th, td {
+        text-align: center;
+    }
+
+    .dp_contribution_summary {
+        padding-left: 70px;
+        padding-right: 70px;
+    }
+
+    .my_profile_header {
+        margin-left: 140px;
+        margin-right: 150px;
+        margin-top: -10px;
+    }
+
+    @media (max-width: 480px) {
+        .my_profile_header {
+            margin-left: 10px;
+            margin-top: 50px;
+        }
+
+        .dp_contribution_summary {
+            margin-top: -15px;
+            margin-left: 0px;
+            padding: 0px;
+            margin-left: 5px;
+            margin-right: 10px;
+        }
+    }
+</style>
+
+{% endblock %}

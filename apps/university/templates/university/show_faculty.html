@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}{{ faculty.name }} - {{ university.name }}{% endblock %}
+
+{% block content %}
+<div class="text-center mb-3 pt-1 pb-1" style="background-color: #4e5052; color: white; width: 70%; margin-left: auto; margin-right: auto; margin-top: -30px;">
+    <h4>{{ faculty.name }}</h4>
+    <p><a class="text-light" href="{% url 'show_university' university.id %}">{{ university.name }}</a></p>
+    <hr style="margin-top: -5px">
+</div>
+
+{% if departments %}
+    <div class="container mt-4">
+        {% if departments %}
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered table-striped">
+                    <thead class="bg-secondary text-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Departments in {{ faculty.name }}, {{ university.name }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for itr in departments %}
+                            <tr class="table-light">
+                                <td style="width: 5%;">{{ forloop.counter }}</td>
+                                <td style="width: 95%;">
+                                    <a href="{% url 'show_department' itr.id %}" class="">
+                                        {{ itr.name }}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-warning text-center" role="alert">
+                No departments added yet for this faculty. We are working on it.
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+
+
+{% if disciplines %}
+    <div class="container mt-4">
+        {% if disciplines %}
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered table-striped">
+                    <thead class="bg-secondary text-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Disciplines in {{ faculty.name }}, {{ university.name }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for itr in disciplines %}
+                            <tr class="table-light">
+                                <td style="width: 5%;">{{ forloop.counter }}</td>
+                                <td style="width: 95%;">
+                                    <a href="{% url 'show_discipline' itr.id %}" class="">
+                                        {{ itr.name }}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-warning text-center" role="alert">
+                No disciplines added yet for this faculty. We are working on it.
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+
+
+{% if institutes %}
+    <div class="container mt-4">
+        {% if institutes %}
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered table-striped">
+                    <thead class="bg-secondary text-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Institutes in {{ faculty.name }}, {{ university.name }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for itr in institutes %}
+                            <tr class="table-light">
+                                <td style="width: 5%;">{{ forloop.counter }}</td>
+                                <td style="width: 95%;">
+                                    <a href="{% url 'show_institute' itr.id %}" class="">
+                                        {{ itr.name }}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-warning text-center" role="alert">
+                No institutes added yet for this faculty. We are working on it.
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+
+{% endblock %}

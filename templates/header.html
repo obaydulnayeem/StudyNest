@@ -1,0 +1,193 @@
+{% load static %}
+{% load semester_year_filters %}
+
+<header id="main-header">
+    <nav class="top_nav navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'navbar-logo_onebyzero.png' %}" alt="Onebyzero Edu" width="170" height="45" style="margin-top: -15px;">
+            </a>
+
+            <li type="none" class="coin_for_mobile nav-item" style="margin-left:0px;">
+                <a class="nav-link active" href="{% url 'notifications' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications">
+                    <span class="fas fa-bell fa-lg" style="color: white;"></span>
+                    {% if unread_notifications_count > 0 %}
+                        <span class="badge badge-pill badge-danger">{{ unread_notifications_count }}</span>
+                    {% endif %}
+                </a>
+            </li>
+
+
+            <li type="none" class="coin_for_mobile nav-item" style="">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'coin_details' %}" class="nav-link">
+                        <span class="ms-2">
+                            <i class="fas fa-coins fa-lg" style="color: gold;"></i> 
+                            <strong style="color: gold;">{{ request.user.profile.total_coins }}</strong>
+                        </span>
+                    </a>
+                {% endif %}
+            </li>
+
+    
+
+            <!-- Toggle button for collapsed navbar on smaller screens -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Collapsible navbar items -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                {% if not is_home and not is_add_question and not is_add_book and not is_add_note and not is_add_lecture %}
+                    <!-- Navbar items aligned to the left -->
+                    <div style="">
+                        <ul class="navbar-nav me-auto">
+                            <form method="get" class="search-form" style="margin-left: 25px; margin-top: 5px; width: 100%;" action="{% url 'search_results' %}">
+                                <div class="form-group position-relative">
+                                    <input type="text" name="q" id="search" class="form-control earch-input"
+                                            data-placeholder="Search anything..."
+                                            value="{{ query|default_if_none:'' }}">
+                                    {% comment %} <span class="fas fa-search search-icon" style="margin-left: 0px;"></span> {% endcomment %}
+                                </div>
+                            </form>
+                        </ul>
+                    </div>
+                {% endif %}
+
+                    <!-- Navbar items aligned to the right -->
+                    <ul class="desktop_list navbar-nav ms-auto">
+                        <ul class="navbar-nav">
+
+                            {% comment %} <li class="nav-item">
+                                <a class="nav-link active" href="{% url 'resource_uploads' %}">Team</a>
+                            </li> {% endcomment %}
+
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{% url 'home' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Home">
+                                    <i class="fas fa-home me-2 fa-lg"></i>
+                                </a>
+                            </li>
+                            <!-- Other nav items here -->
+                        </ul>
+                        
+
+                            {% comment %} <li class="nav-item">
+                                <a class="nav-link active {% if '/my_department_y/' in request.path %}active-page{% endif %}" href="{% url 'mentors_list' %}">*Mentors</a>
+                            </li> {% endcomment %}
+
+                            {% comment %} <li class="nav-item">
+                                <a class="nav-link active {% if '/my_department_y/' in request.path %}active-page{% endif %}" href="{% url 'ask' %}">Support</a>
+                            </li> {% endcomment %}
+
+                            {% comment %} <li class="nav-item">
+                                <a class="nav-link active {% if '/my_department_y/' in request.path %}active-page{% endif %}" href="{% url 'solve' %}">*Solve</a>
+                            </li> {% endcomment %}
+
+                            
+                            {% include 'quick_buttons_header_nav.html' %}
+                        
+
+                            
+                                    {% include 'upload_resources.html' %}
+                            
+                        
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{% url 'leaderboard' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Leaderboard">
+                                    <i class="fas fa-trophy fa-lg"></i> <!-- Font Awesome icon for leaderboard -->
+                                </a>
+                            </li>
+
+
+                            
+                            
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Feedbacks">
+                                <i class="fas fa-comments fa-lg"></i> <!-- Font Awesome icon -->
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'display_feedbacks' %}">All Feedbacks</a></li>
+                                <li><a class="dropdown-item" href="{% url 'submit_feedback' %}">Give a Feedback</a></li>
+                            </ul>
+                        </li>
+                        
+                        
+                    
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'notifications' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications">
+                                <span class="fas fa-bell fa-lg"></span> <!-- Font Awesome notification bell icon -->
+                                {% if unread_notifications_count > 0 %}
+                                    <span class="badge badge-pill badge-danger">{{ unread_notifications_count }}</span>
+                                {% endif %}
+                            </a>
+                        </li>
+                        
+                        
+                            {% block extra_styles %}
+                                <style>
+                                    .badge-danger {
+                                        background-color: #dc3545;
+                                        color: white;
+                                        font-size: 10px;
+                                        padding: 5px 10px;
+                                        border-radius: 50%;
+                                        vertical-align: top;
+                                        margin-left: 5px;
+                                    }
+                                </style>
+                            {% endblock %}
+                            
+
+                            <li class="nav-item" style="margin-top: 0px;">
+                                {% if user.is_authenticated %}
+                                    <a href="{% url 'coin_details' %}" class="nav-link">
+                                        <span class="ms-2">
+                                            <i class="fas fa-coins fa-lg" style="color: gold;"></i> 
+                                            <strong style="color: gold;">{{ request.user.profile.total_coins }}</strong>
+                                        </span>
+                                    </a>
+                                {% endif %}
+                            </li>
+                            
+
+                        {% include 'profile.html' %}
+
+                    </ul>
+            </div>
+        </div>
+    </nav>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <script>
+        // Initialize all tooltips on the page
+        document.addEventListener('DOMContentLoaded', function () {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
+    
+</header>
+
+
+<style>
+    @media (max-width: 480px) {
+        .navbar-toggler {
+            display: none;
+        }
+
+        .coin_for_mobile {
+            margin-right: -25px;
+        }
+    }
+
+    @media (min-width: 480px) {
+        .coin_for_mobile {
+            display: none;
+        }
+    }
+</style>

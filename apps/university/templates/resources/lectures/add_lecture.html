@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Add Lecture Slide{% endblock %}
+
+{% block content %}
+<div class="container mt-0">
+  <div class="row justify-content-center">
+    <div class="col-md-9">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-header bg-secondary text-white text-center mb-2">
+            <h4>Upload Lecture Slide & Earn 10 Onebyzero Coins!</h4>
+          </div>
+          <h6 class="card-subtitle mb-1" style="text-align: center">
+            {% if user.profile.edu_university.department %}
+              {{ user.profile.edu_university.department.name }},
+            {% elif user.profile.edu_university.discipline %}
+              {{ user.profile.edu_university.discipline.name }},
+            {% endif %}
+      
+            {{ user.profile.edu_university.university.name }}
+          </h6>
+          
+          <div class="guidelines">
+            <ol style="">
+              <span style="margin-left: -40px;">অনুগ্রহ করে,</span>
+                <li class="text-muted">যেসব অপশনে লিখতে হবে সেগুলো ইংলিশে লিখুন।</li>
+                <li class="text-muted">সবগুলো অক্ষর বড় হাতের বা ছোট হাতের না লিখে প্রতিটি শব্দের প্রথম অক্ষর বড় হাতের লিখুন।</li>
+                <li class="text-muted">শব্দের মধ্যে আন্ডারস্কোর (_) বা হাইফেন (-) বাদ দিয়ে দিন।</li>
+                <li class="text-muted">আপনার ডিপার্টমেন্টের সাথে কোনো ফিল্ড/অপশনের অমিল থাকলে বা কোনো তথ্য খুঁজে না পেলে অথবা অন্য কোনো সমস্যা হলে আমাদেরকে মেসেজ দিন। যেসব তথ্য জানা নেই অথবা আপনার ডিপার্টমেন্টের জন্য প্রযোজ্য নয় সেগুলো খালি রাখুন।</li>
+            </ol>
+        </div>
+
+          <form method="post" id="QuestionForm" enctype="multipart/form-data" data-courses-url="{% url 'ajax_load_courses' %}">
+            {% csrf_token %}
+              <div class="form_options mb-3" style="padding: 10px;">
+                {% if ctxp_profile_edu_university.department.system == 'Semester'%}
+                    <div class="form-group p-2">
+                      <label for="{{ form.semester.id_for_label }}">Semester:</label>
+                        {{ form.semester }}
+                    </div>
+                {% else %}
+                  <div class="form-group p-2">
+                    <label for="{{ form.year.id_for_label }}">Year:</label>
+                      {{ form.semester }}
+                  </div>
+                {% endif %}
+
+                  <div class="form-group p-2">
+                    <label for="{{ form.course.id_for_label }}">Course:</label>
+                      {{ form.course }}
+                  </div>
+
+                  <div class="form-group p-2">
+                    <label for="{{ form.session.id_for_label }}">Session:</label>
+                      {{ form.session }}
+                  </div>
+
+                  <div class="form-group p-2">
+                    <label for="{{ form.lecture_title.id_for_label }}">Lecture Title:</label>
+                      {{ form.lecture_title }}
+                  </div>
+
+                  <div class="form-group p-2">
+                    <label for="{{ form.lecture_author.id_for_label }}">Author:</label>
+                      {{ form.lecture_author }}
+                  </div>
+
+                  <div class="form-group p-2">
+                    <label for="{{ form.lecture_file.id_for_label }}">Attach File:</label>
+                      {{ form.lecture_file }}
+                  </div>
+
+                  {% if user.profile.moderator_type == "Central Moderator" %}
+                    <div class="form-group p-2">
+                      <label for="{{ form.uploaded_by_team.id_for_label }}">Uploaded By (Team):</label>
+                        {{ form.uploaded_by_team }}
+                    </div>
+                  {% endif %}
+
+                  {% if user.profile.moderator_type == "Central Moderator" %}
+                    <div class="form-group p-2">
+                      <label for="{{ form.uploaded_by_prev.id_for_label }}">Uploaded By (Previous):</label>
+                        {{ form.uploaded_by_prev }}
+                        <p>(পূর্বের ওয়েবসাইটে যে আপলোড করেছিলো তার Fullname)</p>
+                    </div>
+                  {% endif %}
+              <div>
+
+            <button type="submit" class="btn btn-secondary">Upload</button>
+          </form>
+
+          {% include '../upload_progress_bar.html' %}
+
+
+        </div>
+      </div>
+
+      <div>
+        <p class="" style="margin-left: -15px;">আপলোড করতে সমস্যা হলে অনুগ্রহ করে,</p>
+        <p class="text-muted">1. ইন্টারনেট স্বাভাবিক আছে কিনা চেক করুন।</p>
+        <p class="text-muted">2. ফাইলটির নাম পূর্বের চেয়ে সংক্ষিপ্ত করে (শুধুমাত্র ইংলিশ বর্ণ দিয়ে) লিখে রিনেম করুন এবং পুনরায় অ্যাটাচ করুন।</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="{% static 'css/university/upload_resources.css' %}">
+
+<style>
+  ol {
+    list-style-type: decimal; display: inline-block; text-align: left; margin-left: 20px; padding: 10;
+  }
+
+
+  @media (max-width: 480px) {
+    .guidelines {
+      margin-left: -20px;
+      padding: 0;
+    }
+  }
+</style>
+
+                <link rel="stylesheet" href="{% static 'css/all/progress_bar.css' %}">
+
+                <script src="{% static 'js/all/upload_progress_bar.js' %}"></script>
+
+{% endblock %}

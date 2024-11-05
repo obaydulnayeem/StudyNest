@@ -1,0 +1,64 @@
+<li class="nav-item dropdown" type="none">
+    <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Upload Resources">
+        <i class="fas fa-upload fa-lg"></i> <!-- Icon for the dropdown -->
+    </a>
+
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <li>
+            {% if user.profile.edu_university.is_approved %}
+                <a class="dropdown-item" href="{% url 'add_question' %}" data-bs-toggle="tooltip" data-bs-placement="right" title="Upload Question" style="color: black;">
+                <i class="fas fa-file-alt me-2"></i> <!-- Icon for Question -->
+                Upload Question
+                </a>
+            {% else %}
+                <a class="dropdown-item" href="{% url 'view_edu_university_my_profile' %}" data-bs-toggle="tooltip" data-bs-placement="right" title="Upload Question" style="color: black;">
+                <i class="fas fa-file-alt me-2"></i> <!-- Icon for Question -->
+                Upload Question
+                </a>
+            {% endif %}
+        </li>
+
+        <li>
+            {% if user.profile.edu_university.is_approved %}
+                <a class="dropdown-item" href="{% url 'add_book' %}" data-bs-toggle="tooltip" data-bs-placement="right" title="Upload Book" style="color: black;">
+                <i class="fas fa-book me-2"></i> <!-- Icon for Book -->
+                Upload Book
+                </a>
+            {% else %}
+                <a class="dropdown-item" href="{% url 'view_edu_university_my_profile' %}" data-bs-toggle="tooltip" data-bs-placement="right" title="Upload Book" style="color: black;">
+                <i class="fas fa-book me-2"></i> <!-- Icon for Book -->
+                Upload Book
+                </a>
+            {% endif %}
+        </li>
+
+        <li>
+            {% if user.profile.edu_university.is_approved %}
+                <a class="dropdown-item" href="{% url 'add_lecture' %}" data-bs-toggle="tooltip" data-bs-placement="right" title="Upload Lecture Slide" style="color: black;">
+                    <i class="fas fa-chalkboard-teacher me-2"></i> <!-- Icon for Lecture Slide -->
+                    Upload Lecture Slide
+                </a>
+            {% else %}
+                <a class="dropdown-item" href="{% url 'view_edu_university_my_profile' %}" data-bs-toggle="tooltip" data-bs-placement="right" title="Upload Lecture Slide" style="color: black;">
+                    <i class="fas fa-chalkboard-teacher me-2"></i> <!-- Icon for Lecture Slide -->
+                    Upload Lecture Slide
+                </a>
+            {% endif %}
+        </li>
+
+        <li>
+            {% if user.profile.edu_university.is_approved %}
+                <a class="dropdown-item" href="{% url 'add_note' %}" data-bs-toggle="tooltip" data-bs-placement="right" title="Upload Note" style="color: black;">
+                    <i class="fas fa-sticky-note me-2"></i> <!-- Icon for Note -->
+                    Upload Note
+                </a>
+            {% else %}
+                <a class="dropdown-item" href="{% url 'view_edu_university_my_profile' %}" data-bs-toggle="tooltip" data-bs-placement="right" title="Upload Note" style="color: black;">
+                    <i class="fas fa-sticky-note me-2"></i> <!-- Icon for Note -->
+                    Upload Note
+                </a>
+            {% endif %}
+        </li>
+    </ul>
+
+</li>

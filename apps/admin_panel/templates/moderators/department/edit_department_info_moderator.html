@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Edit Department Info{% endblock %}
+
+{% block content %}
+    <div class="moderator_header_section text-center mb-4 py-3" style="background-color: #f8f9fa;">
+        <h3 class="moderator_header_title mb-1">Edit Department Info</h3>
+        <p class="moderator_header_subtitle text-muted mb-1">Edit details for {{ department.name }}, {{ department.university }}</p>
+    </div>
+
+    <div class="container">
+        <div class="card shadow-sm p-4">
+            <div class="card-header bg-secondary text-white text-center">
+                <h4 class="mb-0">Department Information</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="id_system" class="form-label">{{ form.system.label }}</label>
+                            {{ form.system }}
+                            <small class="form-text text-muted">{{ form.system.help_text }}</small>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_total_semester_or_year" class="form-label">{{ form.total_semester_or_year.label }}</label>
+                            {{ form.total_semester_or_year }}
+                            <small class="form-text text-muted">{{ form.total_semester_or_year.help_text }}</small>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="form-check form-switch">
+                                {{ form.course_has_code }}
+                                <label class="form-check-label" for="id_course_has_code">{{ form.course_has_code.label }}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="form-check form-switch">
+                                {{ form.course_has_credit }}
+                                <label class="form-check-label" for="id_course_has_credit">{{ form.course_has_credit.label }}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="form-check form-switch">
+                                {{ form.course_has_hour }}
+                                <label class="form-check-label" for="id_course_has_hour">{{ form.course_has_hour.label }}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-secondary btn-lg px-4 py-1">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/moderator/moderator_header.css' %}">
+    {% include '../moderator_secondary_nav.html' %}
+{% endblock %}

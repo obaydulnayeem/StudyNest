@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Syllabus{% endblock %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group p-2">
+        <label for="{{ form.syllabus_file.id_for_label }}">Attach Syllabus:</label>
+        {{ form.syllabus_file }}
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+
+{% endblock %}

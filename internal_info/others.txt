@@ -1,0 +1,39 @@
+BATCH MODERATORS:
+    - 6th: 
+    - 7th: Shawmitra
+    - 8th: Baishakhi
+    - 9th: Rayhan, Lazmi
+    - 10th: Samia
+
+DEPARTMENT MODERATOR:
+    - 
+
+UNIVERSITY MODERATOR:
+    - Sahad
+
+
+
+layer1: university
+
+layer2: faculty (u-id), institute (u-id), school (u-id), center(u-id)
+
+layer3:  department (u-id) [discipline (u-id)]
+
+layer4: course (d-id) [subject (d-id)]
+    prev +
+            Credit
+            Hours/Week (Theory and Sessional)
+            Prerequisite
+            Optional/Mandatory
+
+layer5: resources
+        layer6:
+            question
+            book
+            note
+            tutorial
+
+Year, Level
+Semester, Term
+
+

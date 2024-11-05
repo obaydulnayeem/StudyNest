@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="dp_contribution_summary tab-pane fade show">
+        {% for message in messages %}
+            <div class="alert alert-light alert-dismissible fade show" role="alert" style="background-color: #ffcccc; margin-left: auto; margin-right: auto; width: 70%;">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    </div>
+
+<div class="this_outer container" style="">
+    <div class="row">
+        <div class="">
+            <div class="card-header bg-secondary text-white text-center">
+              <h3>Add University Information</h3>
+            </div>
+            <p class="text-muted text-center mx-5" style="font-size: 12px;">[আপনার বিশ্ববিদ্যালয়ের সাথে কোনো ফিল্ড/অপশনের অমিল থাকলে বা কোনো তথ্য খুঁজে না পেলে অথবা অন্য কোনো সমস্যা হলে আমাদেরকে মেসেজ দিন। যেসব অপশন আপনার জন্য প্রযোজ্য নয় সেগুলো ফাঁকা রাখুন।]</p>
+
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="post" id="QuestionForm" enctype="multipart/form-data" data-universities-url="{% url 'ajax_load_universities' %}">
+                        {% csrf_token %}
+                           <!-- Form Fields -->
+                        <div class="mb-4">
+                        
+                                <div class="form-group mb-3">
+                                    <label for="{{ form.university_type.id_for_label }}">University Type:</label>
+                                    {{ form.university_type }}
+                                </div>
+                            
+                            <div class="double_fields form-group mb-3">
+                                <div class="form-group mb-3">
+                                    <label for="{{ form.university.id_for_label }}">University Name:</label>
+                                    {{ form.university }}
+                                </div>
+
+                                {% comment %} <div class="form-group mb-3">
+                                    <label for="{{ form.blank_university.id_for_label }}">University Name: <span class="text-muted" style="font-size: 11px">[উপরের অপশনে খুঁজে না পেলে নিচে লিখুন; নয়তো ফাঁকা রাখুন]</span></label>
+                                    {{ form.blank_university }}
+                                </div> {% endcomment %}
+                            </div>
+
+                        {% comment %} <a href="{% url 'add_edu_university_step2' %}" type="submit" class="btn btn-secondary">Save & Next</a> {% endcomment %}
+                        
+                        <button type="submit" class="btn btn-secondary">Save & Next</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'profile/my_profile/my_profile_secondary_nav.html' %}
+
+
+<style>
+    .this_outer {
+        margin-top: 10px; 
+        width: 65%;
+    }
+    
+    .double_fields {
+      padding: 10px; margin-bottom: -20px; border-radius: 10px; background-color: #dce0e3
+    }
+
+    @media (max-width: 480px) {
+        .this_outer {
+            margin-top: 50px;
+            width: 100%;
+        }
+    }
+
+  </style>
+
+{% endblock %}

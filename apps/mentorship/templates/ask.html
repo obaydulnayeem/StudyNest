@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Academic</h3>
+                <ul class="list-group mb-4">
+                    <li class="list-group-item"><a href="{% url 'ask_university' %}" id="">University</a></li>
+                    <li class="list-group-item"><a href="#">College</a></li>
+                    <li class="list-group-item"><a href="#">School</a></li>
+                    <li class="list-group-item"><a href="#">Madrasah</a></li>
+                </ul>
+
+                <h3>Skill Development</h3>
+                
+                <h5>Software Development</h5>
+                <ul class="list-group mb-4">
+                    <li class="list-group-item"><a href="#">Web Development</a></li>
+                    <li class="list-group-item"><a href="#">MERN</a></li>
+                    <li class="list-group-item"><a href="#">Django - Python</a></li>
+                    <li class="list-group-item"><a href="#">Dot Net - C#</a></li>
+                    <li class="list-group-item"><a href="#">Laravel - PHP</a></li>
+                </ul>
+                
+                <h5>App Development</h5>
+                <ul class="list-group mb-4">
+                    <li class="list-group-item"><a href="#">Flutter</a></li>
+                    <li class="list-group-item"><a href="#">Kotlin</a></li>
+                </ul>
+                
+                <h5>Freelancing</h5>
+                <ul class="list-group mb-4">
+                    <li class="list-group-item"><a href="#">Digital Marketing</a></li>
+                    <li class="list-group-item"><a href="#">Graphic Design</a></li>
+                    <li class="list-group-item"><a href="#">Web Development</a></li>
+                </ul>
+            </div>
+            
+            <div class="col-md-6">
+                <div id="academic-form-container" class="card" style="display: none;">
+                    <div class="card-body">
+                        <h2 class="card-title">Academic Form</h2>
+                        <form method="post" enctype="multipart/form-data" id="academic-form">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        $("#id_university, #id_department, #id_year, #id_semester").change(function () {
+            const url = $("#QuestionForm").attr("data-courses-url");
+            const universityId = $("#id_university").val();
+            const departmentId = $("#id_department").val();
+            const year = $("#id_year").val();
+            const semester = $("#id_semester").val();
+        
+            $.ajax({
+                url: url,
+                data: {
+                    'university_id': universityId,
+                    'department_id': departmentId,
+                    'year': year,
+                    'semester': semester
+                },
+                success: function (data) {
+                    $("#id_course").html(data);
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+
+

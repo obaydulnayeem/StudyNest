@@ -1,0 +1,69 @@
+{% load static %}
+
+<div class="container mt-3" >
+
+            <!-- Secondary Navigation Bar -->
+            <div class="dp_secondary_nav fixed-top mb-4">
+              <nav class="nav nav-pills">
+
+                <!-- Team Home  -->
+                <a class="my_nav_link nav-link btn-secondary {% if request.resolver_match.url_name == 'team_base' %}active{% endif %}" href="{% url 'team_base' %}" role="tab" style="color: black;">
+                  <i class="fas fa-home fa-lg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Welcome!"></i>
+                </a>               
+
+                
+
+              </nav>
+          </div>
+          
+</div>
+
+<!-- Link to external CSS file -->
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<style>
+  .dp_secondary_nav {
+    {% comment %} z-index: 1030; /* Ensure it stays on top of other elements */ {% endcomment %}
+    background-color: #f8f9fa; /* Background color to match your design */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: add shadow for better visibility */
+
+    width: 50%;
+    margin-left: 180px;
+    margin-top: 75.5px;
+  }
+
+  /* Change background color of the active button */
+.my_nav_link.active {
+    background-color: #7a8187; /* Customize to your preferred color */
+    color: white; /* Text color when active */
+    border-color: #007bff;
+}
+
+  @media (max-width: 480px) {
+    .dp_secondary_nav {
+        width: 100%;
+        margin-left: 0px;
+        margin-top: 58px;
+        background-color: ;
+    }
+
+    .dp_overview {
+        margin-top: 15px;
+        margin-left: -87px;
+    }
+
+    .dp_contribution_summary {
+        margin-top: 45px;
+        margin-left: -100px;
+    }
+
+    .dp_detailed_contribution {
+        margin-top: 45px;
+        margin-left: -80px;
+    }
+  }
+</style>
+

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admin Panel - {{ block.super }}{% endblock %}
+
+{% block content %}
+   <div class="container-fluid">
+        <div class="row">
+            <div class="col-2 sidebar" style="position:; top:-70px; height: 100vh; background-color: #32363b; padding-top: 10px; overflow-y: auto;">
+                <ul>
+                    <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+                    
+                    <li><a href="{% url 'pending_for_verify_users' %}">Pending Users</a></li>
+                    
+                    <li><a href="{% url 'batch_wise_users' %}">Batch Wise Users</a></li>
+                
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            Courses
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <li><a class="dropdown-item" href="{% url 'view_courses' 1 1 1 1 %}">1st Sem</a></li>
+                            <li><a class="dropdown-item" href="{% url 'view_courses' 1 1 1 2 %}">2nd Sem</a></li>
+                            <li><a class="dropdown-item" href="{% url 'view_courses' 1 1 2 1 %}">3rd Sem</a></li>
+                            <li><a class="dropdown-item" href="{% url 'view_courses' 1 1 2 2 %}">4th Sem</a></li>
+                            <li><a class="dropdown-item" href="{% url 'view_courses' 1 1 3 1 %}">5th Sem</a></li>
+                            <li><a class="dropdown-item" href="{% url 'view_courses' 1 1 3 2 %}">6th Sem</a></li>
+                            <li><a class="dropdown-item" href="{% url 'view_courses' 1 1 4 1 %}">7th Sem</a></li>
+                            <li><a class="dropdown-item" href="{% url 'view_courses' 1 1 4 2 %}">8th Sem</a></li>
+                            <li><a class="dropdown-item" href="#"></a></li>
+                            <li><a class="dropdown-item" href="#"></a></li>
+                        </ul>
+                    </li>  
+                </ul>
+            </div>
+            
+            <div class="col-7 content" style="padding: 16px; overflow-y: auto; margin-left: 15px; top: -50px;">
+                {% block admin_content %}
+
+                {% endblock %}
+            </div>
+        </div>
+
+    </div>
+    
+{% endblock %}

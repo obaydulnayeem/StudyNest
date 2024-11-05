@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Educational Qualifications - View Profile{% endblock %}
+
+{% block content %}
+<h5 class="my_profile_header mb-3 text-secondary border-bottom pb-2 d-flex align-items-center" style="">
+    <i class="fas fa-graduation-cap fa-lg me-2"></i> Educational Qualifications
+</h5>
+
+<div class="dp_contribution_summary tab-pane fade show">
+    {% for message in messages %}
+        <div class="alert alert-light alert-dismissible fade show" role="alert" style="background-color: #ffcccc; margin-left: auto; margin-right: auto; width: 70%;">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="view_edu_university card mx-auto" style="max-width: 80%;">
+    <div class="card-header d-flex justify-content-between align-items-center bg-secondary text-white">
+        <h5 class="m-0">University</h5>
+    </div>
+
+    <div class="card-body">
+        {% if ctxp_profile_edu_university %}
+            <ul class="list-unstyled">
+                {% comment %} {% for i in edu_university %} {% endcomment %}
+                 {% if edu_university %}
+                    <li class="mb-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="font-weight-bold">{{ edu_university.university.name }}</h6>
+                                <p><strong>Degree:</strong> {{ edu_university.degree }}</p>
+                                <p><strong>Department:</strong>{{ edu_university.department.name }}</p>
+                                <p><strong>Faculty:</strong>{{ edu_university.faculty.name }}</p>
+                                <p><strong>Admission Session:</strong> {{ edu_university.session }}</p>
+                                <p><strong>Batch:</strong> (Departmental): {{ edu_university.departmental_batch }}</p>
+                                
+                                {% if edu_university.semester %}
+                                    <p><strong>Semester:</strong> {{ edu_university.semester }}</p>
+                                {% endif %}
+
+                                {% if edu_university.year %}
+                                    <p><strong>Year:</strong> {{ edu_university.year }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Duration:</strong> {{ edu_university.start_year }} - {% if edu_university.end_year %}{{ edu_university.end_year }}{% else %}Present{% endif %}</p>
+                            </div>
+                        </div>
+                    </li>
+                {% endif %}
+            </ul>
+        {% else %}
+            <p class="text-center text-muted">No University / Faculty / Department / Institute / School / Discipline listed yet.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="text-center mt-3">
+    {% include 'home/my_resources.html' %}
+</div>
+
+{% include 'profile/view_profile/view_profile_secondary_nav.html' %}
+
+<style>
+    .my_profile_header {
+        margin-left: 140px;
+        margin-right: 150px;
+        margin-top: -10px;
+    }
+
+    @media (max-width: 480px) {
+        .my_profile_header {
+            margin-left: 10px;
+            margin-top: 50px;
+        }
+
+        .view_edu_university {
+            margin-top: -30px;
+            width: 100%;
+        }
+    }
+</style>
+
+{% endblock %}
+

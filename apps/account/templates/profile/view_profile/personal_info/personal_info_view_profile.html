@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}View Profile{% endblock %}
+
+{% block content %}
+
+<h5 class="my_profile_header mb-3 text-secondary border-bottom pb-2 d-flex align-items-center" style="">
+    <i class="fas fa-info-circle fa-lg me-2"></i> Personal Information
+</h5>
+
+<div class="dp_overview tab-pane fade show active">    
+    {% for message in messages %}
+        <div class="alert alert-light alert-dismissible fade show mx-auto" role="alert" style="background-color: #ffcccc; width: 70%;">
+            <p class="mb-0">{{ message }}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
+    <div class="my_profile_overview card mt-4 mx-auto" style="max-width: 800px;">
+        <!-- Profile Header -->
+        <div class="card-header d-flex justify-content-between align-items-center bg-secondary text-white">
+            <h5 class="m-0">
+                {% if d_profile.fullname %}
+                    {{ d_profile.fullname }}
+                {% else %}
+                    {{ d_profile.user }}
+                {% endif %}
+            </h5>
+        </div>
+
+        <div class="card-body profile-section d-flex flex-wrap justify-content-between">
+
+            <!-- Profile Details -->
+            <div class="profile-details">
+                {% if ctxp_profile_edu_university_name %}
+                    <p class="font-weight-bold">{{ ctxp_profile_edu_department_name }}, {{ ctxp_profile_edu_university_name }}</p>
+                {% endif %}
+
+                <p><strong>User Type:</strong> {{ d_profile.user_type }}</p>
+
+                <p><strong>Bio:</strong> {{ d_profile.bio }}</p>
+
+                <p><strong>Full Name:</strong> {{ d_profile.fullname }}</p>
+                
+                <p><strong>Nickname:</strong> {{ d_profile.nickname }}</p>
+
+                <p><strong>Email:</strong> <a href="mailto:{{ d_profile.email }}">{{ d_profile.email }}</a></p>
+
+                <p><strong>Mobile Number:</strong> {{ d_profile.mobile_number }}</p>
+                
+                <p><strong>Facebook Id:</strong> <a href="{{ d_profile.facebook_id }}" target="_blank">{{ d_profile.facebook_id }}</a></p>
+
+                <p><strong>Total Coins:</strong> {{ d_profile.total_coins }}</p>
+                
+                <!-- Add any additional fields here if necessary -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'profile/view_profile/view_profile_secondary_nav.html' %}
+
+<style>
+    .dp_overview {
+        margin-top: 20px;
+    }
+
+    .my_profile_overview {
+        margin-top: -45px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .profile-image-frame {
+        display: inline-block;
+        overflow: hidden;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 2px solid #007bff;
+    }
+    
+    .rounded-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .profile_image_outer {
+        margin-top: 10px;
+    }
+
+
+    .my_profile_header {
+        margin-left: 140px; 
+        margin-right: 150px; 
+        margin-top: -10px;
+    }
+
+    @media (max-width: 480px) {
+        .my_profile_header {
+            margin-top: 50px; 
+            margin-left: 15px;
+        }
+
+        .dp_overview {
+            margin-left: 17px;
+            width: 90%;
+            margin-top: -5px;
+        }
+
+        .my_profile_overview {
+            margin-top: 30px;
+            margin-left: -10px;
+        }
+
+        .card-header h5 {
+            font-size: 1rem;
+        }
+        
+        .btn {
+            font-size: 0.875rem;
+        }
+    }
+</style>
+{% endblock %}

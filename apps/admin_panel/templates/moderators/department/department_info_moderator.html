@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Department Info{% endblock %}
+
+{% block content %}
+<h5 class="mb-3 text-secondary border-bottom pb-2 d-flex align-items-center" style="margin-left: 140px; margin-right: 150px; margin-top: -15px;">
+    <i class="fas fa-cog fa-lg"></i>&nbsp;  Department Settings
+</h5>
+
+    <div class="moderator_header_section text-center mb-4">
+        <h3 class="moderator_header_title mb-1">Department Settings</h3>
+        <p class="moderator_header_subtitle text-muted mb-1">{{ department.name }}, {{ department.university }}</p>
+        <p class="moderator_header_subtitle text-muted mb-1"><strong>[Departmental Moderator Panel]</strong></p>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'edit_department_info_moderator' department.id %}" class="btn btn-secondary">Edit Department</a>
+
+        <a href="{% url 'edit_syllabus' department.id %}" class="btn btn-secondary">Edit Syllabus</a>
+    </div>
+
+
+    <div class="table-container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Syllabus Link</td>
+                    <td>
+                        {% if department.syllabus_file %}
+                            <a href="{{ department.syllabus_file.url }}" target="_blank">View Syllabus</a>
+                        {% else %}
+                            No syllabus uploaded
+                        {% endif %}
+                    </td>
+                <tr>
+                    <td>System</td>
+                    <td>{{ department.system }}</td>
+                </tr>
+                <tr>
+                    <td>Total Semesters/Years</td>
+                    <td>{{ department.total_semester_or_year }}</td>
+                </tr>
+                <tr>
+                    <td>Course Has Code</td>
+                    <td>{{ department.course_has_code }}</td>
+                </tr>
+                <tr>
+                    <td>Course Has Credit</td>
+                    <td>{{ department.course_has_credit }}</td>
+                </tr>
+                <tr>
+                    <td>Course Has Hour</td>
+                    <td>{{ department.course_has_hour }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    
+
+    {% include '../moderator_secondary_nav.html' %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/moderator/moderator_header.css' %}">
+
+    <style>
+        .table-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .table {
+            width: 80%;
+            border-collapse: collapse;
+        }
+
+        .table th, .table td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .table thead {
+            background-color: #343a40;
+            color: white;
+        }
+
+        .btn-primary {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+    </style>
+{% endblock %}

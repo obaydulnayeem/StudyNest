@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Job Applications{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-center">In Task Jobs({{job_applications.count }})</h2>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-12">
+        {% comment %} <a href="{% url 'add_job_application' %}" class="btn btn-success mb-3 btn-sm">Add New Job</a> {% endcomment %}
+
+        {% include 'secondary_nav_job_tracking.html' %}
+
+            {% if job_applications %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Job Title</th>
+                            <th>Company Name</th>
+                            <th>Current Status</th>
+                            <th>Date Applied</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for job in job_applications %}
+                            <tr>
+                                <td><a href="{% url 'view_job_details' job.id %}">{{ job.job_title }}</a></td>
+                                <td>{{ job.company_name }}</td>
+                                <td>{{ job.current_status }}</td>
+                                <td>{{ job.date_applied }}</td>
+                                <td>
+                                    {% comment %} <a href="{% url 'view_job_details' job.id %}" class="btn btn-primary btn-sm">View Details</a> {% endcomment %}
+                                    <a href="{% url 'edit_job_application' job.id %}" class="btn btn-primary btn-sm">Edit</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-center">There is no task available for any jobs.</p>
+            {% endif %}
+        </div> 
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Pending For Verify Users{% endblock %}
+
+{% block content %}
+
+    <div class="container" style="margin-left: 130px; margin-top: -15px;">
+        
+        <div class="moderator_header_section text-center mb-3" style="margin-top: -30px;">
+            <h3 class="moderator_header_title mb-1">Pending Students</h3>
+            <p class="moderator_header_subtitle text-muted mb-1">[Batch Moderator Panel]</p>
+            <p class="moderator_header_subtitle text-muted mb-1">{{ ctxp_profile_edu_department_name }}, {{ctxp_profile_edu_university_name}}</p>
+        </div>
+    
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">User Type</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in pending_users %}
+
+                    {% comment %} <p>{{ u.requested_user.profile.email }} - {{ u.requested_user.profile.is_verified}} - {{u.requested_user.profile.id}}</p>
+                    <p>{{ u.requested_user.id }}</p> {% endcomment %}
+
+                        {% if not u.requested_user.profile.is_verified == True %}
+                            <tr>
+                                <td><a href="{% url 'view_profile_overview' u.requested_user.profile.id %}"> 
+                                    {% if u.requested_user.profile.fullname %}
+                                        {{ u.requested_user.profile.fullname }}
+                                    {% else %}
+                                        {{ u.requested_user.profile.user.username }}
+                                    {% endif %}
+                                </a></td>
+
+                                <td>{{ u.requested_user.profile.user_type }}</td>
+
+                                <td>
+                                    <form method="post" action="{% url 'make_verified_user' u.requested_user.profile.id %}" class="d-inline-block">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-success btn-sm">Make Verified Student</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if not pending_users %}
+            <p class="text-center mt-4">No pending students at the moment.</p>
+        {% endif %}
+
+    </div>
+
+    {% include '../moderator_secondary_nav.html' %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/moderator/moderator_header.css' %}">
+
+{% endblock %}
+
+
+

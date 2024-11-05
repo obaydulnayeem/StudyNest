@@ -1,0 +1,155 @@
+/* Center and align the search form */
+.search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 200px;
+}
+
+/* Style the search input field */
+.search-input {
+    width: 900px;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 25px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding-left: 40px; /* Space for the search icon */
+    color: #666;
+    background-color: #fff;
+    position: relative;
+    animation: typing 2s steps(40, end);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* Position and style the search icon */
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    pointer-events: none;
+}
+
+/* Style the heading for search results */
+.search-results h6 {
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Style for list group items */
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #eee;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for list group items */
+.list-group-item:hover {
+    background-color: #f9f9f9;
+}
+
+/* Style for links in list items */
+.list-group-item a {
+    color: #5e04af;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* Style for muted text */
+.list-group-item .text-muted {
+    font-size: 14px;
+    color: #777;
+}
+
+/* Style for badges in list items */
+.list-group-item .badge {
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 12px;
+}
+
+/* Profile item styles */
+.profile-item {
+    display: flex;
+    align-items: center;
+    width: 1000px; /* Set a maximum width for profile items */
+    margin: 0 auto; /* Center profile items within the list */
+    padding: 10px;
+}
+
+/* Style for profile images */
+.profile-image img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+    border: 1px solid #ddd;
+    object-fit: cover;
+}
+
+/* Style for profile details container */
+.profile-details {
+    flex-grow: 1;
+}
+
+/* Style for profile name */
+.profile-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    transition: color 0.2s;
+}
+
+/* Hover effect for profile name */
+.profile-name:hover {
+    text-decoration: underline;
+    color: #5e04af;
+}
+
+/* Style for additional profile details */
+.text-muted.small {
+    font-size: 12px;
+    color: #999;
+}
+
+/* Typing effect animation for search input */
+@keyframes typing {
+    from { width: 50%; }
+    to { width: 100%; }
+}
+
+
+@media (max-width: 480px) {
+    .search_outer {
+        margin-left: -145px;
+    }
+
+    .search-input {
+        width: 349px;
+        margin-left: 129px;
+        padding: 21px 9px;
+        font-size: inherit;
+        border-radius: 25px;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding-left: 0;
+        color: #666;
+        background-color: #fff;
+        position: relative;
+        animation: none;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+}

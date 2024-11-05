@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h5 class="mb-3 text-secondary border-bottom pb-2 d-flex align-items-center" style="margin-left: 140px; margin-right: 150px; margin-top: -15px;">
+    <i class="fas fa-bell fa-lg"></i>&nbsp;Moderator Requests
+</h5>
+
+<div class="container mt-5">
+    <h2 class="mb-4">Pending Moderator Requests</h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Profile Name</th>
+                    <th scope="col" class="text-center">Requested At</th>
+                    <th scope="col">Requested Moderator Type</th>
+                    <th scope="col" class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                    {% if request.requested_moderator_type == 'Batch Moderator' and user.profile.moderator_type == 'Departmental Moderator' %}
+                        <tr>
+                            <td><a href="{% url 'view_profile_overview' request.profile.id %}">{{ request.profile.fullname }}</a></td>
+                            <td>{{request.requested_at}}</td>
+                            <td>Batch Moderator</td>
+                            <td class="text-center">
+                                <a href="{% url 'approve_moderator_initial' request.id %}" class="btn btn-success btn-sm">
+                                    Send for Final Approval
+                                </a>
+                            </td>
+                        </tr>
+                    
+                    {% elif request.requested_moderator_type == 'Departmental Moderator' and user.profile.moderator_type == 'University Moderator' %}
+                        <tr>
+                            <td><a href="{% url 'view_profile_overview' request.profile.id %}">{{ request.profile.fullname }}</a></td>
+                            <td>{{request.requested_at}}</td>
+                            <td>Departmental Moderator</td>
+                            <td class="text-center">
+                                <a href="{% url 'approve_moderator_initial' request.id %}" class="btn btn-success btn-sm">
+                                    Send for Final Approval
+                                </a>
+                            </td>
+                        </tr>
+
+                    {% elif request.requested_moderator_type == 'University Moderator' and user.profile.moderator_type == 'Central Moderator' %}
+                        <tr>
+                            <td><a href="{% url 'view_profile_overview' request.profile.id %}">{{ request.profile.fullname }}</a></td>
+                            <td>University Moderator</td>
+                            <td class="text-center">
+                                <a href="{% url 'approve_moderator_initial' request.id %}" class="btn btn-success btn-sm">
+                                    Send for Final Approval
+                                </a>
+                            </td>
+                        </tr>
+                    {% endif %}
+
+                    {% comment %} {% if user.profile.moderator_type == 'Central Moderator' and request %}
+                        <tr>
+                            <td><a href="{% url 'view_profile_overview' request.profile.id %}">{{ request.profile.fullname }}</a></td>
+                            <td>{{ request.requested_moderator_type }}</td>
+                            <td class="text-center">
+                                <a href="{% url 'approve_moderator_initial' request.id %}" class="btn btn-success btn-sm">
+                                    Approve Finally
+                                </a>
+                            </td>
+                        </tr>
+                    {% endif %} {% endcomment %}
+                {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center">No pending requests</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <h2 class="mb-4 mt-5">Sent For Final Approval</h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Profile Name</th>
+                    <th scope="col">Requested Moderator Type</th>
+                    <th scope="col" class="text-center">Requested At</th>
+                    <th scope="col" class="text-center">Initial Approved At</th>
+                    <th scope="col" class="text-center">Final Approved At</th>
+                    <th scope="col" class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests_approved_initial %}
+                    <!--Batch Moderator-->
+                    {% if request.requested_moderator_type == 'Batch Moderator' and user.profile.moderator_type == 'Departmental Moderator' %}
+                        <tr>
+                            <td><a href="{% url 'view_profile_overview' request.profile.id %}">{{ request.profile.fullname }}</a></td>
+                            <td>Batch Moderator</td>
+                            <td>{{request.requested_at}}</td>
+                            <td>{{request.approved_initial_at}}</td>
+                            <td>
+                                {% if not request.is_approved_final %}
+                                    <span class="btn btn-warning btn-sm">[Not approved yet]</span>
+                                {% else %}
+                                    {{request.approved_final_at}}
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                {% if not request.is_approved_final %}
+                                    <a href="{% url 'reject_moderator_initial' request.id %}" class="btn btn-danger btn-sm">
+                                        Reject from Initial Approval
+                                    </a>
+                                {% else %}
+                                    <span class="btn btn-success btn-sm">Approved Finally</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    <!--Departmental Moderator-->
+                    {% elif request.requested_moderator_type == 'Departmental Moderator' and user.profile.moderator_type == 'University Moderator' %}
+                        <tr>
+                            <td><a href="{% url 'view_profile_overview' request.profile.id %}">{{ request.profile.fullname }}</a></td>
+                            <td>Departmental Moderator</td>
+                            <td>{{request.requested_at}}</td>
+                            <td>{{request.approved_initial_at}}</td>
+                            <td>
+                                {% if not request.is_approved_final %}
+                                    <span class="btn btn-warning btn-sm">[Not approved yet]</span>
+                                {% else %}
+                                    {{request.approved_final_at}}
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'reject_moderator_initial' request.id %}" class="btn btn-danger btn-sm">
+                                    {% if not request.is_approved_final %}
+                                        <a href="{% url 'reject_moderator_initial' request.id %}" class="btn btn-danger btn-sm">
+                                            Reject from Initial Approval
+                                        </a>
+                                    {% else %}
+                                        <span class="btn btn-success btn-sm">Approved Finally</span>
+                                    {% endif %}
+                                </a>
+                            </td>
+                        </tr>
+
+                    <!--University Moderator-->
+                    {% elif request.requested_moderator_type == 'University Moderator' and user.profile.moderator_type == 'Central Moderator' %}
+                        <tr>
+                            <td><a href="{% url 'view_profile_overview' request.profile.id %}">{{ request.profile.fullname }}</a></td>
+                            <td>University Moderator</td>
+                            <td>{{request.requested_at}}</td>
+                            <td>{{request.approved_initial_at}}</td>
+                            <td>
+                                {% if not request.is_approved_final %}
+                                    <span class="btn btn-warning btn-sm">[Not approved yet]</span>
+                                {% else %}
+                                    {{request.approved_final_at}}
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'reject_moderator_initial' request.id %}" class="btn btn-danger btn-sm">
+                                    {% if not request.is_approved_final %}
+                                        <a href="{% url 'reject_moderator_initial' request.id %}" class="btn btn-danger btn-sm">
+                                            Reject from Initial Approval
+                                        </a>
+                                    {% else %}
+                                        <span class="btn btn-success btn-sm">Approved Finally</span>
+                                    {% endif %}
+                                </a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center">No requests sent for final approval</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+    {% include '../moderator_secondary_nav.html' %}
+</div>
+{% endblock %}

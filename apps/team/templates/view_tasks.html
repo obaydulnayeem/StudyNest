@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% load task_filters %}
+
+
+{% block title %}My Tasks{% endblock %}
+
+{% block content %}
+
+    <div class="mt-4">
+        {% include 'team_secondary_nav.html' %}
+    </div>
+
+
+<div class="container" style="margin-top: -20px;">
+
+    <div class="mb-1">
+        <a style="float: right;" href="{% url 'add_task' %}" class="btn btn-secondary">Add Task</a>
+    </div>
+
+    <!-- Summary of total durations per team member -->
+    <div class="table-responsive">
+        <h4>Summary (Total Durations Per Team Member)</h4>
+        <table class="table table-bordered mb-4">
+            <thead>
+                <tr>
+                    <th>Team Member</th>
+                    <th>Total Duration</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for duration in total_durations %}
+                    <tr>
+                        <td><a href="{% url 'view_profile_overview' duration.team_member__id %}">{{ duration.team_member__fullname }}</a></td>
+                        <td>{{ duration.total_duration_formatted }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="2" class="text-center">No data available.</td>
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <h4 class="mt-3">All Detailed Task List</h4>
+    <!-- Task details table -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Team Member</th>
+                <th>Date</th>
+                <th>Task Name</th>
+                <th>Description</th>
+                <th>Duration</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td><a href="{% url 'view_profile_overview' task.team_member.id %}">{{ task.team_member.fullname }}</a></td>
+                    <td>{{ task.date }}</td>
+                    <td>{{ task.task_name }}</td>
+                    <td>{{ task.description }}</td>
+                    <td>{{ task.duration_formatted }}</td>
+                    <td>{{ task.created_at }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No tasks added yet.</td>
+                </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+</div>
+{% endblock %}

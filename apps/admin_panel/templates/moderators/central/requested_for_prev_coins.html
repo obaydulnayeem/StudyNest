@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Others - Central Moderators{% endblock %}
+
+{% block content %}
+
+<h5 class="mb-3 text-secondary border-bottom pb-2 d-flex align-items-center" style="margin-left: 140px; margin-right: 150px; margin-top: -15px;">
+    <i class="fas fa-plus fa-lg"></i>&nbsp;Others > Requested For Previous Coins
+</h5>
+
+<div class="mt-4">
+    {% include 'moderators/moderator_secondary_nav.html' %}
+</div>
+
+<div class="container mt-4">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Profile Name</th>
+                <th scope="col">Profile Link</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for profile in requested_profiles %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ profile.fullname }}</td>
+                <td>
+                    <a href="{% url 'view_profile_overview' profile.id %}">
+                        View Profile
+                    </a>
+                </td>
+                <td>
+                    {% if not profile.given_prev_coin %}
+                    <form method="POST" action="{% url 'given_prev_coin' profile.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-sm">
+                            Mark Done
+                        </button>
+                    </form>
+                    {% else %}
+                    <button class="btn btn-danger btn-sm" disabled>
+                        Done
+                    </button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center">No profiles have requested previous coins.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

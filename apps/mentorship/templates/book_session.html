@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Book Session with {{ mentor.user }}</h2>
+                    <form method="post" id="session-form">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary btn-block mt-3">Book Session</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        //const today = new Date().toISOString().split('T')[0];
+        //const nextWeek = new Date();
+        //nextWeek.setDate(new Date().getDate() + 7);
+        //const maxDate = nextWeek.toISOString().split('T')[0];
+
+        //document.querySelector('input[type="date"]').setAttribute('min', today);
+        //document.querySelector('input[type="date"]').setAttribute('max', maxDate);
+
+        // Example time slots (this can be dynamic based on your requirements)
+        const timeSlots = [
+            '08:00', '09:00', '10:00', '11:00', '12:00',
+            '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'
+        ];
+        let timeOptions = '';
+        timeSlots.forEach(slot => {
+            timeOptions += `<option value="${slot}">${slot}</option>`;
+        });
+        document.querySelector('select[name="available_time_slots"]').innerHTML = timeOptions;
+    });
+</script>
+
+{% endblock %}

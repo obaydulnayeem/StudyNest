@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}403 Forbidden{% endblock %}
+
+{% block content %}
+<div class="container text-center">
+    <h3 class="text-danger">Sorry, you are not an authorized student to access this file.</h3>
+    <p>You can only access this file if you are a student of the <strong> {{resource.department}}, {{resource.university}}</strong>. If you believe this is an error, please contact us through <span style="color:#0070d9">Messenger</span>/<span style="color:#25D366">WhatsApp</span> chat.</p>
+    {% comment %} <a href="{% url 'login' %}" class="btn btn-primary">Login</a> {% endcomment %}
+
+    <div class="mb-3">
+        <a href="{% url 'home' %}" class="btn btn-secondary">Go Back to Home</a>
+        
+        <a href="{% url 'view_edu_university_my_profile' %}" class="btn btn-secondary">Be a Student of this Department</a>
+    </div>
+
+    
+    {% include 'home/quick_buttons_home.html' %}
+
+
+</div>
+{% endblock %}

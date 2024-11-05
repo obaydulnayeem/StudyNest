@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Others - Central Moderators{% endblock %}
+
+{% block content %}
+
+<h5 class="mb-3 text-secondary border-bottom pb-2 d-flex align-items-center" style="margin-left: 140px; margin-right: 150px; margin-top: -15px;">
+    <i class="fas fa-plus fa-lg"></i>&nbsp;Others
+</h5>
+
+<a href="{% url 'requested_for_prev_coins' %}" class="btn btn-secondary">
+    <i class="fas fa-plus"></i> Requested Profiles for Previous Coins
+</a>
+
+<div class="mt-4">
+    {% include 'moderators/moderator_secondary_nav.html' %}
+</div>
+
+{% endblock %}

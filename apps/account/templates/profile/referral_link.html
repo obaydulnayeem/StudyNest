@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Referral Link{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h5>Your Referral Link</h5>
+
+    <p style="font-family: alinu"> প্রিয়
+        {% if user.profile.fullname %}
+            {{user.profile.fullname}},
+        {% else %}
+            {{ user }}
+        {% endif %}
+
+        নিচের লিংকটি আপনার জন্য রেফারাল লিংক। নতুন কোনো ইউজার ওয়েবসাইটে প্রবেশ করার পরে রেফারাল লিংক সাবমিশন ফর্মে তিনি এই লিংকটি বসালে আপনি 100 Onebyzero Coin পেয়ে যাবেন। তবে সাথে সাথেই পাবেন না। নতুন ইউজারের প্রোফাইলে যুক্ত করা ইউনিভার্সিটি Verified হওয়ার হওয়ার সাথে সাথেই আপনার অ্যাকাউন্টে 100 কয়েন যুক্ত হয়ে যাবে। একইসাথে উক্ত ইউজারও 50টি কয়েন পাবেন। <span class="text-success" style="font-weight:">তাই বাংলাদেশের যেকোনো বিশ্ববিদ্যালয়ের যেকোনো ডিপার্টমেন্ট/ফ্যাকাল্টি/ইন্সস্টিটিউট/ডিসিপ্লিন এর শিক্ষার্থীকে আপনার রেফারাল লিংকটি পাঠান এবং 100 করে Onebyzero Coin অর্জন করুন।</span>
+    </p>
+        
+
+    <div class="input-group mb-3">
+        <input id="referral-link" type="text" class="form-control" value="{{ referral_link }}" readonly>
+        <button class="btn btn-primary" type="button" onclick="copyReferralLink()">Copy</button>
+    </div>
+    <small class="form-text text-muted">Copy and share the link with any students of any universities in Bangladesh.</small>
+</div>
+
+<script>
+    function copyReferralLink() {
+        var copyText = document.getElementById('referral-link');
+        
+        // Modern Clipboard API
+        navigator.clipboard.writeText(copyText.value).then(function() {
+            alert("Referral link copied to clipboard");
+        }).catch(function(err) {
+            console.error("Could not copy text: ", err);
+        });
+    }
+</script>
+
+
+<style>
+    @font-face {
+        font-family: 'alinur';
+        src:
+             url("{% static 'fonts/alinur/unicode/alinur.ttf' %}");
+        font-weight: 0;
+        font-style: ;
+    } 
+</style>
+
+{% endblock %}

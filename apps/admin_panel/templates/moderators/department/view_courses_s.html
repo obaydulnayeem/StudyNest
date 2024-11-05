@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}View Courses - Moderator{% endblock %}
+
+{% block content %}
+    {% comment %} {% include '../../sidebar.html' %} {% endcomment %}
+
+    <div class="view_courses_moderator container-fluid">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="moderator_header_section text-center mb-4">
+                    <h3 class="moderator_header_title mb-1">Courses of {{semester_name}} {{ctxp_profile_edu_university.department.system}}</h3>
+                    <p class="moderator_header_subtitle text-muted mb-1">{{ ctxp_profile_edu_department_name }}, {{ctxp_profile_edu_university_name}}</p>
+                    <p class="moderator_header_subtitle text-muted mb-1"><strong>[Departmental Moderator Panel]</strong></p>
+              
+                </div>
+
+
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+
+                <div class="d-flex justify-content-end mb-3">
+                    <a class="btn btn-secondary" href="{% url 'add_course' %}">Add New Course</a>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Course Title</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for c in courses %}
+                                <tr>
+                                    <td>{{ c.title }}</td>
+                                    <td class="d-flex">
+                                        <a href="{% url 'edit_course' c.id %}" class="btn btn-primary btn-sm me-2 no-underline">Edit</a>
+                                        <form method="post" action="{% url 'delete_course' c.id %}" onsubmit="return confirmDelete()" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger btn-sm no-underline">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                {% if not courses %}
+                    <p class="text-center mt-4">No courses available at the moment.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% include '../moderator_secondary_nav.html' %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/moderator/moderator_header.css' %}">
+
+
+
+    <script>
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete this course?");
+        }
+    </script>
+    <style>
+        .no-underline {
+            text-decoration: none;
+        }
+
+        .view_courses_moderator {
+            margin-left: 160px; 
+            margin-top: -10px;
+        }
+    </style>
+{% endblock %}

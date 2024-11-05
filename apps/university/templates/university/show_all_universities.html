@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}All Universities{% endblock %}
+
+{% block content %}
+<div class="university_list">
+    <div class="university_list_heading text-center mb-3 pt-1 pb-1">
+        {% if selected_university_type %}
+            <h2 style="text-align: center;">
+                {% for t in university_types %}
+                    {% if t.id|stringformat:"s" == selected_university_type %}
+                        {{ t.type }} Universities in Bangladesh (
+                            {% if t.id == 1 %}
+                                {{num_public_general}}
+                            {% elif t.id == 3 %}
+                                {{num_public_autonomous}}
+                            {% elif t.id == 4 %}
+                                {{num_science_and_technology}}
+                            {% elif t.id == 5 %}
+                                {{num_engineering}}
+                            {% elif t.id == 6 %}
+                                {{num_agricultural}}
+                            {% elif t.id == 7 %}
+                                {{num_specialized}}
+                            {% elif t.id == 8 %}
+                                {{num_off_campus}}
+                            {% elif t.id == 9 %}
+                                {{num_affiliate_institutes}}
+                            {% elif t.id == 10 %}
+                                {{num_specialized_textile}}
+                            {% elif t.id == 11 %}
+                                {{num_private_general}}
+                            {% elif t.id == 12 %}
+                                {{num_private_science_and_technology}}
+                            {% elif t.id == 13 %}
+                                {{num_private_specialized}}
+                            {% elif t.id == 14 %}
+                                {{num_international}}
+                            {% elif t.id == 15 %}
+                                {{num_proposed}}
+                            {% endif %}
+
+                        )
+                    {% endif %}
+                {% endfor %}
+            </h2>
+        {% else %}
+            <h2 style="text-align: center;">All Universities in Bangladesh ({{total_universities}})</h2>
+        {% endif %}
+    </div>
+
+
+
+    <div class="table-wrapper mt-3 mx-5">
+        <div class="table-responsive">
+            <table class="table_summary table table-bordered table-striped table-hover">
+                <thead class="bg-secondary text-light">
+                    <tr>
+                        <th class="text-center">Public (General)</th>
+                        <th>Public (Autonomous)</th>
+                        <th>Science and Technology</th>
+                        <th>Engineering</th>
+                        <th>Agricultural</th>
+                        <th>Specialized</th>
+                        <th>Off-Campus</th>
+                        <th>Affiliate Institutes</th>
+                        <th>Specialized (BSc. in Textile) Engineering Colleges</th>
+                        <th>Private (General)</th>
+                        <th>Private (Science and Technology)</th>
+                        <th>Private (Specialized)</th>
+                        <th>International</th>
+                        <th>Proposed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">{{ num_public_general }}</td>
+                        <td class="text-center">{{ num_public_autonomous }}</td>
+                        <td class="text-center">{{ num_science_and_technology }}</td>
+                        <td class="text-center">{{ num_engineering }}</td>
+                        <td class="text-center">{{ num_agricultural }}</td>
+                        <td class="text-center">{{ num_specialized }}</td>
+                        <td class="text-center">{{ num_off_campus }}</td>
+                        <td class="text-center">{{ num_affiliate_institutes }}</td>
+                        <td class="text-center">{{ num_specialized_textile }}</td>
+                        <td class="text-center">{{ num_private_general }}</td>
+                        <td class="text-center">{{ num_private_science_and_technology }}</td>
+                        <td class="text-center">{{ num_private_specialized }}</td>
+                        <td class="text-center">{{ num_international }}</td>
+                        <td class="text-center">{{ num_proposed }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <form method="get" class="mx-5 mt-3">
+        <div class="form-row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="search"><strong>Search by university name:</strong></label>
+                    <div class="input-group">
+                        <input type="text" name="search" id="search" class="form-control" placeholder="Enter university name" value="{{ search_query }}">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search"></i> <!-- FontAwesome search icon -->
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="type"><strong>Filter universities by type:</strong></label>
+                    <select name="type" id="type" class="form-control" onchange="this.form.submit()">
+                        <option value="">All Types</option>
+                        {% for t in university_types %}
+                            <option value="{{ t.id }}" {% if t.id|stringformat:"s" == selected_university_type %}selected{% endif %}>{{ t.type }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="table-wrapper mt-3 mx-5">
+        <div class="table-responsive">
+            <table id="sortable-table" class="table table-striped table-hover">
+                <thead class="bg-secondary text-light">
+                    <tr>
+                        <th>Logo</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Established</th>
+                        <th>Division</th>
+                        <th>District</th>
+                        <th>Website</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in universities %}
+                        <tr data-id="{{ u.id }}">
+                            <td>
+                                {% if u.logo %}
+                                    <img src="{{ u.logo.url }}" alt="Logo" style="width: 50px; height: 50px;">
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td><a href="{% url 'show_university' u.id %}" class="text-decoration-none">{{ u.name }}</a></td>
+                            <td>{{ u.university_type.type }}</td>
+                            <td>{{ u.established }}</td>
+                            <td>{{ u.location_division }}</td>
+                            <td>{{ u.location_district }}</td>
+                            <td>
+                                {% if u.website %}
+                                    <a href="{{ u.website }}" target="_blank">{{ u.website }}</a>
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="10">No universities available.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/university/university_list.css' %}">
+
+<style>
+    .table_summary th {
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
+
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Onebyzero Coin Details{% endblock %}
+
+{% block content %}
+    <div class="container mt-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="card-title text-center text-secondary" style="color: gold;"><i class="fas fa-coins fa-lg" style="color: gold;"></i> Onebyzero Coin</h2>
+                <p class="text-muted text-center">Your gateway to exclusive rewards and features</p>
+                <hr>
+                <div class="mt-4">
+                    <h4 class="text-secondary">What is Onebyzero Coin?</h4>
+                    <p>Onebyzero Coin is a digital reward currency designed to incentivize your engagement and contributions on our platform.</p>
+                </div>
+                <div class="mt-4">
+                    <h4 class="text-secondary">Why Onebyzero Coin?</h4>
+                    <p>Our coin system encourages you to actively participate by rewarding you with coins that can be used for various benefits, including accessing premium features of Onebyzero Edu, converting coins to BDT (Bangladeshi Taka), and receiving exclusive gifts.</p>
+                </div>
+                <div class="mt-4">
+                    <h4 class="text-secondary">How does it work?</h4>
+                    <p>You can earn Onebyzero Coins by completing specific tasks, such as contributing valuable contents (Questions / Books / Lecture Slides / Notes) or referring new users to the platform. These coins can be redeemed for rewards, converted to BDT, or used to unlock premium features and exclusive gifts within Onebyzero Edu.</p>
+                </div>
+
+                <div class="mt-4 mx-5">
+                    <a href="{% url 'generate_referral_link' %}" class="btn btn-secondary btn-sm d-flex align-items-center" style="margin-left:px; margin-bottom: 15px;">
+                        <i class="fas fa-hand-point-right me-2"></i>আপনার বন্ধুকে রেফার করে 100 Onebyzero Coin অর্জন করুন!
+                    </a>
+
+                    <a href="{% url 'add_question' %}" class="btn btn-secondary btn-sm d-flex align-items-center" style="margin-left:px; margin-bottom: 15px;">
+                        <i class="fas fa-hand-point-right me-2"></i>প্রশ্ন আপলোড করে 30 Onebyzero Coin অর্জন করুন!
+                    </a>
+
+                    <a href="{% url 'add_book' %}" class="btn btn-secondary btn-sm d-flex align-items-center" style="margin-left:px; margin-bottom: 15px;">
+                        <i class="fas fa-hand-point-right me-2"></i>বই আপলোড করে 20 Onebyzero Coin অর্জন করুন!
+                    </a>
+
+                    <a href="{% url 'add_note' %}" class="btn btn-secondary btn-sm d-flex align-items-center" style="margin-left:px; margin-bottom: 15px;">
+                        <i class="fas fa-hand-point-right me-2"></i>নোট আপলোড করে 50 Onebyzero Coin অর্জন করুন!
+                    </a>
+
+                    <a href="{% url 'add_lecture' %}" class="btn btn-secondary btn-sm d-flex align-items-center" style="margin-left:px; margin-bottom: 15px;">
+                        <i class="fas fa-hand-point-right me-2"></i>লেকচার স্লাইড আপলোড করে 10 Onebyzero Coin অর্জন করুন!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

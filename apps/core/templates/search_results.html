@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Search Results {% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Search form -->
+    <div class="search_outer row justify-content-center mt-3">
+        <form method="get" class="mb-4 mt-3 search-form" action="{% url 'search_results' %}">
+            <div class="form-group position-relative">
+                <input type="text" name="q" id="search" class="form-control search-input"
+                    data-placeholder="Search by course, university, department, faculty, institute, discipline, school, course code, email, name, center, etc..."
+                    value="{{ query|default_if_none:'' }}">
+                <span class="fas fa-search search-icon"></span>
+            </div>
+        </form>
+    </div>
+
+    <!-- Search results -->
+    <div class="search-results" style="margin-top:-30px;">
+        <h6 class="mb-3">Search Results for "{{ query }}":</h6>
+        {% if total_search_results > 0 %}
+            <p class="text-muted">Total: 
+                {% if total_search_results_universities %}
+                    {{ total_search_results_universities }} {{ total_search_results_universities|pluralize:"university,universities" }}
+                {% endif %}
+
+                {% if total_search_results_faculties %}
+                    {{ total_search_results_faculties }} {{ total_search_results_faculties|pluralize:"faculty,faculties" }}
+                {% endif %}
+
+                {% if total_search_results_institutes %}
+                    {{ total_search_results_institutes }} {{ total_search_results_institutes|pluralize:"institute,institutes" }}
+                {% endif %}
+
+                {% if total_search_results_schools %}
+                    {{ total_search_results_schools }} {{ total_search_results_schools|pluralize:"school,schools" }}
+                {% endif %}
+
+                {% if total_search_results_centers %}
+                    {{ total_search_results_centers }} {{ total_search_results_centers|pluralize:"center,centers" }}
+                {% endif %}
+
+                {% if total_search_results_departments %}
+                    {{ total_search_results_departments }} {{ total_search_results_departments|pluralize:"department,departments" }}
+                {% endif %}
+
+                {% if total_search_results_disciplines %}
+                    {{ total_search_results_disciplines }} {{ total_search_results_disciplines|pluralize:"discipline,disciplines" }
+                {% endif %}
+
+                {% if total_search_results_courses %}
+                    {{ total_search_results_courses }} {{ total_search_results_courses|pluralize:"course,courses" }}
+                {% endif %}
+
+                {% if total_search_results_profiles %}
+                    {{ total_search_results_profiles }} {{ total_search_results_profiles|pluralize:"profile,profiles" }}
+                {% endif %}
+            </p>
+        {% endif %}
+
+        <!-- Search results for universities -->
+        {% if universities %}
+            <h5 class="mt-4">Universities</h5>
+            <ul class="list-group mb-3">
+                {% for university in universities %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <a href="{% url 'show_university' university.id %}" class="font-weight-bold">{{ university.name }}</a>
+                            <span class="text-muted">({{ university.location_district }} District, {{ university.location_division }} Division)</span>
+                        </div>
+                        <span class="badge badge-primary">University</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- Search results for faculties -->
+        {% if faculties %}
+            <h5 class="mt-4">Faculties</h5>
+            <ul class="list-group mb-3">
+                {% for faculty in faculties %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <a href="{% url 'show_faculty' faculty.id %}" class="font-weight-bold">{{ faculty.name }}</a>
+                            <span class="text-muted">{{ faculty.university.name }}</span>
+                        </div>
+                        <span class="badge badge-secondary">Faculty</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- Search results for institutes -->
+        {% if institutes %}
+            <h5 class="mt-4">Institutes</h5>
+            <ul class="list-group mb-3">
+                {% for institute in institutes %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <a href="{% url 'show_institute' institute.id %}" class="font-weight-bold">{{ institute.name }}</a>
+                            <span class="text-muted">{{ institute.university.name }}</span>
+                        </div>
+                        <span class="badge badge-secondary">Institute</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- Search results for schools -->
+        {% if schools %}
+            <h5 class="mt-4">Schools</h5>
+            <ul class="list-group mb-3">
+                {% for school in schools %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <a href="{% url 'show_school' school.id %}" class="font-weight-bold">{{ school.name }}</a>
+                            <span class="text-muted">{{ school.university.name }}</span>
+                        </div>
+                        <span class="badge badge-secondary">School</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- Search results for centers -->
+        {% if centers %}
+            <h5 class="mt-4">Centers</h5>
+            <ul class="list-group mb-3">
+                {% for center in centers %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <a href="{% url 'my_resources_s' center.university.id center.id %}" class="font-weight-bold">{{ center.name }}</a>
+                            <span class="text-muted">{{ center.university.name }}</span>
+                        </div>
+                        <span class="badge badge-secondary">Center</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
+        <!-- Search results for departments -->
+        {% if departments %}
+            <h5 class="mt-4">Departments</h5>
+            <ul class="list-group mb-3">
+                {% for department in departments %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <a href="{% url 'show_department' department.id %}" class="font-weight-bold">{{ department.name }}</a>
+                            <span class="text-muted">{{ department.university.name }}</span>
+                        </div>
+                        <span class="badge badge-secondary">Department</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- Search results for disciplines -->
+        {% if disciplines %}
+            <h5 class="mt-4">Disciplines</h5>
+            <ul class="list-group mb-3">
+                {% for discipline in disciplines %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <a href="{% url 'show_discipline' discipline.id %}" class="font-weight-bold">{{ discipline.name }}</a>
+                            <span class="text-muted">{{ discipline.university.name }}</span>
+                        </div>
+                        <span class="badge badge-secondary">Discipline</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- Search results for courses -->
+        {% if courses %}
+            <h5 class="mt-4">Courses</h5>
+            <ul class="list-group mb-3">
+                {% for course in courses %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <a href="{% url 'show_course' course.id %}" class="font-weight-bold">{{ course.title }} [{{ course.code }}]</a>
+                            <span class="text-muted">{{ course.department.name }}, {{ course.department.university.name }}</span>
+                        </div>
+                        <span class="badge badge-success">Course</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- Search results for profiles -->
+        {% if profiles %}
+            <h5 class="mt-4">Profiles</h5>
+            <ul class="list-group mb-3">
+                {% for profile in profiles %}
+                    <li class="list-group-item profile-item d-flex align-items-center">
+                        <div class="profile-image me-3">
+                            <img src="{{ profile.profile_image.url }}" alt="{{ profile.fullname }}" class="rounded-circle" style="width: 50px; height: 50px;">
+                        </div>
+                        <div class="profile-details">
+                            <a href="{% url 'view_profile_overview' profile.id %}" class="font-weight-bold">{{ profile.fullname|default:profile.user.username }}</a>
+                            
+                            <div class="text-muted small">
+                                {% if profile.edu_university %}
+                                   {{ profile.edu_university.department }}, {{ profile.edu_university.university }} |
+                                {% endif %}
+                                {{ profile.email }}
+                            </div>
+
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- No search results -->
+        {% if not universities and not faculties and not institutes and not schools and not centers and not departments and not disciplines and not courses and not profiles %}
+            <p class="text-danger">Sorry! No results found. Please try again with a different approach.</p>
+        {% endif %}
+    </div>
+</div>
+
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/home/search.css' %}">
+
+{% endblock %}

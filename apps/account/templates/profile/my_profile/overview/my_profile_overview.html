@@ -1,0 +1,301 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<h5 class="my_profile_header mb-3 text-secondary border-bottom pb-2 d-flex align-items-center">
+    <i class="fas fa-user-circle fa-lg me-2"></i> Profile Overview
+</h5>
+<div class="row">
+    <div class="col-md-9 dp_overview tab-pane fade show active">
+        {% for message in messages %}
+            <div class="alert alert-light alert-dismissible fade show mx-auto" role="alert" style="background-color: #ffcccc; width: 70%;">
+                <p class="mb-0">{{ message }}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+
+        <div class="my_profile_overview card mt-4 mx-auto" style="">
+            <!-- Profile Header -->
+            <div class="card-header d-flex justify-content-between align-items-center bg-secondary text-white">
+                <h5 class="m-0">
+                    {% if d_profile.fullname %}
+                        {{ d_profile.fullname }}
+                    {% else %}
+                        {{ d_profile.user }}
+                    {% endif %}
+
+                    {% if d_profile.nickname %}
+                        ({{ d_profile.nickname }})
+                    {% endif %}
+                </h5>
+
+                {% if d_profile.moderator_type %}
+                <div class="card bg-dark text-white text-center py-1 px-3" style="border-radius: 12px;">
+                    <span class="badge bg-white text-dark me-1">
+                        <i class="fas fa-shield-alt"></i>
+                    </span>
+                    {{ d_profile.moderator_type }}
+                </div>
+                {% endif %}
+            </div>
+
+
+                <!-- ICONS-->
+                {% if user.profile.edu_university.is_approved and not user.profile.moderator_type %}
+                    <span class="verified-tick" style="position: absolute; top: -5px; right: 25px; margin-right: 549px; margin-top:63px;">
+                        <i class="fas fa-check-circle" style="color: #1877F2; font-size: 24px;"></i>
+                    </span>
+                {% elif user.profile.edu_university.is_approved and user.profile.moderator_type == 'Batch Moderator' %}
+                    <span class="moderator-badge" style="position: absolute; top: -5px; right: 25px; margin-right: 549px; margin-top:95px;">
+                        <i class="fas fa-shield-alt" style="color: #d814df; font-size: 24px;"></i> <!-- Moderator icon -->
+                    </span>
+                {% elif user.profile.edu_university.is_approved and user.profile.moderator_type == 'Departmental Moderator' %}
+                    <span class="moderator-badge" style="position: absolute; top: -5px; right: 25px; margin-right: 549px; margin-top:95px;">
+                        <i class="fas fa-shield-alt" style="color: #3ac839; font-size: 24px;"></i>
+<!-- Moderator icon -->
+                    </span>
+                {% elif user.profile.edu_university.is_approved and user.profile.moderator_type == 'University Moderator' %}
+                    <span class="moderator-badge" style="position: absolute; top: -5px; right: 25px; margin-right: 549px; margin-top:95px;">
+                        <i class="fas fa-shield-alt" style="color: #7a7cff; font-size: 24px;"></i> <!-- Moderator icon -->
+                    </span>
+                {% elif user.profile.edu_university.is_approved and user.profile.moderator_type == 'Central Moderator' %}
+                    <span class="moderator-badge" style="position: absolute; top: -5px; right: 25px; margin-right: 549px; margin-top:95px;">
+                        <i class="fas fa-shield-alt" style="color: #FB7373; font-size: 24px;"></i> <!-- Moderator icon -->
+                    </span> 
+                {% endif %}
+
+
+            <div class="card-body profile-section d-flex">
+                <!-- Profile Image and Bio -->
+                <div class="profile-image-bio d-flex flex-column mb-3" style="flex: 1 1 300px;">
+                    <div class="profile-image-container">
+                        <div class="profile-image-frame">
+                            
+                            {% if d_profile.profile_image %}
+                                <img src="{{ d_profile.profile_image.url }}" alt="Profile Image" class="profile-image rounded-image">
+                            {% else %}
+                                <i class="fas fa-user-circle fa-5x"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <p class="text-muted mt-2 bio-text">{{ d_profile.bio }}</p>
+
+                    {% if user.profile.edu_university %}
+                        <p class="">
+                            {% if user.profile.edu_university.department %}
+                                {{ user.profile.edu_university.department }}, 
+                            {% endif %}
+
+                            {% if user.profile.edu_university.discipline %}
+                                {{ user.profile.edu_university.discipline }},
+                            {% endif %}
+
+                            {% if user.profile.edu_university.faculty %}
+                                {{ user.profile.edu_university.faculty }}, 
+                            {% endif %}
+
+                            {% if user.profile.edu_university.school %}
+                                {{ user.profile.edu_university.school }},
+                            {% endif %}
+
+                            {% if user.profile.edu_university.center %}
+                                {{ user.profile.edu_university.center }},
+                            {% endif %}
+
+                            {{ user.profile.edu_university.university }}
+                        </p>
+                    {% endif %}
+
+                    {% if d_profile.edu_university.is_approved and d_profile.edu_university.departmental_batch and d_profile.edu_university.varsity_batch and d_profile.edu_university.session and d_profile.edu_university.semester %}
+                        <p class="text-muted">{{ d_profile.edu_university.departmental_batch }} Batch (dept.), {{d_profile.edu_university.varsity_batch}} Batch (varsity), {{ d_profile.edu_university.session }} session, {{ d_profile.edu_university.semester }} {{d_profile.edu_university.department.system}}</p>
+                    {% endif %}
+                </div>
+
+                <!-- Profile Details -->
+                <div class="my_profile_details profile-details" style="">
+                    {% if d_profile.edu_university.is_approved and d_profile.edu_university.student_id %}
+                        <p><i class="fas fa-id-card fa-lg" title="Student ID"></i>
+                            Student ID: {{ d_profile.edu_university.student_id }}</p>
+                    {% endif %}
+
+                    {% if d_profile.email %}
+                        <p><i class="fas fa-envelope fa-lg text-black me-2"></i> <a href="mailto:{{ d_profile.email }}" class="text-black">{{ d_profile.email }}</a></p>
+                    {% endif %}
+
+                    {% if d_profile.mobile_number %}
+                        <p><i class="fas fa-phone fa-lg text-black me-2"></i> {{ d_profile.mobile_number }}</p>
+                    {% endif %}
+
+                    {% if d_profile.blood_group %}
+                        <p><i class="fas fa-tint fa-lg text-black me-2"></i> {{ d_profile.blood_group }}</p>
+                    {% endif %}
+
+                    <p><i class="fas fa-coins fa-lg" style="color: black; margin-right: 8px;"></i>Total Coins: {{ d_profile.total_coins }}</p>
+
+                    <!-- Social Icons -->
+                    <div class="social-icons mt-2">
+                        {% if d_profile.facebook_id %}
+                            <a href="{{ d_profile.facebook_id }}" target="_blank" class="me-3"><i class="fab fa-facebook fa-2x text-primary" title="Facebook"></i></a>
+                        {% endif %}
+                        {% if d_profile.instagram_id %}
+                            <a href="{{ d_profile.instagram_id }}" target="_blank" class="me-3"><i class="fab fa-instagram fa-2x text-danger" title="Instagram"></i></a>
+                        {% endif %}
+                        {% if d_profile.linkedin_id %}
+                            <a href="{{ d_profile.linkedin_id }}" target="_blank" class="me-3"><i class="fab fa-linkedin fa-2x text-primary" title="LinkedIn"></i></a>
+                        {% endif %}
+                        {% if d_profile.twitter_id %}
+                            <a href="{{ d_profile.twitter_id }}" target="_blank" class="me-3"><i class="fab fa-twitter fa-2x text-info" title="Twitter"></i></a>
+                        {% endif %}
+                        {% if d_profile.github_id %}
+                            <a href="{{ d_profile.github_id }}" target="_blank" class="me-3"><i class="fab fa-github fa-2x text-dark" title="Github"></i></a>
+                        {% endif %}
+                        {% if d_profile.youtube_channel %}
+                            <a href="{{ d_profile.youtube_channel }}" target="_blank" class="me-3"><i class="fab fa-youtube fa-2x text-danger" title="Youtube"></i></a>
+                        {% endif %}
+                        {% if d_profile.google_scholar %}
+                            <a href="{{ d_profile.google_scholar }}" target="_blank"><i class="fas fa-graduation-cap fa-2x text-dark" title="Google Scholar"></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="quick_buttons col-md-3" style="">
+        <a href="{% url 'generate_referral_link' %}" class="btn btn-success btn-sm d-flex align-items-center" style="margin-left: -40px; margin-bottom: 15px;">
+            <i class="fas fa-hand-point-right me-2"></i>আপনার বন্ধুকে রেফার করে 100 Onebyzero Coin অর্জন করুন!
+        </a>
+    
+  
+        {% comment %} <a href="{% url 'request_for_moderator' %}" class="btn btn-success btn-sm d-flex align-items-center" style="margin-left: -40px; margin-bottom: 15px;">
+            <i class="fas fa-hand-point-right me-2"></i>Onebyzero Edu এর একজন মডারেটর হতে এখানে ক্লিক করুন!
+        </a> {% endcomment %}
+
+        {% if user.profile.moderator_type %}
+            <a href="{% url 'retire_from_moderator' %}" class="btn btn-danger btn-sm d-flex align-items-center" style="margin-left: -40px; margin-bottom: 15px;">
+                <i class="fas fa-hand-point-right me-2"></i>{{user.profile.moderator_type}} হতে অব্যহতি নিতে এখানে ক্লিক করুন!
+            </a>
+        {% endif %}
+
+        {% if user.profile.edu_university.department.id == 1 and user.profile.edu_university.university.id == 1 %}
+            <a href="{% url 'previous_uploaders_total_contribution' %}" class="btn btn-success btn-sm d-flex align-items-center" style="margin-left: -40px; margin-bottom: 15px;">
+                <i class="fas fa-hand-point-right me-2"></i>পূর্বের ওয়েবসাইটে আপলোডের জন্য আপনার পাওনা কয়েন নিয়ে নিন।
+            </a>
+        {% endif %}
+    </div>
+    
+</div>
+{% include 'profile/my_profile/my_profile_secondary_nav.html' %}
+
+<style>
+    .my_profile_header {
+        margin-left: 140px; 
+        margin-right: 150px; 
+        margin-top: -35px;
+    }
+
+    .dp_overview {
+        margin-top: -30px;
+    }
+
+    .my_profile_overview {
+        margin-top: -45px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+    }
+
+    .profile-image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .profile-image-frame {
+        display: inline-block;
+        overflow: hidden;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 2px solid #007bff;
+        position: relative;
+    }
+    
+    .rounded-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .profile-image-bio {
+        margin-right: 20px;
+    }
+
+    .bio-text {
+        word-wrap: break-word;
+    }
+
+    .profile-details i {
+        color: black;
+    }
+
+    .social-icons a {
+        margin-right: 15px;
+    }
+
+    .my_profile_details {
+        flex: 2 1 500px;
+    }
+
+    .quick_buttons {
+        margin-left: -20px;
+    }
+    
+    @media (max-width: 768px) {
+        .profile-section {
+            flex-direction: column;
+        }
+
+        .profile-image-bio {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .profile-details {
+            text-align: center;
+        }
+
+        .social-icons {
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .my_profile_header {
+            margin-left: 10px; 
+            margin-right: 150px; 
+            margin-top: 60px;
+        }
+
+        .my_profile_overview {
+            width: 100%;
+            margin-left: px;
+            margin-right: 0px;
+            background-color: ;
+            left: 90px;
+        }
+
+        .my_profile_details {
+            flex: 2 1 0px;
+        }
+
+        .quick_buttons {
+            width: 80%;
+            margin-left: 60px;
+        }
+    }
+</style>
+{% endblock %}

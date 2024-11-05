@@ -1,0 +1,116 @@
+<!-- mentors_list.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Choose Your 1-to-1 Mentor</h2>
+
+    <!-- Filtering Form -->
+    <form method="get" class="mb-4">
+        <div class="form-group">
+            <label for="mentor_type">Filter by Mentor Type:</label>
+            <select id="mentor_type" name="mentor_type" class="form-control">
+                <option value="">All</option>
+                <option value="University">University</option>
+                <option value="School">School</option>
+                <option value="College">College</option>
+                <option value="Industry">Industry</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Apply Filter</button>
+    </form>
+
+    {% if mentors %}
+    <div class="row justify-content-center">
+        {% for mentor in mentors %}
+        <div class="col-md-6 d-flex align-items-stretch mb-4">
+            <div class="card shadow-sm w-100">
+                {% if mentor.profile_image %}
+                    <img src="{{ mentor.profile_image.url }}" class="card-img-top" alt="{{ mentor.fullname }}">
+                {% else %}
+                    <img src="/media/profile_images/default.png" class="card-img-top" alt="{{ mentor.fullname }}">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ mentor.user }}</h5>
+                    <p class="card-text">{{ mentor.bio }}</p>
+                    <p class="card-text"><strong>Department:</strong> {{ mentor.department.name }}</p>
+                    <p class="card-text"><strong>University:</strong> {{ mentor.university.name }}</p>
+                    <p class="card-text"><strong>Email:</strong> {{ mentor.email }}</p>
+                </div>
+
+                <div class="card-footer">
+                    <a href="{% url 'view_profile_overview' mentor.user.id %}" class="btn btn-primary btn-block">Profile</a>
+                    <a href="{% url 'book_session' mentor.slug %}" class="btn btn-primary btn-block">Book Session</a>
+                </div>
+                
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <div class="alert alert-info text-center" role="alert">
+        No mentors are available at the moment.
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .card {
+        max-width: 500px; /* Increase card width */
+        height: 100%; /* Make card height flexible */
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin: 0 auto; /* Center cards horizontally */
+    }
+
+    .card-img-top {
+        height: 200px; /* Adjust this value as needed */
+        object-fit: cover;
+        width: 100%; /* Ensure image takes full width of the card */
+    }
+
+    .card-body {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Space out card content */
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .card-text {
+        margin-bottom: 0.5rem;
+        font-size: 1rem; /* Adjust text size for better fit */
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+        max-width: 1000px;
+    }
+
+    h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .mb-4 {
+        margin-bottom: 1.5rem; /* Adjust spacing between rows of cards */
+    }
+</style>
+
+{% endblock %}
+
+
+
+
+

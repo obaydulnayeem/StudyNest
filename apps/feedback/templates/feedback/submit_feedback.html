@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-2 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header text-center bg-dark text-white py-3">
+                    <h3 class="mb-0">Submit Feedback</h3>
+                </div>
+                <div class="card-body p-5">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <div class="form-group p-2">
+                                <label for="{{ form.comment.id_for_label }}">Feedback:</label>
+                                  {{ form.comment }}
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-secondary btn-sm">Submit</button>
+                        </div>
+                    </form>
+                    {% comment %} <p class="text-muted">খুব শীঘ্রই আপনার ফিডব্যাকটি রিভিউ করে Feedbacks Page এবং Home Page-এ প্রদর্শন করা হবে।</p> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .container {
+        max-width: 700px;
+    }
+    .card {
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    .card-header {
+        background-color: #343a40;
+        border-bottom: none;
+        border-radius: 12px 12px 0 0;
+    }
+    h3 {
+        font-size: 1.75rem;
+        font-weight: 600;
+    }
+    .card-body {
+        padding: 3rem;
+        background-color: #f9f9f9;
+        border-radius: 0 0 12px 12px;
+    }
+    .form-control {
+        border-radius: 8px;
+        padding: 12px;
+        box-shadow: none;
+        font-size: 1rem;
+    }
+    .form-control:focus {
+        border-color: #6c757d;
+        box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25);
+    }
+    .btn-dark {
+        background-color: #343a40;
+        border-color: #343a40;
+        padding: 0.75rem 1.25rem;
+        font-size: 1.1rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    .btn-dark:hover {
+        background-color: #495057;
+        border-color: #495057;
+    }
+</style>
+{% endblock %}

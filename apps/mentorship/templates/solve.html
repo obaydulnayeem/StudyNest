@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2>Asked Questions</h2>
+        <ul class="list-group">
+            {% for question in asked_questions %}
+                    <li class="list-group-item">
+                        <h5>{{ question.course }}</h5>
+                        <p><strong>Semester:</strong> {{ question.get_semester_display }}</p>
+                        <p><strong>Problem Details:</strong> {{ question.problem_details }}</p>
+                        <span class="text-muted">{{ question.created_at }}</span>
+                        <p><strong>Asked By:</strong> {{ question.asked_by.user }}</p>
+                        {% comment %} {% if question.photos %}
+                            <p><strong>Photos:</strong></p>
+                            <img src="{{ question.photos.url }}" class="img-fluid" alt="Photo">
+                        {% endif %} {% endcomment %}
+                    </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Resource Uploads - Team{% endblock %}
+
+{% block content %}
+
+
+<div class="table-container">
+    <h3 class="text-center">Previous Resource Uploads</h3>
+    <p>Last Upload: {{ latest_upload }}</p>
+    <table class="resource-table">
+        <thead>
+            <tr>
+                <th>Team Member</th>
+                <th>Questions</th>
+                <th>Books</th>
+                <th>Notes</th>
+                <th>Lectures</th>
+                <th>Total</th>
+            </tr>   
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>Maria Islam [1st Sem]</td>
+                <td>{{ maria_qs }}</td>
+                <td>{{ maria_bk }}</td>
+                <td>{{ maria_nt }}</td>
+                <td>{{ maria_lc }}</td>
+                <th>{{ maria_tl }}</th>
+            </tr>
+            <tr>
+                <td>Baishakhi Bir [3rd & 5th Sem]</td>
+                <td>{{ baishakhi_qs }}</td>
+                <td>{{ baishakhi_bk }}</td>
+                <td>{{ baishakhi_nt }}</td>
+                <td>{{ baishakhi_lc }}</td>
+                <th>{{ baishakhi_tl }}</th>
+            </tr>
+            <tr>
+                <td>Ritu Akter Samia [2nd & 6th Sem]</td>
+                <td>{{ samia_qs }}</td>
+                <td>{{ samia_bk }}</td>
+                <td>{{ samia_nt }}</td>
+                <td>{{ samia_lc }}</td>
+                <th>{{ samia_tl }}</th>
+            </tr>
+            <tr>
+                <td>Md. Tanvir Ahmed [7th Sem]</td>
+                <td>{{ tanvir_qs }}</td>
+                <td>{{ tanvir_bk }}</td>
+                <td>{{ tanvir_nt }}</td>
+                <td>{{ tanvir_lc }}</td>
+                <th>{{ tanvir_tl }}</th>
+            </tr>
+            <tr>
+                <td>Md Rayhanul Islam Rony [4th Sem]</td>
+                <td>{{ rayhan_qs }}</td>
+                <td>{{ rayhan_bk }}</td>
+                <td>{{ rayhan_nt }}</td>
+                <td>{{ rayhan_lc }}</td>
+                <th>{{ rayhan_tl }}</th>
+            </tr>
+
+            <tr>
+                <td>Total</td>
+                <td>{{ total_qs }}</td>
+                <td>{{ total_bk }}</td>
+                <td>{{ total_nt }}</td>
+                <td>{{ total_lc }}</td>
+                <th>{{ total_tl }}</th>
+        </tbody>
+    </table>
+</div>
+
+
+<style>
+    .resource-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 18px;
+        text-align: left;
+    }
+
+    .resource-table thead tr {
+        background-color: #9b59b6; /* Light purple */
+        color: #ffffff;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .resource-table th,
+    .resource-table td {
+        padding: 12px 15px;
+        border: 1px solid #dddddd;
+    }
+
+    .resource-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .resource-table tbody tr:nth-of-type(even) {
+        background-color: #f3e5f5; /* Very light purple */
+    }
+
+    .resource-table tbody tr:last-of-type {
+        border-bottom: 2px solid #9b59b6; /* Light purple */
+    }
+
+    .resource-table tbody tr:hover {
+        background-color: #e1bee7; /* Light purple on hover */
+    }
+
+    .resource-table tfoot {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .table-container {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    td, th {
+        text-align: center;
+    }
+</style>
+
+{% endblock %}

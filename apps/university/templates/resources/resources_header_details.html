@@ -1,0 +1,21 @@
+{% load semester_year_filters %}
+    <hr style="margin-top: -5px">
+    <p style="margin-top: -15px;"><a style="color: inherit; text-decoration: underline;" href="{% url 'show_course' course.id %}">{{ course.title }}</a> [{{ course.code }}]</p>
+    <p style="margin-top: -15px">
+        {% if course.department %}
+            {% if course.department.system == 'year' %}
+                {{ course.year }} Year,
+            {% else %}
+                <a href="{% url 'my_resources_s' course.department.id course.semester|semester_converter %}">{{ course.semester }} Semester</a>,
+            {% endif %}
+            <a href="{% url 'show_department' course.department.id %}">{{ course.department.name }}</a>, <a href="{% url 'show_university' course.university.id %}">{{ course.university.name }}</a>
+        
+        {% elif course.discipline %}
+            {% if course.discipline.system == 'year' %}
+                {{ course.year }} Year,
+            {% else %}
+                <a href="{% url 'my_resources_s' course.discipline.id course.semester|semester_converter %}">{{ course.semester }} sSemester</a>,
+            {% endif %}
+            <a href="{% url 'show_discipline' course.discipline.id %}">{{ course.discipline.name }}</a>, <a href="{% url 'show_university' course.university.id %}">{{ course.university.name }}</a>
+        {% endif %}
+    </p>

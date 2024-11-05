@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Your Request Has Been Sent!{% endblock %}
+
+{% block content %}
+<div class="confirmation-container">
+    <h1>Your request has been sent!</h1>
+    <p>We have sent a request to the moderator of the <strong> {{ ctxp_profile_edu_university_name }}</strong>, <strong>{{ ctxp_profile_edu_university_name }}</strong>. Once the moderator approves your request, we will notify you.</p>
+
+    <h5>You can also ask your departmental moderator to accept your verification as soon as possible:</h5>
+
+    <button class="btn btn-secondary mt-2"><a href="{% url 'moderators' %}" class="btn-link">Batch Moderators</a></button>
+
+    <button class="btn btn-primary mt-4"><a href="{% url 'home' %}" class="btn-link">Go Home</a></button>
+</div>
+
+<style>
+    .confirmation-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: 60vh;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .confirmation-container h1 {
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .confirmation-container p {
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 30px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-link {
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn-link:hover {
+        color: white;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}

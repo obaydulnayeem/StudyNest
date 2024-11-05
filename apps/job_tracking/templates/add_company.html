@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-0 col-md-10">
+    <h2>Add a New Company</h2>
+    <form method="POST" novalidate>
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.company_name.label_tag }}
+            {{ form.company_name }}
+            {% if form.company_name.errors %}
+                <div class="text-danger">{{ form.company_name.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.company_location.label_tag }}
+            {{ form.company_location }}
+            {% if form.company_location.errors %}
+                <div class="text-danger">{{ form.company_location.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.website_link.label_tag }}
+            {{ form.website_link }}
+            {% if form.website_link.errors %}
+                <div class="text-danger">{{ form.website_link.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            {{ form.linkedin.label_tag }}
+            {{ form.linkedin }}
+            {% if form.linkedin.errors %}
+                <div class="text-danger">{{ form.linkedin.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.apply_link.label_tag }}
+            {{ form.apply_link }}
+            {% if form.apply_link.errors %}
+                <div class="text-danger">{{ form.apply_link.errors }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Company</button>
+    </form>
+</div>
+{% endblock %}

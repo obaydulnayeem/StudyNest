@@ -1,0 +1,119 @@
+{% load duration_filters %}
+
+
+<!-- Become Moderator   -->
+ <div class="mb-0 alert alert-success">
+    <h5 class="text-center"><strong>Moderators:</strong></h5>
+    <p style="font-style: italic; font-size: 14px; margin-top: -10px;"> {{department.name}}, {{university.name}}</p>
+    <hr style="margin-bottom: -2px;">
+</div>
+
+<div class="alert alert-success mt-4 mx-" style="width: 100%;">
+    <div>
+        <p><strong>Batch Moderators:</strong></p>
+        {% if batch_moderator %}
+            {% for m in batch_moderator %}
+                <p>
+                    {% if m.profile_image %}
+                        <img src="{{ m.profile_image.url }}" alt="Profile Picture" style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;">
+                    {% else %}
+                        <i class="fas fa-user-circle" style="font-size: 24px;"></i>
+                    {% endif %}
+                    <a href="{% url 'view_profile_overview' m.id %}" style="color: blue;">{{ m.fullname }}</a> <span>[{{m.edu_university.departmental_batch}} Batch (Departmental)]</span>
+                    {% if m.moderator_info.is_temporary %}
+                            <span style="font-style: italic; font-size: 11px; font-weight: bold;">[Temporary]</span>
+                    {% endif %}
+                    <p style="font-style: italic; font-size: 11px; margin-top: -10px;">{{m.moderator_info.approved_final_at}} to Present <strong> [{{m.duration_batch_moderator|humanize_duration}}] </strong></p>
+                </p>
+            {% endfor %}
+        {% else %}
+            <p>{{department.name}} -এর জন্য ব্যাচ মডারেটর সিলেকশনের কাজ চলছে।</p>
+            {% if user.profile.edu_universit.department == department %}
+            <p>আপনি মডারেটর হতে চাইলে নিচের বাটনে ক্লিক করুন।</p>
+            <div class="d-flex justify-content-center">
+                <a href="{% url 'request_for_moderator' %}">
+                    <button class="btn btn-success btn-sm">Become Batch Moderator</button>
+                </a>
+            </div>
+            {% endif %}
+        {% endif %}
+    </div>    
+        
+        <hr>
+        
+        <div>
+            <p><strong>Departmental Moderator:</strong></p>
+            {% if departmental_moderator %}
+                {% for m in departmental_moderator %}
+                    <p>
+                        {% if m.profile_image %}
+                            <img src="{{ m.profile_image.url }}" alt="Profile Picture" style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;">
+                        {% else %}
+                            <i class="fas fa-user-circle" style="font-size: 24px;"></i>
+                        {% endif %}
+                        <a href="{% url 'view_profile_overview' m.id %}" style="color: blue;">{{ m.fullname }}</a>
+                        {% if m.moderator_info.is_temporary %}
+                            <span style="font-style: italic; font-size: 11px; font-weight: bold;">[Temporary]</span>
+                        {% endif %}
+                        <p style="font-style: italic; font-size: 11px; margin-top: -10px;">{{m.moderator_info.approved_final_at}} to Present <strong> [{{m.duration_departmental_moderator|humanize_duration}}] </strong></p>
+                    </p>
+                {% endfor %}
+            {% else %}
+                <p class="">{{department.name}} -এর জন্য মডারেটর সিলেকশনের কাজ চলছে।</p>
+                {% if user.profile.edu_universit.department == department %}
+                <p>আপনি মডারেটর হতে চাইলে নিচের বাটনে ক্লিক করুন।</p>
+                <div class="d-flex justify-content-center">
+                    <a href="{% url 'request_for_moderator' %}">
+                        <button class="btn btn-success btn-sm">Become Batch Moderator</button>
+                    </a>
+                </div>
+                {% endif %}
+            {% endif %}
+        </div>
+        
+        <hr>
+
+        <div class="mb-3">
+            <p><strong>University Moderator:</strong></p>
+            {% if university_moderator %}
+                {% for m in university_moderator %}
+                    <p>
+                        {% if m.profile_image %}
+                            <img src="{{ m.profile_image.url }}" alt="Profile Picture" style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;">
+                        {% else %}
+                            <i class="fas fa-user-circle" style="font-size: 24px;"></i>
+                        {% endif %}
+                        <a href="{% url 'view_profile_overview' m.id %}" style="color: blue;">{{ m.fullname }}</a>
+                        {% if m.moderator_info.is_temporary %}
+                            <span style="font-style: italic; font-size: 11px; font-weight: bold;">[Temporary]</span>
+                        {% endif %}
+                    </p>
+                    <p style="font-style: italic; font-size: 11px; margin-top: -10px;">{{m.moderator_info.approved_final_at}} to Present <strong> [{{m.duration_university_moderator|humanize_duration}}] </strong></p>
+                {% endfor %}
+            {% else %}
+                <p class="">{{university.name}} এর জন্য মডারেটর সিলেকশনের কাজ চলছে।</p>
+                {% if user.profile.edu_universit.university == university %}
+                <p>আপনি মডারেটর হতে চাইলে নিচের বাটনে ক্লিক করুন।</p>
+                <div class="d-flex justify-content-center">
+                    <a href="{% url 'request_for_moderator' %}">
+                        <button class="btn btn-success btn-sm">Become University Moderator</button>
+                    </a>
+                </div>
+                {% endif %}
+            {% endif %}
+        </div>
+        
+
+        <span class="text-muted" style="font-size: 12px;">[বিঃদ্রঃ আমাদের মডারেশনে সিনিয়রিটি/জুনিয়রিটি-র কোনো ব্যাপার নেই। সব ধরণের কাজের-ই সমান প্রায়োরিটি।]</span>
+    </div>
+  </div>
+
+
+
+  <!-- Request for Moderator -->
+  {% comment %} {% if not departmental_moderator and ctxp_profile_edu_university.department == department and not user.profile.moderator_type == 'Departmental Moderator' %}
+    <div class="alert alert-success mt-4 mx-5">
+        <p>প্রিয় {{user.profile.fullname}}, আপনার ডিপার্টমেন্টের জন্য একজন মডারেটর প্রয়োজন। আপনি {{department.name}}, {{university.name}} এর Departmental Moderator হতে চাইলে নিচের বাটনে ক্লিক করুন।</p>
+        <a href="{% url 'request_for_moderator' %}"><button class="btn btn-success btn-sm">Become Departmental Moderator</button></a>
+    </div>
+  {% endif %} {% endcomment %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}University Info{% endblock %}
+
+{% block content %}
+    <div class="container mt-1">
+        <div class="row">
+            <div class="col-md-3">
+                {% include '../../sidebar.html' %}
+            </div>
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h3 class="card-title">University Info</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Add university info content here -->
+                        <p>Here is some information about the university.</p>
+                        <!-- Example data -->
+                        <ul class="list-group">
+                            <li class="list-group-item"><strong>University Name:</strong> {{ ctxp_profile_edu_university_name }}</li>
+                            <li class="list-group-item"><strong>University Type:</strong> {{ ctxp_profile_edu_university.university_type }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+{% endblock %}
